@@ -882,28 +882,59 @@ foreach ($s in $check1) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan</pre>
     </div>
 
-    <!-- Ver estado completo (opcional pero muy útil) -->
+  <!-- Ver estado detallado (CORREGIDO) -->
     <div class="code-block">
       <div class="code-header">
         <div class="code-header-left"><div class="code-dot"></div><span class="code-label">Ver estado detallado de todos los servicios</span></div>
         <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
       </div>
-      <pre># Ejecuta esto después del Bloque 1 para ver todo en tabla
-$servicios = @( ... misma lista de arriba ... )
+      <pre># =============================================
+# Ver estado detallado de todos los servicios del Bloque 1
+# Ejecutar como Administrador después de aplicar el Bloque 1
+# =============================================
 
-Write-Host "Estado actual:" -ForegroundColor Cyan
+$servicios = @(
+    "WerSvc", "wisvc", "RetailDemo", "MapsBroker", "PhoneSvc",
+    "lfsvc", "WMPNetworkSvc", "icssvc", "NcdAutoSetup", "MessagingService",
+    "TapiSrv", "Fax", "RemoteRegistry", "RasAuto", "RasMan",
+    "SmsRouter", "SNMPTrap", "WpcMonSvc", "SEMgrSvc", "SharedAccess",
+    "SCardSvr", "ScDeviceEnum", "SCPolicySvc", "WalletService", "WebClient",
+    "WbioSrvc", "wcncsvc", "workfolderssvc", "fhsvc", "CscService",
+    "PeerDistSvc", "lmhosts", "NetTcpPortSharing", "RemoteAccess",
+    "UevAgentService", "autotimesvc", "MSiSCSI", "MsKeyboardFilter",
+    "dot3svc", "EapHost", "KtmRm", "MSDTC", "RpcLocator",
+    "WinRM", "ssh-agent", "tzautoupdate", "RmSvc", "WwanSvc",
+    "McmSvc", "perceptionsimulation"
+)
+
+Write-Host "Estado actual de los servicios optimizados:" -ForegroundColor Cyan
+Write-Host "=====================================================================" -ForegroundColor Cyan
+
 foreach ($s in $servicios) {
     try {
-        $svc = Get-Service -Name $s -EA Stop
-        $color = if ($svc.StartType -eq 'Disabled') { 'Green' } elseif ($svc.Status -eq 'Running') { 'Yellow' } else { 'White' }
+        $svc = Get-Service -Name $s -ErrorAction Stop
+        
+        $color = if ($svc.StartType -eq 'Disabled') { 
+                    'Green' 
+                 } elseif ($svc.Status -eq 'Running') { 
+                    'Yellow' 
+                 } else { 
+                    'White' 
+                 }
+        
         Write-Host ("{0,-25} | Startup: {1,-12} | Status: {2}" -f $s, $svc.StartType, $svc.Status) -ForegroundColor $color
     }
     catch {
         Write-Host ("{0,-25} | No encontrado" -f $s) -ForegroundColor DarkGray
     }
-}</pre>
+}
+
+Write-Host "`nResumen de colores:" -ForegroundColor Cyan
+Write-Host "   Green  → Deshabilitado correctamente (buen resultado)" 
+Write-Host "   Yellow → Está corriendo (normal si Startup = Manual)" 
+Write-Host "   White  → Otro estado" 
+Write-Host "   Gray   → No existe en tu Windows (es normal)" -ForegroundColor DarkGray</pre>
     </div>
-  </div>
   
   <!-- BLOQUE 2 -->
   <div class="section" id="opt2">
