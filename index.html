@@ -802,7 +802,12 @@ Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor 
         <div class="code-header-left"><div class="code-dot active"></div><span class="code-label">PowerShell — Admin</span></div>
         <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
       </div>
-      <pre>$servicios = @(
+      <pre># =============================================
+# Ver estado actual de servicios (post-optimización)
+# Ejecutar como Administrador (recomendado)
+# =============================================
+
+$servicios = @(
     "WerSvc","wisvc","RetailDemo","MapsBroker","PhoneSvc",
     "lfsvc","WMPNetworkSvc","icssvc","NcdAutoSetup","MessagingService",
     "TapiSrv","Fax","RemoteRegistry","RasAuto","RasMan",
@@ -815,16 +820,26 @@ Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor 
     "WinRM","ssh-agent","tzautoupdate","RmSvc","WwanSvc",
     "McmSvc","perceptionsimulation"
 )
+
+Write-Host "Estado actual de los servicios optimizados:" -ForegroundColor Cyan
+Write-Host "=======================================" -ForegroundColor Cyan
+
 foreach ($s in $servicios) {
     try {
-        Set-Service -Name $s -StartupType Disabled -EA Stop
-        Stop-Service -Name $s -Force -EA SilentlyContinue
-        Write-Host "  ✔ $s" -ForegroundColor Green
-    } catch {
-        Write-Host "  ⚠ No encontrado: $s" -ForegroundColor DarkGray
+        $svc = Get-Service -Name $s -ErrorAction Stop
+        $color = if ($svc.StartType -eq 'Disabled') { 'Green' } elseif ($svc.Status -eq 'Running') { 'Yellow' } else { 'White' }
+        
+        Write-Host ("{0,-25} | Startup: {1,-12} | Status: {2}" -f $s, $svc.StartType, $svc.Status) -ForegroundColor $color
+    }
+    catch {
+        Write-Host ("{0,-25} | No encontrado" -f $s) -ForegroundColor DarkGray
     }
 }
-Write-Host "`n  ► Bloque 1 completo." -ForegroundColor Cyan</pre>
+
+Write-Host "`nResumen:" -ForegroundColor Cyan
+Write-Host " - Green  = Deshabilitado correctamente" 
+Write-Host " - Yellow = En ejecución (puede ser normal si es Manual y se inició)"
+Write-Host " - White  = Otro estado"</pre>
     </div>
     <div class="code-block">
       <div class="code-header">
