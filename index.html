@@ -934,7 +934,7 @@ Write-Host "   Green  → Deshabilitado correctamente (buen resultado)"
 Write-Host "   Yellow → Está corriendo (normal si Startup = Manual)" 
 Write-Host "   White  → Otro estado" 
 Write-Host "   Gray   → No existe en tu Windows (es normal)" -ForegroundColor DarkGray</pre>
-    </div>
+</div>
   
   <!-- BLOQUE 2 -->
   <div class="section" id="opt2">
@@ -980,7 +980,7 @@ foreach ($s in $check2) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan</pre>
     </div>
   </div>
-
+</div>
   <!-- BLOQUE 3 -->
   <div class="section" id="opt3">
     <div class="section-header">
@@ -1514,52 +1514,44 @@ Write-Host "└─────────────────────�
         </div>
         <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
       </div>
-      <pre>Write-Host "`n╔══════════════════════════════════════════════╗" -ForegroundColor Green
-Write-Host "║   POST-VERIFICACIÓN FINAL — Windows 11       ║" -ForegroundColor Green
-Write-Host "║   DESKTOP-ER525HI / Ryzen 5 5600G            ║" -ForegroundColor Green
+            <pre>Write-Host "`n╔══════════════════════════════════════════════╗" -ForegroundColor Green
+Write-Host "║ POST-VERIFICACIÓN FINAL — Windows 11 ║" -ForegroundColor Green
+Write-Host "║ DESKTOP-ER525HI / Ryzen 5 5600G ║" -ForegroundColor Green
 Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor Green
-Write-Host "  Fecha: $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')`n" -ForegroundColor White
-
-$ok_count  = 0
+Write-Host " Fecha: $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')`n" -ForegroundColor White
+$ok_count = 0
 $err_count = 0
-
 function Check-Svc($name, $expected) {
     $svc = Get-Service $name -EA SilentlyContinue
     if ($svc) {
         $pass = ($svc.StartType -eq $expected)
-        if ($pass) { $script:ok_count++; Write-Host ("│  ✔  {0,-28} {1}" -f $name, $svc.StartType) -ForegroundColor Green }
-        else        { $script:err_count++; Write-Host ("│  ✘  {0,-28} {1} ← REVISAR" -f $name, $svc.StartType) -ForegroundColor Red }
-    } else { Write-Host ("│  —  {0,-28} No existe" -f $name) -ForegroundColor DarkGray }
+        if ($pass) { $script:ok_count++; Write-Host ("│ ✔ {0,-28} {1}" -f $name, $svc.StartType) -ForegroundColor Green }
+        else { $script:err_count++; Write-Host ("│ ✘ {0,-28} {1} ← REVISAR" -f $name, $svc.StartType) -ForegroundColor Red }
+    } else { Write-Host ("│ — {0,-28} No existe" -f $name) -ForegroundColor DarkGray }
 }
-
 function Check-Reg($path, $name, $expected, $label) {
     $prop = Get-ItemProperty $path -EA SilentlyContinue
-    $val  = if ($prop) { $prop.$name } else { $null }
+    $val = if ($prop) { $prop.$name } else { $null }
     $pass = ($val -eq $expected)
-    if ($pass) { $script:ok_count++; Write-Host ("│  ✔  {0,-32} → {1}" -f $label, $val) -ForegroundColor Green }
-    else        { $script:err_count++; Write-Host ("│  ✘  {0,-32} → $(if($null -eq $val){'NO CONFIGURADO'}else{$val}) ← REVISAR" -f $label) -ForegroundColor Red }
+    if ($pass) { $script:ok_count++; Write-Host ("│ ✔ {0,-32} → {1}" -f $label, $val) -ForegroundColor Green }
+    else { $script:err_count++; Write-Host ("│ ✘ {0,-32} → $(if($null -eq $val){'NO CONFIGURADO'}else{$val}) ← REVISAR" -f $label) -ForegroundColor Red }
 }
-
 # ── SISTEMA ──────────────────────────────────────────
 Write-Host "┌─ SISTEMA ──────────────────────────────────────" -ForegroundColor Cyan
-$os    = Get-CimInstance Win32_OperatingSystem
+$os = Get-CimInstance Win32_OperatingSystem
 $total = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
 $libre = [math]::Round($os.FreePhysicalMemory / 1MB, 2)
 $usada = [math]::Round($total - $libre, 2)
-$pct   = [math]::Round(($usada / $total) * 100, 0)
-Write-Host "│  RAM: ${total} GB total | " -NoNewline -ForegroundColor White
+$pct = [math]::Round(($usada / $total) * 100, 0)
+Write-Host "│ RAM: ${total} GB total | " -NoNewline -ForegroundColor White
 $ramCol = if ($pct -gt 70) { "Red" } elseif ($pct -gt 50) { "Yellow" } else { "Green" }
 Write-Host "${usada} GB usada ($pct%) | ${libre} GB libre" -ForegroundColor $ramCol
-
 $gpu = Get-WmiObject Win32_VideoController | Select-Object -First 1
-Write-Host "│  GPU: $($gpu.Name) — $([math]::Round($gpu.AdapterRAM/1MB,0)) MB VRAM — Driver $($gpu.DriverVersion)" -ForegroundColor White
-
+Write-Host "│ GPU: $($gpu.Name) — $([math]::Round($gpu.AdapterRAM/1MB,0)) MB VRAM — Driver $($gpu.DriverVersion)" -ForegroundColor White
 $plan = powercfg -getactivescheme
 $planOK = ($plan -like "*Alto*" -or $plan -like "*High*")
-# CORRECCIÓN: Agregado $() para el color
-Write-Host "│  Plan: $plan" -ForegroundColor $(if ($planOK) { "Green" } else { "Yellow" })
+Write-Host "│ Plan: $plan" -ForegroundColor $(if ($planOK) { "Green" } else { "Yellow" })
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
-
 # ── SERVICIOS DISABLED ───────────────────────────────
 Write-Host "`n┌─ SERVICIOS — DEBEN ESTAR DISABLED ─────────────" -ForegroundColor Yellow
 $disables = @(
@@ -1574,12 +1566,10 @@ $disables = @(
 )
 foreach ($s in $disables) { Check-Svc $s "Disabled" }
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Yellow
-
 # ── SERVICIOS MANUAL ─────────────────────────────────
 Write-Host "`n┌─ SERVICIOS — DEBEN ESTAR MANUAL ───────────────" -ForegroundColor Cyan
 @("wuauserv","WSearch","XblAuthManager","wlidsvc") | ForEach-Object { Check-Svc $_ "Manual" }
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
-
 # ── SERVICIOS CRÍTICOS ────────────────────────────────
 Write-Host "`n┌─ SERVICIOS CRÍTICOS — DEBEN ESTAR RUNNING ─────" -ForegroundColor Green
 $criticos = @("Spooler","hidserv","PlugPlay","AudioSrv","AudioEndpointBuilder","Themes")
@@ -1587,23 +1577,21 @@ foreach ($s in $criticos) {
     $svc = Get-Service $s -EA SilentlyContinue
     if ($svc) {
         $pass = ($svc.Status -eq "Running")
-        if ($pass) { $script:ok_count++;  Write-Host ("│  ✔  {0,-28} Running" -f $s) -ForegroundColor Green }
-        else        { $script:err_count++; Write-Host ("│  ✘  {0,-28} $($svc.Status) ← REVISAR" -f $s) -ForegroundColor Red }
+        if ($pass) { $script:ok_count++; Write-Host ("│ ✔ {0,-28} Running" -f $s) -ForegroundColor Green }
+        else { $script:err_count++; Write-Host ("│ ✘ {0,-28} $($svc.Status) ← REVISAR" -f $s) -ForegroundColor Red }
     }
 }
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Green
-
 # ── REGISTRO ─────────────────────────────────────────
 Write-Host "`n┌─ REGISTRO ─────────────────────────────────────" -ForegroundColor Red
-Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "AllowTelemetry"       0 "AllowTelemetry"
-Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI"     "DisableAIDataAnalysis" 1 "Recall/AI Disabled"
-Check-Reg "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled"       0 "Publicidad personalizada"
-Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Edge" "StartupBoostEnabled"   0 "Edge StartupBoost"
+Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "AllowTelemetry" 0 "AllowTelemetry"
+Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI" "DisableAIDataAnalysis" 1 "Recall/AI Disabled"
+Check-Reg "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0 "Publicidad personalizada"
+Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Edge" "StartupBoostEnabled" 0 "Edge StartupBoost"
 Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Edge" "BackgroundModeEnabled" 0 "Edge BackgroundMode"
-Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" "NoAutoUpdate"       1 "WU NoAutoUpdate"
+Check-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU" "NoAutoUpdate" 1 "WU NoAutoUpdate"
 Check-Reg "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" "GPU Priority" 8 "GPU Priority"
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Red
-
 # ── TAREAS AMD ────────────────────────────────────────
 Write-Host "`n┌─ TAREAS AMD ───────────────────────────────────" -ForegroundColor DarkYellow
 $tareasAMD = @("StartAUEP","StartCN","StartCNBM","StartDVR","AMDLinkUpdate","AMDInstallLauncher","AMDRyzenMasterSDKTask")
@@ -1611,24 +1599,39 @@ foreach ($t in $tareasAMD) {
     $task = Get-ScheduledTask -TaskName $t -EA SilentlyContinue
     if ($task) {
         $pass = ($task.State -eq "Disabled")
-        if ($pass) { $script:ok_count++;  Write-Host ("│  ✔  {0,-34} Disabled" -f $t) -ForegroundColor Green }
-        else        { $script:err_count++; Write-Host ("│  ✘  {0,-34} $($task.State) ← REVISAR" -f $t) -ForegroundColor Red }
-    } else { Write-Host ("│  —  {0,-34} No existe" -f $t) -ForegroundColor DarkGray }
+        if ($pass) { $script:ok_count++; Write-Host ("│ ✔ {0,-34} Disabled" -f $t) -ForegroundColor Green }
+        else { $script:err_count++; Write-Host ("│ ✘ {0,-34} $($task.State) ← REVISAR" -f $t) -ForegroundColor Red }
+    } else { Write-Host ("│ — {0,-34} No existe" -f $t) -ForegroundColor DarkGray }
 }
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor DarkYellow
 
-# ── RESUMEN FINAL ─────────────────────────────────────
+# ── RESUMEN FINAL MEJORADO ─────────────────────────────────────
+Write-Host "`n╔══════════════════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host "║                        RESUMEN FINAL                         ║" -ForegroundColor Cyan
+Write-Host "╠══════════════════════════════════════════════════════════════╣" -ForegroundColor Cyan
+
 $total_checks = $ok_count + $err_count
-Write-Host "`n╔══════════════════════════════════════════════╗" -ForegroundColor Cyan
-Write-Host "║  RESUMEN                                     ║" -ForegroundColor Cyan
-Write-Host "╠══════════════════════════════════════════════╣" -ForegroundColor Cyan
-Write-Host "║  ✔ Correctos : $ok_count$((" " * (13 - "$ok_count".Length)))de $total_checks checks$((" " * (14 - "$total_checks".Length)))║" -ForegroundColor Green
-if ($err_count -gt 0) {
-    Write-Host "║  ✘ Revisar   : $err_count$((" " * (37 - "$err_count".Length)))║" -ForegroundColor Red
+$porcentaje = if ($total_checks -gt 0) { [math]::Round(($ok_count / $total_checks) * 100, 1) } else { 0 }
+
+Write-Host "║ Total de verificaciones        : $total_checks" -ForegroundColor White
+Write-Host "║ ✔ Correctos                    : $ok_count" -ForegroundColor Green
+Write-Host "║ ✘ Con problemas                : $err_count" -ForegroundColor $(if ($err_count -eq 0) { "Green" } else { "Red" })
+Write-Host "║ Porcentaje de éxito            : $porcentaje%" -ForegroundColor $(if ($porcentaje -ge 95) { "Green" } elseif ($porcentaje -ge 80) { "Yellow" } else { "Red" })
+
+Write-Host "╠══════════════════════════════════════════════════════════════╣" -ForegroundColor Cyan
+
+if ($err_count -eq 0) {
+    Write-Host "║ 🎉 TODO PERFECTO - Optimización completada con éxito        ║" -ForegroundColor Green
+} elseif ($err_count -le 3) {
+    Write-Host "║ ⚠ Casi perfecto - Revisa solo $err_count items                 ║" -ForegroundColor Yellow
 } else {
-    Write-Host "║  ✘ Revisar   : 0  — TODO PERFECTO           ║" -ForegroundColor Green
+    Write-Host "║ ⚠ Se detectaron $err_count problemas - Revisar recomendados     ║" -ForegroundColor Red
 }
-Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor Cyan</pre>
+
+Write-Host "╚══════════════════════════════════════════════════════════════╝" -ForegroundColor Cyan
+
+Write-Host "`nNota: Ejecuta nuevamente los bloques correspondientes para corregir los ✘." -ForegroundColor Yellow
+Write-Host "      Recuerda reiniciar después de aplicar cambios." -ForegroundColor Yellow</pre>
     </div>
   </div>
 
