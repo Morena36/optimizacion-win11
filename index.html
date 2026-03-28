@@ -790,22 +790,29 @@ Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor 
     </div>
   </div>
 
-  <!-- BLOQUE 1 -->
+   <!-- BLOQUE 1 -->
   <div class="section" id="opt1">
     <div class="section-header">
       <div class="section-number warn">1</div>
       <div class="section-title">Servicios innecesarios <span class="tag tag-warn">~50 SERVICIOS</span></div>
     </div>
-    <p class="section-desc">Deshabilita servicios que Windows activa por defecto pero que no necesitás: mapas, fax, teléfono, hotspot, sincronización, acceso remoto, tarjeta inteligente, NFC, etc.</p>
+    <p class="section-desc">Deshabilita servicios que Windows activa por defecto pero que la mayoría de usuarios domésticos/gaming no necesitan: mapas, fax, teléfono, hotspot, sincronización, acceso remoto, tarjeta inteligente, NFC, Mixed Reality, etc.</p>
+    
+    <!-- BLOQUE PRINCIPAL: Deshabilitar servicios -->
     <div class="code-block">
       <div class="code-header">
-        <div class="code-header-left"><div class="code-dot active"></div><span class="code-label">PowerShell — Admin</span></div>
+        <div class="code-header-left"><div class="code-dot green"></div><span class="code-label">Bloque 1 — Deshabilitar Servicios</span></div>
         <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
       </div>
       <pre># =============================================
-# Ver estado actual de servicios (post-optimización)
-# Ejecutar como Administrador (recomendado)
+# BLOQUE 1 - Deshabilitar servicios innecesarios
+# Ejecutar como ADMINISTRADOR en PowerShell
 # =============================================
+
+if (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ ERROR: Ejecuta esto como Administrador" -ForegroundColor Red
+    pause; exit
+}
 
 $servicios = @(
     "WerSvc","wisvc","RetailDemo","MapsBroker","PhoneSvc",
@@ -821,51 +828,83 @@ $servicios = @(
     "McmSvc","perceptionsimulation"
 )
 
-Write-Host "Estado actual de los servicios optimizados:" -ForegroundColor Cyan
+Write-Host "Iniciando deshabilitación de servicios..." -ForegroundColor Cyan
 Write-Host "=======================================" -ForegroundColor Cyan
 
 foreach ($s in $servicios) {
     try {
         $svc = Get-Service -Name $s -ErrorAction Stop
-        $color = if ($svc.StartType -eq 'Disabled') { 'Green' } elseif ($svc.Status -eq 'Running') { 'Yellow' } else { 'White' }
         
+        if ($svc.StartType -eq 'Disabled') {
+            Write-Host " ✓ $s ya estaba deshabilitado" -ForegroundColor DarkGreen
+            continue
+        }
+
+        Set-Service -Name $s -StartupType Disabled -ErrorAction Stop
+        Stop-Service -Name $s -Force -ErrorAction SilentlyContinue
+        
+        Write-Host " ✔ $s → Deshabilitado y detenido" -ForegroundColor Green
+    }
+    catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+        Write-Host " ⚠ No encontrado: $s" -ForegroundColor DarkGray
+    }
+    catch {
+        Write-Host " ✘ Error en $s : $($_.Exception.Message)" -ForegroundColor Red
+    }
+}
+
+Write-Host "`n ► Bloque 1 completado." -ForegroundColor Cyan
+Write-Host "   Reinicia el PC para aplicar los cambios completamente." -ForegroundColor Yellow</pre>
+    </div>
+
+    <!-- VERIFICADOR -->
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-header-left"><div class="code-dot active"></div><span class="code-label ver">✓ Verificador — Bloque 1</span></div>
+        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+      </div>
+      <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 1 ────────────────────────" -ForegroundColor Cyan
+
+$check1 = @("MapsBroker","PhoneSvc","lfsvc","RemoteRegistry","RasAuto","WbioSrvc","WalletService","SharedAccess","SCardSvr","WinRM","ssh-agent","WwanSvc","perceptionsimulation")
+
+foreach ($s in $check1) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│ ✔ {0,-28} Disabled" -f $s) -ForegroundColor Green
+        } else {
+            Write-Host ("│ ✘ {0,-28} $($svc.StartType) / $($svc.Status)" -f $s) -ForegroundColor Red
+        }
+    } else {
+        Write-Host ("│ — {0,-28} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan</pre>
+    </div>
+
+    <!-- Ver estado completo (opcional pero muy útil) -->
+    <div class="code-block">
+      <div class="code-header">
+        <div class="code-header-left"><div class="code-dot"></div><span class="code-label">Ver estado detallado de todos los servicios</span></div>
+        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
+      </div>
+      <pre># Ejecuta esto después del Bloque 1 para ver todo en tabla
+$servicios = @( ... misma lista de arriba ... )
+
+Write-Host "Estado actual:" -ForegroundColor Cyan
+foreach ($s in $servicios) {
+    try {
+        $svc = Get-Service -Name $s -EA Stop
+        $color = if ($svc.StartType -eq 'Disabled') { 'Green' } elseif ($svc.Status -eq 'Running') { 'Yellow' } else { 'White' }
         Write-Host ("{0,-25} | Startup: {1,-12} | Status: {2}" -f $s, $svc.StartType, $svc.Status) -ForegroundColor $color
     }
     catch {
         Write-Host ("{0,-25} | No encontrado" -f $s) -ForegroundColor DarkGray
     }
-}
-
-Write-Host "`nResumen:" -ForegroundColor Cyan
-Write-Host " - Green  = Deshabilitado correctamente" 
-Write-Host " - Yellow = En ejecución (puede ser normal si es Manual y se inició)"
-Write-Host " - White  = Otro estado"</pre>
-    </div>
-    <div class="code-block">
-      <div class="code-header">
-        <div class="code-header-left"><div class="code-dot green"></div><span class="code-label ver">✓ Verificador — Bloque 1</span></div>
-        <button class="copy-btn" onclick="copyCode(this)">Copiar</button>
-      </div>
-      <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 1 ────────────────────────" -ForegroundColor Cyan
-$check1 = @("MapsBroker","PhoneSvc","lfsvc","RemoteRegistry","RasAuto",
-            "WbioSrvc","WalletService","SharedAccess","SCardSvr",
-            "WinRM","ssh-agent","WwanSvc","perceptionsimulation")
-foreach ($s in $check1) {
-    $svc = Get-Service $s -EA SilentlyContinue
-    if ($svc) {
-        if ($svc.StartType -eq "Disabled") {
-            Write-Host ("│  ✔  {0,-28} Disabled" -f $s) -ForegroundColor Green
-        } else {
-            Write-Host ("│  ✘  {0,-28} $($svc.StartType) / $($svc.Status)" -f $s) -ForegroundColor Red
-        }
-    } else {
-        Write-Host ("│  —  {0,-28} No existe (normal)" -f $s) -ForegroundColor DarkGray
-    }
-}
-Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan</pre>
+}</pre>
     </div>
   </div>
-
+  
   <!-- BLOQUE 2 -->
   <div class="section" id="opt2">
     <div class="section-header">
