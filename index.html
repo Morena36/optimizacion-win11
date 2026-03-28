@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Win11 Optimización — Axel v7</title>
+<title>Win11 Optimización — Axel v8</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -291,6 +291,71 @@ pre{
 .dbanner.post .dtit{color:var(--green)}
 .dtxt{color:var(--text2);font-size:13px;line-height:1.55}
 
+/* ── VERIFICADOR COLAPSABLE ── */
+.vblock{margin-bottom:9px}
+.vtoggle{
+  width:100%;background:var(--codebg);border:1px solid var(--border);
+  border-radius:3px;padding:0;cursor:pointer;
+  transition:border-color .18s;overflow:hidden;
+  user-select:none;
+}
+.vtoggle:hover{border-color:var(--green)}
+.vtoggle-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 15px;background:var(--bg3);border-bottom:1px solid transparent;
+  transition:border-color .18s;
+}
+.vtoggle.open .vtoggle-hd{border-bottom-color:var(--border)}
+.vtoggle-hd .ch-l{display:flex;align-items:center;gap:9px}
+.vtoggle-arrow{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text3);letter-spacing:1px;
+  display:flex;align-items:center;gap:7px;
+  transition:color .18s;
+}
+.vtoggle:hover .vtoggle-arrow{color:var(--green)}
+.vtoggle-arrow::before{
+  content:'▶';font-size:8px;
+  transition:transform .22s ease;
+  display:inline-block;
+}
+.vtoggle.open .vtoggle-arrow::before{transform:rotate(90deg)}
+.vcontent{
+  max-height:0;overflow:hidden;
+  transition:max-height .3s ease;
+}
+.vtoggle.open .vcontent{max-height:9999px}
+
+.vtoggle-pre{border-color:rgba(255,140,66,.3)}
+.vtoggle-pre:hover{border-color:var(--orange)}
+.vtoggle-pre .vtoggle-hd{border-bottom-color:transparent}
+.vtoggle-pre.open .vtoggle-hd{border-bottom-color:rgba(255,140,66,.2)}
+.vtoggle-arrow-pre{color:var(--orange) !important;opacity:.7}
+.vtoggle-pre:hover .vtoggle-arrow-pre{opacity:1}
+
+/* ── BANNER POST-ADRENALIN ── */
+.amd-quick{
+  grid-column:1/-1;
+  background:rgba(255,140,66,.06);
+  border:1px solid rgba(255,140,66,.35);
+  border-radius:3px;padding:13px 16px;
+  display:flex;align-items:center;gap:12px;
+  margin-top:4px;
+  transition:border-color .18s, background .18s;
+}
+.amd-quick:hover{border-color:rgba(255,140,66,.6);background:rgba(255,140,66,.09)}
+.amd-quick-ico{font-size:16px;flex-shrink:0}
+.amd-quick-txt{flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);line-height:1.5}
+.amd-quick-txt strong{color:var(--orange);display:block;margin-bottom:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.amd-quick-btn{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  background:rgba(255,140,66,.12);border:1px solid rgba(255,140,66,.4);
+  color:var(--orange);padding:5px 13px;border-radius:2px;
+  text-decoration:none;letter-spacing:1px;text-transform:uppercase;
+  white-space:nowrap;transition:all .18s;flex-shrink:0;
+}
+.amd-quick-btn:hover{background:rgba(255,140,66,.25);border-color:var(--orange);color:var(--orange)}
+
 /* ── FOOTER ── */
 footer{
   margin-top:80px;padding-top:28px;border-top:1px solid var(--border);
@@ -312,7 +377,7 @@ footer em{color:var(--accent);font-style:normal}
 
 <!-- HEADER -->
 <header>
-  <div class="badge">// Windows 11 Pro — Guía Completa v7</div>
+  <div class="badge">// Windows 11 Pro — Guía Completa v8</div>
   <h1>Instalación &amp;<br>Optimización</h1>
   <p class="subtitle">Guía completa desde drivers hasta optimización de servicios.<br>Scripts PRE y POST diagnóstico · Verificadores por bloque · Ejecutar en orden.</p>
   <div class="pc-chips">
@@ -323,7 +388,7 @@ footer em{color:var(--accent);font-style:normal}
     <div class="chip">Impresora: <b>Brother USB</b></div>
     <div class="chip">Pantallas: <b>x2</b></div>
   </div>
-  <div class="ver">v7.0 — <em>28/03/2026</em> — Build 10.0.26200</div>
+  <div class="ver">v8.0 — <em>28/03/2026</em> — Build 10.0.26200</div>
 </header>
 
 <!-- ÍNDICE -->
@@ -350,6 +415,15 @@ footer em{color:var(--accent);font-style:normal}
     <a href="#b12"><span class="n">15</span>Rendimiento APU</a>
     <div class="toc-div"></div>
     <a href="#post"><span class="n">⬡</span>POST — Verificación final</a>
+    <div class="toc-div"></div>
+    <div class="amd-quick">
+      <div class="amd-quick-ico">⚡</div>
+      <div class="amd-quick-txt">
+        <strong>Post-Adrenalin — Acceso rápido</strong>
+        Actualizaste drivers AMD? AMD regenera su telemetría con cada instalación. Ejecutar el Bloque 11 inmediatamente.
+      </div>
+      <a href="#b8" class="amd-quick-btn">→ Ir al Bloque 11</a>
+    </div>
   </div>
 </div>
 
@@ -366,12 +440,18 @@ footer em{color:var(--accent);font-style:normal}
       <div class="dtxt">Muestra el estado real del sistema: RAM, GPU, plan de energía, servicios, telemetría y tareas AMD. Guardá el output antes de aplicar cualquier bloque.</div>
     </div>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot o"></div><span class="cl pre">▶ PRE-DIAGNÓSTICO — PowerShell Admin</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n╔══════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+  <div class="vblock">
+    <div class="vtoggle vtoggle-pre open" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot o"></div><span class="cl pre">▶ PRE-DIAGNÓSTICO — PowerShell Admin</span></div>
+        <span class="vtoggle-arrow vtoggle-arrow-pre">ocultar</span>
+      </div>
+      <div class="vcontent">
+        <div>
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n╔══════════════════════════════════════════════╗" -ForegroundColor DarkYellow
 Write-Host "║   PRE-DIAGNÓSTICO — ANTES DE OPTIMIZAR      ║" -ForegroundColor DarkYellow
 Write-Host "║   DESKTOP-ER525HI / Ryzen 5 5600G           ║" -ForegroundColor DarkYellow
 Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor DarkYellow
@@ -474,6 +554,9 @@ Get-CimInstance Win32_StartupCommand | ForEach-Object {
 }
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor DarkYellow</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -859,12 +942,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 1 completo. Continuar con Bloque 2.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 1</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 1 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 1</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 1 ────────────────────────" -ForegroundColor Cyan
 $check = @(
     "DiagTrack","dmwappushservice","DPS","diagsvc","WdiServiceHost","WdiSystemHost",
     "hpatchmon","wuqisvc","TroubleshootingSvc","wercplsupport","wisvc",
@@ -904,6 +993,9 @@ Get-Service | Where-Object { $_.Name -like "GoogleUpdater*" } | ForEach-Object {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="note b"><strong>WlanSvc (WiFi):</strong> incluido en el script pero si usás WiFi en lugar de cable, omitirlo manualmente o el sistema pierde conexión inalámbrica. Si usás cable Ethernet, dejarlo deshabilitado es correcto.</div>
 </div>
@@ -1005,12 +1097,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 2 completo. Continuar con Bloque 3.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 2</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 2 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 2</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 2 ────────────────────────" -ForegroundColor Cyan
 $check = @(
     "DiagTrack","dmwappushservice",
     "WerSvc","wercplsupport","wisvc",
@@ -1033,6 +1131,9 @@ foreach ($s in $check) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1149,12 +1250,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 3 completo. Continuar con Bloque 4.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 3</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 3 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 3</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 3 ────────────────────────" -ForegroundColor Cyan
 $disabled = @("XblGameSave","XboxNetApiSvc","GameInputSvc","GameInputRedistService","XboxGipSvc")
 $ok = 0; $err = 0
 foreach ($s in $disabled) {
@@ -1185,6 +1292,9 @@ if ($auth) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1273,12 +1383,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 4 completo. Continuar con Bloque 5.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 4</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 4 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 4</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 4 ────────────────────────" -ForegroundColor Cyan
 $check = @(
     "vmicguestinterface","vmicheartbeat","vmickvpexchange","vmicrdv",
     "vmicshutdown","vmictimesync","vmicvmsession","vmicvss","HvHost"
@@ -1299,6 +1415,9 @@ foreach ($s in $check) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1396,12 +1515,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 5 completo. Continuar con Bloque 6.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 5</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 5 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 5</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 5 ────────────────────────" -ForegroundColor Cyan
 $check = @("BTAGService","BthAvctpSvc","bthserv")
 $ok = 0; $err = 0
 foreach ($s in $check) {
@@ -1427,6 +1552,9 @@ Get-Service | Where-Object { $_.Name -like "BluetoothUserService*" } | ForEach-O
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1527,12 +1655,18 @@ Write-Host ("║  Errores          : {0,-29}║" -f $errores) -ForegroundColor R
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 6 completo. Continuar con Bloque 7.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 6</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 6 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 6</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 6 ────────────────────────" -ForegroundColor Cyan
 $check = @(
     "Spooler","PrintNotify","hidserv","PlugPlay",
     "AudioSrv","AudioEndpointBuilder","Themes","BrYNSvc"
@@ -1553,6 +1687,9 @@ foreach ($s in $check) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1625,12 +1762,18 @@ Write-Host ("║  Errores          : {0,-29}║" -f $errores) -ForegroundColor R
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 7 completo. Continuar con Bloque 8.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 7</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 7 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 7</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 7 ────────────────────────" -ForegroundColor Cyan
 $ok = 0; $err = 0
 $sm = Get-Service "SysMain" -EA SilentlyContinue
 if ($sm) {
@@ -1651,6 +1794,9 @@ if ($ws) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -1758,12 +1904,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 8 completo — Telemetría AMD deshabilitada.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 8</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 8 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 8</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 8 ────────────────────────" -ForegroundColor Cyan
 $ok = 0; $err = 0
 # Servicio
 $svc = Get-Service "AUEPLauncher" -EA SilentlyContinue
@@ -1793,6 +1945,9 @@ foreach ($n in $names) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="note w"><strong>Recordar:</strong> AMD regenera estas tareas con cada actualización. Siempre instalar en modo Personalizado y re-ejecutar este bloque.</div>
 </div>
@@ -1884,12 +2039,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 9 completo. Continuar con Bloque 10.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 9</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 9 ────────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 9</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 9 ────────────────────────" -ForegroundColor Cyan
 $ok = 0; $err = 0
 $ep = Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Edge" -EA SilentlyContinue
 # Registro
@@ -1922,6 +2083,9 @@ foreach ($s in @("edgeupdate","edgeupdatem")) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2027,12 +2191,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 10 completo. Continuar con Bloque 11.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 10</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 10 ───────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 10</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 10 ───────────────────────" -ForegroundColor Cyan
 $ok = 0; $err = 0
 # Servicio
 $wu = Get-Service "wuauserv" -EA SilentlyContinue
@@ -2055,6 +2225,9 @@ if ($noAutoVal -eq 1) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2154,12 +2327,18 @@ Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundCol
 Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
 Write-Host "`n  ► Bloque 11 completo. Continuar con Bloque 12.`n" -ForegroundColor Cyan</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 11</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 11 ───────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 11</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 11 ───────────────────────" -ForegroundColor Cyan
 $ok = 0; $err = 0
 $checks = @(
     @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection";          N="AllowTelemetry";              E=0; L="AllowTelemetry"},
@@ -2187,6 +2366,9 @@ foreach ($c in $checks) {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2297,12 +2479,18 @@ Write-Host "`n  ► Abriendo Efectos Visuales — elegir 'Mejor rendimiento'" -F
 Start-Process SystemPropertiesPerformance
 Write-Host "`n  ► Bloque 12 completo. ¡Optimización finalizada — reiniciar!`n" -ForegroundColor Green</pre>
   </div>
-  <div class="cb">
-    <div class="ch">
-      <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 12</span></div>
-      <button class="cpbtn" onclick="cp(this)">Copiar</button>
-    </div>
-    <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 12 ───────────────────────" -ForegroundColor Cyan
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 12</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 12 ───────────────────────" -ForegroundColor Cyan
 $ok = 0; $err = 0
 # Plan de energía
 $plan = powercfg -getactivescheme
@@ -2328,6 +2516,9 @@ if ($gp."Scheduling Category" -eq "High") {
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 $col = if ($err -eq 0) {"Green"} else {"Red"}
 Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -2475,7 +2666,7 @@ Write-Host "  Reiniciar después de aplicar cambios.`n" -ForegroundColor Yellow<
 </div>
 
 <footer>
-  <p>DESKTOP-ER525HI — Ryzen 5 5600G — <em>v7.0 — 28/03/2026</em></p>
+  <p>DESKTOP-ER525HI — Ryzen 5 5600G — <em>v8.0 — 28/03/2026</em></p>
   <p style="font-size:10px;margin-top:6px">Guardar en Google Drive, MEGA o pendrive · Abrir en cualquier navegador</p>
 </footer>
 
@@ -2483,6 +2674,13 @@ Write-Host "  Reiniciar después de aplicar cambios.`n" -ForegroundColor Yellow<
 <script>
 function cp(btn) {
   const pre = btn.closest('.cb').querySelector('pre');
+  const text = pre.innerText;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => done(btn)).catch(() => fallback(text, btn));
+  } else { fallback(text, btn); }
+}
+function cpv(btn) {
+  const pre = btn.closest('.vtoggle').querySelector('pre');
   const text = pre.innerText;
   if (navigator.clipboard) {
     navigator.clipboard.writeText(text).then(() => done(btn)).catch(() => fallback(text, btn));
@@ -2500,6 +2698,11 @@ function done(btn) {
   btn.textContent = '✓ Copiado';
   btn.classList.add('done');
   setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('done'); }, 2000);
+}
+function toggleV(btn) {
+  btn.classList.toggle('open');
+  const arrow = btn.querySelector('.vtoggle-arrow');
+  arrow.textContent = btn.classList.contains('open') ? 'ocultar' : 'mostrar';
 }
 </script>
 </body>
