@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Win11 Optimización — Axel v8</title>
+<title>Win11 Optimización — Axel v8.10</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
 <style>
 :root {
@@ -26,6 +26,8 @@
 }
 
 *{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
 
 body{
   background:var(--bg);
@@ -192,6 +194,20 @@ h1{
 .rtcard .rt.java{background:rgba(123,97,255,.1);color:var(--purple);border-color:rgba(123,97,255,.22)}
 .rtcard .rt.ess{background:rgba(255,64,96,.07);color:var(--red);border-color:rgba(255,64,96,.18)}
 .rtcard .rt.inf{background:rgba(0,217,245,.07);color:var(--accent);border-color:rgba(0,217,245,.18)}
+.rtcard .rt.leg{background:rgba(255,140,66,.07);color:var(--orange);border-color:rgba(255,140,66,.18)}
+.rt-links{display:flex;gap:6px;margin-top:9px;margin-bottom:6px}
+.rt-btn{
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;
+  text-transform:uppercase;text-decoration:none;
+  padding:4px 9px;border-radius:2px;border:1px solid;
+  transition:all .15s;
+  background:rgba(0,217,245,.07);color:var(--accent);border-color:rgba(0,217,245,.28);
+}
+.rt-btn:hover{background:rgba(0,217,245,.15);border-color:var(--accent)}
+.rt-btn-g{
+  background:rgba(114,114,138,.07);color:var(--text2);border-color:var(--border2);
+}
+.rt-btn-g:hover{background:rgba(114,114,138,.15);color:var(--text);border-color:var(--text2)}
 
 /* ── NOTAS ── */
 .note{
@@ -364,6 +380,90 @@ footer{
 }
 footer em{color:var(--accent);font-style:normal}
 
+/* ── PANEL FLOTANTE LATERAL ── */
+.nav-float{
+  position:fixed;right:14px;top:50%;transform:translateY(-50%);
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:4px;padding:8px 6px;z-index:999;
+  display:flex;flex-direction:column;gap:3px;
+  box-shadow:0 8px 32px rgba(0,0,0,.45);
+}
+.nav-float a{
+  display:block;
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:1px;text-transform:uppercase;text-decoration:none;
+  color:var(--text2);background:transparent;
+  border:1px solid transparent;
+  padding:5px 8px;border-radius:2px;
+  text-align:center;white-space:nowrap;
+  transition:all .15s;
+}
+.nav-float a:hover{
+  border-color:var(--accent);color:var(--accent);
+  background:rgba(0,217,245,.06);
+}
+.nav-float a.amd{color:var(--orange)}
+.nav-float a.amd:hover{border-color:var(--orange);background:rgba(255,140,66,.06)}
+.nav-float a.post{color:var(--green)}
+.nav-float a.post:hover{border-color:var(--green);background:rgba(0,240,131,.06)}
+.nav-float .nav-sep{
+  height:1px;background:var(--border);margin:3px 0;
+}
+@media(max-width:900px){.nav-float{display:none}}
+
+/* ── BOTÓN VOLVER ARRIBA ── */
+.btn-top{
+  position:fixed;bottom:22px;right:14px;
+  width:36px;height:36px;
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text2);font-size:16px;
+  border-radius:3px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s,border-color .18s,color .18s,transform .18s;
+  z-index:999;
+  font-family:'JetBrains Mono',monospace;
+}
+.btn-top.visible{opacity:1;pointer-events:auto}
+.btn-top:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+/* ── COLORES POR CATEGORÍA DE BLOQUE ── */
+/* Telemetría MS — rojo */
+.sec-tel .sec-hd{border-bottom-color:rgba(255,64,96,.35)}
+.sec-tel .sec-hd::after{background:var(--red)}
+.sec-tel .cb{border-color:rgba(255,64,96,.18)}
+.sec-tel .cb:hover{border-color:rgba(255,64,96,.4)}
+.sec-tel .ch{background:rgba(255,64,96,.04)}
+.sec-tel .dot.a{background:var(--red);box-shadow:0 0 5px var(--red)}
+/* Xbox / Gaming — purple */
+.sec-xbox .sec-hd{border-bottom-color:rgba(123,97,255,.35)}
+.sec-xbox .sec-hd::after{background:var(--purple)}
+.sec-xbox .cb{border-color:rgba(123,97,255,.18)}
+.sec-xbox .cb:hover{border-color:rgba(123,97,255,.4)}
+.sec-xbox .ch{background:rgba(123,97,255,.04)}
+.sec-xbox .dot.a{background:var(--purple);box-shadow:0 0 5px var(--purple)}
+/* Hyper-V / Virtualización — gris azulado */
+.sec-virt .sec-hd{border-bottom-color:rgba(114,114,138,.4)}
+.sec-virt .sec-hd::after{background:var(--text2)}
+.sec-virt .cb{border-color:rgba(114,114,138,.2)}
+.sec-virt .cb:hover{border-color:rgba(114,114,138,.45)}
+.sec-virt .ch{background:rgba(114,114,138,.04)}
+.sec-virt .dot.a{background:var(--text2);box-shadow:0 0 5px rgba(114,114,138,.6)}
+/* AMD — naranja */
+.sec-amd .sec-hd{border-bottom-color:rgba(255,140,66,.35)}
+.sec-amd .sec-hd::after{background:var(--orange)}
+.sec-amd .cb{border-color:rgba(255,140,66,.18)}
+.sec-amd .cb:hover{border-color:rgba(255,140,66,.4)}
+.sec-amd .ch{background:rgba(255,140,66,.04)}
+.sec-amd .dot.a{background:var(--orange);box-shadow:0 0 5px var(--orange)}
+/* Rendimiento — verde */
+.sec-perf .sec-hd{border-bottom-color:rgba(0,240,131,.3)}
+.sec-perf .sec-hd::after{background:var(--green)}
+.sec-perf .cb{border-color:rgba(0,240,131,.15)}
+.sec-perf .cb:hover{border-color:rgba(0,240,131,.35)}
+.sec-perf .ch{background:rgba(0,240,131,.03)}
+.sec-perf .dot.a{background:var(--green);box-shadow:0 0 5px var(--green)}
+
 /* ── RESPONSIVE ── */
 @media(max-width:600px){
   pre{font-size:11px}
@@ -373,11 +473,31 @@ footer em{color:var(--accent);font-style:normal}
 </style>
 </head>
 <body>
+
+<!-- PANEL FLOTANTE LATERAL -->
+<nav class="nav-float">
+  <a href="#toc">INDEX</a>
+  <div class="nav-sep"></div>
+  <a href="#pre">PRE</a>
+  <a href="#snap">SNAP</a>
+  <div class="nav-sep"></div>
+  <a href="#f1">DRV</a>
+  <a href="#f2">RUN</a>
+  <a href="#f3">APP</a>
+  <div class="nav-sep"></div>
+  <a href="#b8" class="amd">AMD</a>
+  <div class="nav-sep"></div>
+  <a href="#post" class="post">POST</a>
+</nav>
+
+<!-- BOTÓN VOLVER ARRIBA -->
+<button class="btn-top" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Volver arriba">↑</button>
+
 <div class="wrap">
 
 <!-- HEADER -->
 <header>
-  <div class="badge">// Windows 11 Pro — Guía Completa v8</div>
+  <div class="badge">// Windows 11 Pro — Guía Completa v8.10</div>
   <h1>Instalación &amp;<br>Optimización</h1>
   <p class="subtitle">Guía completa desde drivers hasta optimización de servicios.<br>Scripts PRE y POST diagnóstico · Verificadores por bloque · Ejecutar en orden.</p>
   <div class="pc-chips">
@@ -388,14 +508,15 @@ footer em{color:var(--accent);font-style:normal}
     <div class="chip">Impresora: <b>Brother USB</b></div>
     <div class="chip">Pantallas: <b>x2</b></div>
   </div>
-  <div class="ver">v8.0 — <em>28/03/2026</em> — Build 10.0.26200</div>
+  <div class="ver">v8.10 — <em>29/03/2026</em> — Build 10.0.26200</div>
 </header>
 
 <!-- ÍNDICE -->
-<div class="toc">
+<div class="toc" id="toc">
   <div class="toc-head">// Índice de contenidos</div>
   <div class="toc-grid">
     <a href="#pre"><span class="n">⬡</span>PRE — Diagnóstico inicial</a>
+    <a href="#snap"><span class="n">📄</span>Snapshot de servicios</a>
     <div class="toc-div"></div>
     <a href="#f1"><span class="n">01</span>Drivers esenciales</a>
     <a href="#f2"><span class="n">02</span>Runtimes para gaming</a>
@@ -413,6 +534,7 @@ footer em{color:var(--accent);font-style:normal}
     <a href="#b10"><span class="n">13</span>Windows Update</a>
     <a href="#b11"><span class="n">14</span>Registro / Privacidad</a>
     <a href="#b12"><span class="n">15</span>Rendimiento APU</a>
+    <a href="#b13"><span class="n">16</span>Servicios cloud / notif</a>
     <div class="toc-div"></div>
     <a href="#post"><span class="n">⬡</span>POST — Verificación final</a>
     <div class="toc-div"></div>
@@ -437,14 +559,14 @@ footer em{color:var(--accent);font-style:normal}
     <div class="dico">🔍</div>
     <div>
       <div class="dtit">Ejecutar antes de cualquier cambio</div>
-      <div class="dtxt">Muestra el estado real del sistema: RAM, GPU, plan de energía, servicios, telemetría y tareas AMD. Guardá el output antes de aplicar cualquier bloque.</div>
+      <div class="dtxt">Muestra el estado real del sistema: RAM, GPU, plan de energía, servicios, telemetría y tareas AMD. Al terminar pregunta si querés guardar el resultado como <strong>pre_diagnostico_FECHA.txt</strong> en el escritorio.</div>
     </div>
   </div>
   <div class="vblock">
-    <div class="vtoggle vtoggle-pre open" onclick="toggleV(this)">
+    <div class="vtoggle vtoggle-pre" onclick="toggleV(this)">
       <div class="vtoggle-hd">
         <div class="ch-l"><div class="dot o"></div><span class="cl pre">▶ PRE-DIAGNÓSTICO — PowerShell Admin</span></div>
-        <span class="vtoggle-arrow vtoggle-arrow-pre">ocultar</span>
+        <span class="vtoggle-arrow vtoggle-arrow-pre">mostrar</span>
       </div>
       <div class="vcontent">
         <div>
@@ -453,20 +575,22 @@ footer em{color:var(--accent);font-style:normal}
           </div>
           <pre>Write-Host "`n╔══════════════════════════════════════════════╗" -ForegroundColor DarkYellow
 Write-Host "║   PRE-DIAGNÓSTICO — ANTES DE OPTIMIZAR      ║" -ForegroundColor DarkYellow
-Write-Host "║   DESKTOP-ER525HI / Ryzen 5 5600G           ║" -ForegroundColor DarkYellow
 Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor DarkYellow
 Write-Host "  Fecha: $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')`n" -ForegroundColor White
 
 # ── SISTEMA ──────────────────────────────────────────
 Write-Host "┌─ SISTEMA ──────────────────────────────────────" -ForegroundColor Cyan
-$os  = Get-CimInstance Win32_OperatingSystem
-$cpu = Get-CimInstance Win32_Processor
+$os   = Get-CimInstance Win32_OperatingSystem
+$cpu  = Get-CimInstance Win32_Processor
+$mb   = Get-WmiObject Win32_BaseBoard
 $total = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
 $libre = [math]::Round($os.FreePhysicalMemory / 1MB, 2)
 $usada = [math]::Round($total - $libre, 2)
 $pct   = [math]::Round(($usada / $total) * 100, 0)
+Write-Host "│  PC   : $env:COMPUTERNAME" -ForegroundColor White
 Write-Host "│  OS   : $($os.Caption) — Build $($os.Version)" -ForegroundColor White
 Write-Host "│  CPU  : $($cpu.Name.Trim())" -ForegroundColor White
+Write-Host "│  Mother: $($mb.Manufacturer) $($mb.Product)" -ForegroundColor White
 Write-Host "│  RAM  : ${total} GB total | " -NoNewline -ForegroundColor White
 $rc = if ($pct -gt 75) {"Red"} elseif ($pct -gt 55) {"Yellow"} else {"Green"}
 Write-Host "${usada} GB usada ($pct%)" -ForegroundColor $rc
@@ -553,10 +677,200 @@ Get-CimInstance Win32_StartupCommand | ForEach-Object {
     Write-Host ("│  {0,-22} {1}" -f $_.Name, ($_.Command -replace '"','')) -ForegroundColor Gray
 }
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
-Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor DarkYellow</pre>
+
+# ── GUARDAR EN .TXT (OPCIONAL) ───────────────────────
+Write-Host "`n  ¿Guardar este diagnóstico en un .txt en el escritorio? (S/N): " -NoNewline -ForegroundColor DarkYellow
+$resp = (Read-Host).Trim().ToUpper()
+if ($resp -eq "S") {
+    $fecha   = Get-Date -Format "yyyy-MM-dd_HH-mm"
+    $archivo = "$env:USERPROFILE\Desktop\pre_diagnostico_$fecha.txt"
+
+    $os2  = Get-CimInstance Win32_OperatingSystem
+    $cpu2 = Get-CimInstance Win32_Processor
+    $mb2  = Get-WmiObject Win32_BaseBoard
+    $gpu2 = Get-WmiObject Win32_VideoController | Select-Object -First 1
+    $totalR = [math]::Round($os2.TotalVisibleMemorySize / 1MB, 2)
+    $libreR = [math]::Round($os2.FreePhysicalMemory / 1MB, 2)
+    $usadaR = [math]::Round($totalR - $libreR, 2)
+    $pctR   = [math]::Round(($usadaR / $totalR) * 100, 0)
+    $planR  = (powercfg -getactivescheme) -replace "GUID de plan.*?: ",""
+
+    $lineas = @()
+    $lineas += "╔══════════════════════════════════════════════╗"
+    $lineas += "║   PRE-DIAGNÓSTICO — ANTES DE OPTIMIZAR       ║"
+    $lineas += "╚══════════════════════════════════════════════╝"
+    $lineas += "Fecha    : $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')"
+    $lineas += "PC       : $env:COMPUTERNAME"
+    $lineas += "OS       : $($os2.Caption) — Build $($os2.Version)"
+    $lineas += "CPU      : $($cpu2.Name.Trim())"
+    $lineas += "Mother   : $($mb2.Manufacturer) $($mb2.Product)"
+    $lineas += "GPU      : $($gpu2.Name) — $([math]::Round($gpu2.AdapterRAM/1MB,0)) MB — Driver $($gpu2.DriverVersion)"
+    $lineas += "RAM      : $totalR GB total | $usadaR GB usada ($pctR%) | $libreR GB libre"
+    $lineas += "Plan     : $planR"
+    $lineas += ""
+    $lineas += "┌─ SERVICIOS CLAVE ──────────────────────────────"
+    $svcsGuardar = @(
+        "DiagTrack","dmwappushservice","SysMain","WSearch","WinRM","RemoteRegistry",
+        "XblGameSave","XboxGipSvc","XboxNetApiSvc","GameInputSvc",
+        "vmicheartbeat","vmicguestinterface","HvHost",
+        "BTAGService","bthserv","AUEPLauncher",
+        "MapsBroker","lfsvc","WalletService","SharedAccess","SCardSvr",
+        "WwanSvc","RasAuto","edgeupdate","wuauserv","XblAuthManager"
+    )
+    foreach ($s in $svcsGuardar) {
+        $svc = Get-Service $s -EA SilentlyContinue
+        if ($svc) {
+            $lineas += ("{0,-28} {1,-12} {2}" -f $s, $svc.StartType, $svc.Status)
+        } else {
+            $lineas += ("{0,-28} No existe" -f $s)
+        }
+    }
+    $lineas += "└────────────────────────────────────────────────"
+    $lineas += ""
+    $lineas += "┌─ REGISTRO — Telemetría ────────────────────────"
+    $regsG = @(
+        @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"; N="AllowTelemetry";        L="AllowTelemetry"},
+        @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI";     N="DisableAIDataAnalysis";  L="Recall/AI Disabled"},
+        @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo"; N="Enabled";        L="Publicidad personalizada"},
+        @{P="HKLM:\SOFTWARE\Policies\Microsoft\Edge"; N="StartupBoostEnabled";   L="Edge StartupBoost"},
+        @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"; N="NoAutoUpdate"; L="WU NoAutoUpdate"}
+    )
+    foreach ($r in $regsG) {
+        $prop = Get-ItemProperty $r.P -EA SilentlyContinue
+        $val  = if ($prop) { $prop.($r.N) } else { "NO CONFIGURADO" }
+        $lineas += ("{0,-30} → {1}" -f $r.L, $val)
+    }
+    $lineas += "└────────────────────────────────────────────────"
+    $lineas += ""
+    $lineas += "┌─ TAREAS AMD ───────────────────────────────────"
+    foreach ($t in @("StartAUEP","StartCN","StartCNBM","StartDVR","AMDLinkUpdate","AMDInstallLauncher","AMDRyzenMasterSDKTask")) {
+        $task = Get-ScheduledTask -TaskName $t -EA SilentlyContinue
+        $lineas += ("{0,-35} → {1}" -f $t, $(if ($task) {$task.State} else {"No existe"}))
+    }
+    $lineas += "└────────────────────────────────────────────────"
+    $lineas += ""
+    $lineas += "┌─ PROGRAMAS EN INICIO ──────────────────────────"
+    Get-CimInstance Win32_StartupCommand | ForEach-Object {
+        $lineas += ("{0,-22} {1}" -f $_.Name, ($_.Command -replace '"',''))
+    }
+    $lineas += "└────────────────────────────────────────────────"
+
+    $lineas | Out-File -FilePath $archivo -Encoding UTF8
+    Write-Host "`n  ✔ Guardado: pre_diagnostico_$fecha.txt" -ForegroundColor Green
+    Write-Host "  Ubicación: $archivo`n" -ForegroundColor DarkGray
+} else {
+    Write-Host "`n  OK — sin guardar. Continuar con los bloques.`n" -ForegroundColor DarkGray
+}</pre>
         </div>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SNAPSHOT DE SERVICIOS ═══════════════ -->
+<div class="sec" id="snap">
+  <div class="sec-hd">
+    <div class="sn o">📄</div>
+    <div class="st">Snapshot de servicios — Guardar estado actual <span class="tag tor">ANTES / DESPUÉS</span></div>
+  </div>
+  <div class="dbanner pre">
+    <div class="dico">💾</div>
+    <div>
+      <div class="dtit">Genera un .txt en el escritorio con todos los servicios</div>
+      <div class="dtxt">Ejecutar antes de optimizar y después de reiniciar para comparar. Útil para verificar qué cambió y compartir con otros.</div>
+    </div>
+  </div>
+  <div class="vblock">
+    <div class="vtoggle vtoggle-pre" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot o"></div><span class="cl pre">📄 SNAPSHOT — Genera servicios_FECHA.txt en el escritorio</span></div>
+        <span class="vtoggle-arrow vtoggle-arrow-pre">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div>
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre># Detecta la PC automáticamente — funciona en cualquier equipo
+$fecha   = Get-Date -Format "yyyy-MM-dd_HH-mm"
+$archivo = "$env:USERPROFILE\Desktop\servicios_$fecha.txt"
+
+$os  = Get-CimInstance Win32_OperatingSystem
+$cpu = Get-CimInstance Win32_Processor
+$mb  = Get-WmiObject Win32_BaseBoard
+$gpu = Get-WmiObject Win32_VideoController | Select-Object -First 1
+$ram = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
+
+$svcs     = Get-Service | Where-Object { try { $null -ne $_.StartType } catch { $false } } | Sort-Object StartType, Name
+$disabled = ($svcs | Where-Object {$_.StartType -eq "Disabled"}).Count
+$running  = ($svcs | Where-Object {$_.Status   -eq "Running"}).Count
+$manual   = ($svcs | Where-Object {$_.StartType -eq "Manual"}).Count
+$total    = $svcs.Count
+
+$lineas = @()
+$lineas += "╔══════════════════════════════════════════════╗"
+$lineas += "║   SNAPSHOT DE SERVICIOS — Windows 11         ║"
+$lineas += "╚══════════════════════════════════════════════╝"
+$lineas += "Fecha    : $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')"
+$lineas += "PC       : $env:COMPUTERNAME"
+$lineas += "OS       : $($os.Caption) — Build $($os.Version)"
+$lineas += "CPU      : $($cpu.Name.Trim())"
+$lineas += "Mother   : $($mb.Manufacturer) $($mb.Product)"
+$lineas += "GPU      : $($gpu.Name) — $([math]::Round($gpu.AdapterRAM/1MB,0)) MB"
+$lineas += "RAM      : $ram GB visibles"
+$lineas += "Plan     : $((powercfg -getactivescheme) -replace 'GUID de plan.*?: ','')"
+$lineas += ""
+$lineas += "┌─ RESUMEN DE ESTADO ────────────────────────────"
+$lineas += ("│  Total de servicios en sistema : {0}" -f $total)
+$lineas += ("│  Servicios DESACTIVADOS        : {0}" -f $disabled)
+$lineas += ("│  Servicios EN EJECUCIÓN        : {0}" -f $running)
+$lineas += ("│  Servicios en MANUAL           : {0}" -f $manual)
+$lineas += "└────────────────────────────────────────────────"
+$lineas += ""
+$lineas += "[!] LISTADO COMPLETO (Nombre | Estado | Inicio)"
+$lineas += "--------------------------------------------------"
+
+foreach ($s in $svcs) {
+    $lineas += ("{0,-40} | {1,-10} | {2}" -f $s.Name, $s.Status, $s.StartType)
+}
+
+$lineas += ""
+$lineas += "═══════════════ TAREAS AMD ═══════════════"
+$tareasAMD = @("StartAUEP","StartCN","StartCNBM","StartDVR","AMDLinkUpdate","AMDInstallLauncher","AMDRyzenMasterSDKTask")
+foreach ($t in $tareasAMD) {
+    $task = Get-ScheduledTask -TaskName $t -EA SilentlyContinue
+    if ($task) {
+        $lineas += ("{0,-35} → {1}" -f $t, $task.State)
+    } else {
+        $lineas += ("{0,-35} → No existe" -f $t)
+    }
+}
+
+$lineas += ""
+$lineas += "═══════════════ REGISTRO TELEMETRÍA ═══════════════"
+$regs = @(
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"; N="AllowTelemetry";       L="AllowTelemetry"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI";     N="DisableAIDataAnalysis"; L="Recall/AI Disabled"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo"; N="Enabled";       L="Publicidad personalizada"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Edge"; N="StartupBoostEnabled";   L="Edge StartupBoost"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"; N="NoAutoUpdate"; L="WU NoAutoUpdate"}
+)
+foreach ($r in $regs) {
+    $prop = Get-ItemProperty $r.P -EA SilentlyContinue
+    $val  = if ($prop) { $prop.($r.N) } else { "NO CONFIGURADO" }
+    $lineas += ("{0,-30} → {1}" -f $r.L, $val)
+}
+
+$lineas | Out-File -FilePath $archivo -Encoding UTF8
+Write-Host "`n  ✔ Guardado en el escritorio: servicios_$fecha.txt" -ForegroundColor Green
+Write-Host "  Abrilo con el Bloc de notas para comparar antes/después.`n" -ForegroundColor Cyan</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note b" style="margin-top:8px">
+    <strong>Cómo usarlo:</strong> Ejecutar <strong>antes</strong> de aplicar los bloques → guarda el estado inicial.
+    Ejecutar <strong>después de reiniciar</strong> → guarda el estado final. Comparar los dos archivos para ver exactamente qué cambió.
   </div>
 </div>
 
@@ -602,7 +916,11 @@ Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor 
       <div class="snum">3</div>
       <div class="sc">
         <h4>Audio Realtek</h4>
-        <p>Windows generalmente lo instala solo. Si no hay audio verificar en Administrador de dispositivos si hay <strong>!</strong> amarillo en Audio. Si falta, buscar en el sitio del fabricante de la placa madre.</p>
+        <p>Windows generalmente lo instala solo. Si no hay audio, verificar en Administrador de dispositivos si hay <strong>!</strong> amarillo en Audio.</p>
+        <ul>
+          <li>Driver oficial de la placa: <a href="https://www.asrock.com/mb/AMD/B450M-HDV%20R4.0/index.asp#Download" target="_blank">ASRock B450M-HDV R4.0 — Drivers</a></li>
+          <li>O buscar: <a href="https://www.google.com/search?q=ASRock+B450M-HDV+R4.0+Realtek+audio+driver+download" target="_blank">ASRock B450M-HDV R4.0 audio en Google</a></li>
+        </ul>
       </div>
     </div>
     <div class="step">
@@ -611,7 +929,7 @@ Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor 
         <h4>Impresora Brother</h4>
         <p>Conectar por USB antes de instalar el driver.</p>
         <ul>
-          <li>Bajar de <a href="https://support.brother.com" target="_blank">support.brother.com</a></li>
+          <li>Bajar de <a href="https://www.google.com/search?q=Brother+DCP-T530DW+driver+latinoamerica+descargar" target="_blank">Buscar driver DCP-T530DW en Google</a></li>
           <li>Instalar paquete completo (driver + escáner)</li>
         </ul>
       </div>
@@ -638,24 +956,134 @@ Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor 
       <div class="phase-s">Librerías que los juegos necesitan para funcionar correctamente</div>
     </div>
   </div>
-  <div class="note w"><strong>Recomendación:</strong> Usar <strong>AIO Runtimes</strong> como base — instala la mayoría en un solo paso.</div>
-  <div class="note g" style="margin-top:8px">
-    <strong>¿Qué incluye AIO Runtimes?</strong> ✔ Visual C++ &nbsp;✔ .NET &nbsp;✔ DirectX básico<br>
-    <strong>No siempre incluye:</strong> ✖ OpenAL &nbsp;✖ PhysX &nbsp;✖ Java
-  </div>
+
+  <div class="note w"><strong>Empezá por AIO Runtimes</strong> — cubre Visual C++, .NET y DirectX básico en un solo paso. Después instalá los individuales que falten.</div>
+  <div class="note b" style="margin-top:8px"><strong>Cómo agregar un runtime nuevo al HTML:</strong> Copiá cualquier bloque <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px">&lt;!-- RUNTIME: ... --&gt;</code> de abajo, pegalo antes del cierre de la grilla, y cambiá nombre, descripción, links y badge. Si el link oficial falla, el botón Google busca automáticamente.</div>
+
+    <!-- GRILLA DE RUNTIMES
+       Para AGREGAR una card: copiá un div.rtcard completo y pegalo antes del cierre del div.rtgrid
+       Para BORRAR una card: eliminá el div.rtcard completo
+       Para cambiar el LINK: editá el href del boton Descargar
+       Badges: rt ess=rojo Esencial | rt=gris Opcional | rt inf=cyan | rt java=violeta | rt leg=naranja
+  -->
+  
   <div class="rtgrid">
-    <div class="rtcard"><div class="rn">aio-runtimes_v2.5.0</div><div class="rd">DirectX, Visual C++, .NET y librerías esenciales en un instalador.</div><span class="rt ess">Instalar primero</span></div>
-    <div class="rtcard"><div class="rn">dotNetFx35setup</div><div class="rd">.NET Framework 3.5 para juegos antiguos.</div><span class="rt ess">Esencial</span></div>
-    <div class="rtcard"><div class="rn">dxwebsetup</div><div class="rd">Componentes legacy de DirectX (DX9/DX10).</div><span class="rt ess">Esencial</span></div>
-    <div class="rtcard"><div class="rn">OpenAL</div><div class="rd">Librería de audio para juegos antiguos.</div><span class="rt ess">Legacy</span></div>
-    <div class="rtcard"><div class="rn">NVIDIA PhysX Legacy</div><div class="rd">Motor de físicas para juegos viejos.</div><span class="rt inf">Legacy</span></div>
-    <div class="rtcard"><div class="rn">Java (Temurin / OpenJDK)</div><div class="rd">Necesario para Minecraft con Prism Launcher.</div><span class="rt java">Java</span></div>
-    <div class="rtcard"><div class="rn">dotnetver (checker)</div><div class="rd">Verifica versiones de .NET instaladas.</div><span class="rt inf">Diagnóstico</span></div>
-    <div class="rtcard"><div class="rn">VisualCppRedist_AIO</div><div class="rd">Si algún juego pide Visual C++ específico.</div><span class="rt">Opcional</span></div>
-  </div>
+
+    <!-- RUNTIME: All-in-One Runtimes -->
+    <div class="rtcard">
+      <div class="rn">All-in-One Runtimes</div>
+      <div class="rd">Visual C++, .NET, DirectX y librerías esenciales en un solo instalador. Empezar por acá.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.allinoneruntimes.org/" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=All+in+One+Runtimes" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Instalar primero</span>
+    </div>
+
+    <!-- RUNTIME: DirectX Web Setup -->
+    <div class="rtcard">
+      <div class="rn">DirectX — Web Setup</div>
+      <div class="rd">Componentes legacy de DirectX 9/10. Necesario para juegos viejos que fallan con "d3dx" faltante.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.microsoft.com/es-es/download/details.aspx?id=8109" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=DirectX+End-User+Runtime+Web+Installer+Microsoft" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Esencial</span>
+    </div>
+
+    <!-- RUNTIME: .NET Framework 3.5 -->
+    <div class="rtcard">
+      <div class="rn">.NET Framework 3.5</div>
+      <div class="rd">Requerido por juegos y apps que usan .NET 2.0/3.0/3.5. Windows 11 no lo incluye por defecto.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.microsoft.com/en-us/download/details.aspx?id=25150" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=Microsoft+.NET+Framework+3.5+offline+installer" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Esencial</span>
+    </div>
+
+    <!-- RUNTIME: .NET Framework 4.8.1 -->
+    <div class="rtcard">
+      <div class="rn">.NET Framework 4.8.1</div>
+      <div class="rd">Muchos juegos modernos y apps de Windows lo requieren. Verificar si ya está instalado antes de descargar.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=.NET+Framework+4.8.1+offline+installer+Microsoft" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Esencial</span>
+    </div>
+	
+	<!-- RUNTIME: .NET Framework 10.0 -->
+    <div class="rtcard">
+      <div class="rn">.NET Framework 10.0</div>
+      <div class="rd">.NET 10 es la denominación correcta para la versión moderna, multiplataforma y de alto rendimiento.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://dotnet.microsoft.com/en-us/download/dotnet/10.0" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=.NET+Framework+10.0+offline+installer+Microsoft" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Opcional</span>
+    </div>
+
+    <!-- RUNTIME: Visual C++ Redistributable AIO -->
+    <div class="rtcard">
+      <div class="rn">Visual C++ Redist AIO</div>
+      <div class="rd">Todas las versiones de Visual C++ en un instalador. Usar si un juego pide una versión específica.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://github.com/abbodi1406/vcredist/releases" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=VisualCppRedist+AIO" target="_blank">Google</a>
+      </div>
+      <span class="rt">Opcional</span>
+    </div>
+
+    <!-- RUNTIME: XNA Framework 4.0 -->
+    <div class="rtcard">
+      <div class="rn">XNA Framework 4.0</div>
+      <div class="rd">Requerido por juegos indie de Steam como Terraria (versiones viejas), algunos ports de Xbox. Si un juego falla al iniciar, probá esto.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.microsoft.com/es-co/download/details.aspx?id=17718" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=XNA+Framework+4.0+Redistributable+Microsoft" target="_blank">Google</a>
+      </div>
+      <span class="rt">Opcional</span>
+    </div>
+
+    <!-- RUNTIME: OpenAL -->
+    <div class="rtcard">
+      <div class="rn">OpenAL</div>
+      <div class="rd">Librería de audio 3D para juegos. Necesario si un juego tira error de "OpenAL32.dll" faltante.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.openal.org/downloads/" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=OpenAL+installer+openal.org" target="_blank">Google</a>
+      </div>
+      <span class="rt leg">Legacy</span>
+    </div>
+
+    <!-- RUNTIME: Java Temurin -->
+    <div class="rtcard">
+      <div class="rn">Java — Temurin (OpenJDK)</div>
+      <div class="rd">Necesario para Minecraft con Prism Launcher. Elegir versión 21 LTS para versiones modernas de Minecraft.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://adoptium.net/es/temurin/releases/?version=21" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=Eclipse+Temurin+Java+21+LTS+download" target="_blank">Google</a>
+      </div>
+      <span class="rt java">Java</span>
+    </div>
+
+    <!-- RUNTIME: PhysX Legacy -->
+    <div class="rtcard">
+      <div class="rn">PhysX Legacy</div>
+      <div class="rd">Motor de físicas para juegos viejos de Nvidia. Solo instalar si un juego específico lo pide.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.nvidia.com/en-us/drivers/physx/physx-9-13-0604-legacy-driver/" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=NVIDIA+PhysX+Legacy+installer" target="_blank">Google</a>
+      </div>
+      <span class="rt leg">Legacy</span>
+    </div>
+
+  </div><!-- fin rtgrid -->
+
   <div class="note" style="margin-top:14px">
-    <strong>Orden:</strong> 1) aio-runtimes → 2) dotNetFx35 → 3) dxwebsetup → 4) OpenAL → 5) Java (si jugás Minecraft)<br>
-    <strong>Opcionales:</strong> PhysX (juegos viejos) · VisualCppRedist (errores específicos)
+    <strong>Orden recomendado:</strong> 1) AIO Runtimes → 2) DirectX Web → 3) .NET 3.5 → 4) .NET 4.8 → 5) Java Temurin (si jugás Minecraft)<br>
+    <strong>Solo si un juego falla:</strong> Visual C++ AIO · XNA 4.0 · OpenAL · PhysX Legacy
   </div>
 </div>
 
@@ -727,7 +1155,7 @@ Write-Host "`n  ► Guardá este output antes de continuar.`n" -ForegroundColor 
 <hr class="sep">
 
 <!-- ═══════════════ FASE 4 ═══════════════ -->
-<div class="phase">
+<div class="phase" id="opt">
   <div class="phase-hd">
     <div class="phase-ico">🔧</div>
     <div>
@@ -914,17 +1342,17 @@ foreach ($grupo in $grupos.Keys) {
     Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
 }
 
-# Google Updater tiene nombre dinámico con versión — buscar por patrón
+# Google Updater tiene nombre dinámico con versión — Manual para no romper Chrome
 Write-Host "`n  ┌─ Updaters_Google (nombre dinámico) ─────────────" -ForegroundColor Cyan
 Get-Service | Where-Object { $_.Name -like "GoogleUpdater*" } | ForEach-Object {
     $total++
-    if ($_.StartType -eq "Disabled") {
-        Write-Host ("  │  — {0,-36} ya Disabled" -f $_.Name) -ForegroundColor DarkGray
+    if ($_.StartType -eq "Manual") {
+        Write-Host ("  │  — {0,-36} ya Manual" -f $_.Name) -ForegroundColor DarkGray
         $yaOk++
     } else {
-        Set-Service -Name $_.Name -StartupType Disabled -EA SilentlyContinue
+        Set-Service -Name $_.Name -StartupType Manual -EA SilentlyContinue
         Stop-Service -Name $_.Name -Force -EA SilentlyContinue
-        Write-Host ("  │  ✔ {0,-36} → Disabled" -f $_.Name) -ForegroundColor Green
+        Write-Host ("  │  ✔ {0,-36} → Manual" -f $_.Name) -ForegroundColor Cyan
         $ok++
     }
 }
@@ -984,8 +1412,8 @@ foreach ($s in $check) {
     }
 }
 Get-Service | Where-Object { $_.Name -like "GoogleUpdater*" } | ForEach-Object {
-    if ($_.StartType -eq "Disabled") {
-        Write-Host ("│  ✔  {0,-36} Disabled" -f $_.Name) -ForegroundColor Green; $ok++
+    if ($_.StartType -eq "Manual") {
+        Write-Host ("│  ✔  {0,-36} Manual" -f $_.Name) -ForegroundColor Cyan; $ok++
     } else {
         Write-Host ("│  ✘  {0,-36} $($_.StartType) ← REVISAR" -f $_.Name) -ForegroundColor Red; $err++
     }
@@ -1001,7 +1429,7 @@ Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $c
 </div>
 
 <!-- BLOQUE 2 -->
-<div class="sec" id="b2">
+<div class="sec sec-tel" id="b2">
   <div class="sec-hd">
     <div class="sn w">2</div>
     <div class="st">Telemetría Microsoft <span class="tag trd">Privacidad</span></div>
@@ -1138,7 +1566,7 @@ Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $c
 </div>
 
 <!-- BLOQUE 3 -->
-<div class="sec" id="b3">
+<div class="sec sec-xbox" id="b3">
   <div class="sec-hd">
     <div class="sn p">3</div>
     <div class="st">Xbox / GameInput <span class="tag tin">Gaming</span></div>
@@ -1299,7 +1727,7 @@ Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $c
 </div>
 
 <!-- BLOQUE 4 -->
-<div class="sec" id="b4">
+<div class="sec sec-virt" id="b4">
   <div class="sec-hd">
     <div class="sn w">4</div>
     <div class="st">Hyper-V <span class="tag twn">Virtualización</span></div>
@@ -1801,7 +2229,7 @@ Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $c
 </div>
 
 <!-- BLOQUE 8 -->
-<div class="sec" id="b8">
+<div class="sec sec-amd" id="b8">
   <div class="sec-hd">
     <div class="sn w">8</div>
     <div class="st">Telemetría AMD <span class="tag twn">Post drivers</span></div>
@@ -1953,7 +2381,7 @@ Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $c
 </div>
 
 <!-- BLOQUE 9 -->
-<div class="sec" id="b9">
+<div class="sec sec-tel" id="b9">
   <div class="sec-hd">
     <div class="sn">9</div>
     <div class="st">Edge en segundo plano</div>
@@ -2232,7 +2660,7 @@ Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $c
 </div>
 
 <!-- BLOQUE 11 -->
-<div class="sec" id="b11">
+<div class="sec sec-tel" id="b11">
   <div class="sec-hd">
     <div class="sn w">11</div>
     <div class="st">Telemetría profunda — Registro <span class="tag trd">Privacidad</span></div>
@@ -2373,7 +2801,7 @@ Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $c
 </div>
 
 <!-- BLOQUE 12 -->
-<div class="sec" id="b12">
+<div class="sec sec-perf" id="b12">
   <div class="sec-hd">
     <div class="sn p">12</div>
     <div class="st">Rendimiento APU <span class="tag tin">Gaming</span></div>
@@ -2522,6 +2950,221 @@ Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $c
   </div>
 </div>
 
+<!-- BLOQUE 13 -->
+<div class="sec sec-tel" id="b13">
+  <div class="sec-hd">
+    <div class="sn w">13</div>
+    <div class="st">Servicios cloud y background innecesarios <span class="tag trd">Privacidad · RAM</span></div>
+  </div>
+  <p class="sd">Servicios de sincronización en la nube, portapapeles compartido y monitoreo de datos que corren en background sin aportar nada. Grupo A → Disabled · Grupo B → Manual.</p>
+  <div class="note b"><strong>BITS, DoSvc, StiSvc, UsoSvc, InventorySvc → Manual:</strong> Arrancan solo cuando se necesitan. WU los activa al abrirlo. InventorySvc en Manual permite que Revo/Winget lean fechas de instalación correctamente.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 13 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 13 — Cloud y background innecesarios     ║" -ForegroundColor DarkYellow
+Write-Host "║  Grupo A → Disabled  |  Grupo B → Manual         ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+# ── GRUPO A — DISABLED ───────────────────────────────────────────────────
+$gruposA = [ordered]@{
+
+    # Plataforma de dispositivos conectados — sincroniza con la nube MS
+    # Timeline, handoff entre dispositivos, continuidad con celular
+    # CDPSvc en Disabled evita que el Visor de Eventos se llene de errores
+    "Connected_Devices_Platform" = @(
+        "CDPSvc"             # Connected Devices Platform Service
+    )
+
+    # Portapapeles en la nube — sincroniza el clipboard entre dispositivos MS
+    "Clipboard_Cloud" = @(
+        "cbdhsvc"            # Clipboard User Service — historial y sincronización del portapapeles
+    )
+
+    # Monitoreo de uso de datos por app — pura telemetría de consumo
+    "Data_Usage" = @(
+        "DusmSvc"            # Data Usage Subscription Manager — registra MB consumidos por app
+    )
+}
+
+Write-Host "`n  ═══ GRUPO A — Disabled ═══════════════════════════" -ForegroundColor Red
+foreach ($grupo in $gruposA.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $gruposA[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Disabled") {
+                Write-Host ("  │  — {0,-36} ya Disabled" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Disabled -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Disabled" -f $s) -ForegroundColor Green
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+# CDPUserSvc tiene sufijo variable — buscar por patrón con guión bajo
+Write-Host "`n  ┌─ Sufijos_Variables (CDPUserSvc_*) ──────────────" -ForegroundColor Cyan
+Get-Service | Where-Object { $_.Name -like "CDPUserSvc_*" } | ForEach-Object {
+    $total++
+    if ($_.StartType -eq "Disabled") {
+        Write-Host ("  │  — {0,-36} ya Disabled" -f $_.Name) -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-Service -Name $_.Name -StartupType Disabled -EA SilentlyContinue
+        Stop-Service -Name $_.Name -Force -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-36} → Disabled" -f $_.Name) -ForegroundColor Green
+        $ok++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── GRUPO B — MANUAL ─────────────────────────────────────────────────────
+$gruposB = [ordered]@{
+
+    # Background Intelligent Transfer — descarga WU en background
+    # En Manual: WU lo activa cuando lo abrís, no permanentemente
+    "BITS_Transfer" = @(
+        "BITS"               # Background Intelligent Transfer Service
+    )
+
+    # Delivery Optimization — P2P de updates entre PCs en red/internet
+    # Con WU en Manual no tiene sentido que corra siempre
+    "Delivery_Optimization" = @(
+        "DoSvc"              # Delivery Optimization Service
+    )
+
+    # Still Image — detección de cámaras y scanners USB
+    # El escáner Brother usa BrYNSvc directamente, no StiSvc
+    "Still_Image" = @(
+        "StiSvc"             # Windows Image Acquisition (WIA) — still image devices
+    )
+
+    # Orquestador de actualizaciones — en Manual WU puede abrirlo cuando lo usás
+    # En Disabled rompía la pantalla de WU dentro de Configuración
+    "Update_Orchestrator" = @(
+        "UsoSvc"             # Update Session Orchestrator — coordina sesiones de WU
+    )
+
+    # Inventario de apps — en Manual Revo/Winget leen fechas de instalación OK
+    # En Disabled las fechas de instalación aparecen incorrectas
+    "Inventory_Apps" = @(
+        "InventorySvc"       # Inventory and Compatibility Appraisal Service
+    )
+}
+
+Write-Host "`n  ═══ GRUPO B — Manual ══════════════════════════════" -ForegroundColor Cyan
+foreach ($grupo in $gruposB.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $gruposB[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Manual") {
+                Write-Host ("  │  — {0,-36} ya Manual" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Manual -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Manual" -f $s) -ForegroundColor Cyan
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 13                               ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Aplicados ahora      : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 13 completo. Continuar con POST.`n" -ForegroundColor Cyan</pre>
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 13</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 13 ───────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+# Deben estar Disabled
+$dis = @("CDPSvc","cbdhsvc","DusmSvc")
+foreach ($s in $dis) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else { Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray }
+}
+# Sufijo variable CDPUserSvc_*
+Get-Service | Where-Object { $_.Name -like "CDPUserSvc_*" } | ForEach-Object {
+    if ($_.StartType -eq "Disabled") {
+        Write-Host ("│  ✔  {0,-36} Disabled" -f $_.Name) -ForegroundColor Green; $ok++
+    } else {
+        Write-Host ("│  ✘  {0,-36} $($_.StartType) ← REVISAR" -f $_.Name) -ForegroundColor Red; $err++
+    }
+}
+# Deben estar Manual
+$man = @("BITS","DoSvc","StiSvc","UsoSvc","InventorySvc")
+foreach ($s in $man) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Manual") {
+            Write-Host ("│  ✔  {0,-36} Manual" -f $s) -ForegroundColor Cyan; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else { Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <hr class="sep">
 
 <!-- ═══════════════ POST-VERIFICACIÓN FINAL ═══════════════ -->
@@ -2602,12 +3245,13 @@ Write-Host "`n┌─ DEBEN ESTAR DISABLED ────────────�
   "MapsBroker","lfsvc","WalletService","SharedAccess","SCardSvr",
   "perceptionsimulation","WwanSvc","RasAuto","WMPNetworkSvc",
   "wisvc","PhoneSvc","icssvc","edgeupdate","edgeupdatem",
-  "GameInputSvc","GameInputRedistService") | ForEach-Object { Chk-Svc $_ "Disabled" }
+  "GameInputSvc","GameInputRedistService",
+  "CDPSvc","cbdhsvc","DusmSvc") | ForEach-Object { Chk-Svc $_ "Disabled" }
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Yellow
 
 # ── MANUAL ───────────────────────────────────────────
 Write-Host "`n┌─ DEBEN ESTAR MANUAL ───────────────────────────" -ForegroundColor Cyan
-@("wuauserv","WSearch","XblAuthManager","wlidsvc") | ForEach-Object { Chk-Svc $_ "Manual" }
+@("wuauserv","WSearch","XblAuthManager","wlidsvc","BITS","DoSvc","StiSvc","UsoSvc","InventorySvc") | ForEach-Object { Chk-Svc $_ "Manual" }
 Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
 
 # ── CRÍTICOS ─────────────────────────────────────────
@@ -2666,7 +3310,7 @@ Write-Host "  Reiniciar después de aplicar cambios.`n" -ForegroundColor Yellow<
 </div>
 
 <footer>
-  <p>DESKTOP-ER525HI — Ryzen 5 5600G — <em>v8.0 — 28/03/2026</em></p>
+  <p>DESKTOP-ER525HI — Ryzen 5 5600G — <em>v8.10 — 29/03/2026</em></p>
   <p style="font-size:10px;margin-top:6px">Guardar en Google Drive, MEGA o pendrive · Abrir en cualquier navegador</p>
 </footer>
 
@@ -2704,6 +3348,12 @@ function toggleV(btn) {
   const arrow = btn.querySelector('.vtoggle-arrow');
   arrow.textContent = btn.classList.contains('open') ? 'ocultar' : 'mostrar';
 }
+
+// ── BOTÓN VOLVER ARRIBA ──
+const btnTop = document.getElementById('btnTop');
+window.addEventListener('scroll', () => {
+  btnTop.classList.toggle('visible', window.scrollY > 400);
+});
 </script>
 </body>
 </html>
