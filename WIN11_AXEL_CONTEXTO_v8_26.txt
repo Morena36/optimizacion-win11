@@ -1,0 +1,557 @@
+╔══════════════════════════════════════════════════════════════════════════════╗
+║   WIN11_AXEL_CONTEXTO — v8.26                                              ║
+║   Documento único de referencia para IAs futuras                           ║
+║   Última actualización : 04/04/2026                                        ║
+║   Versión HTML actual  : v8.26  (win11_axel_v8_26.html)                   ║
+╚══════════════════════════════════════════════════════════════════════════════╝
+
+  Leer completo antes de tocar cualquier cosa.
+  Compartir SIEMPRE junto al HTML al iniciar una nueva sesión.
+  Este TXT reemplaza al CONTEXTO v8.25.
+  Son un solo documento — no hay archivos separados.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  1. PERFIL DE USUARIO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Nombre      Axel
+  Ubicación   José C. Paz, Buenos Aires, Argentina  (UTC-3)
+  Idioma      Español rioplatense — vos, che, andá, etc.
+  Tono        Informal, directo, sin vueltas
+
+  Estilo de respuesta esperado
+  ┌─────────────────────────────────────────────────────────────────────────
+  │  · Conciso y directo — sin relleno ni introducciones
+  │  · Sin asteriscos ni markdown exagerado en el chat
+  │  · Código limpio, comentado y funcional
+  │  · Si algo está mal o puede mejorarse → decirlo sin rodeos
+  │  · No repetir lo que ya se sabe
+  │  · Con libertad creativa → tomar decisiones, entregar resultado completo
+  └─────────────────────────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  2. HARDWARE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  PC          DESKTOP-ER525HI   (usuario Windows: Axel)
+  Placa       ASRock B450M-HDV R4.0
+  BIOS        American Megatrends P10.01  (12/04/2023) — UEFI
+
+  CPU         AMD Ryzen 5 5600G  ·  6c / 12t  ·  APU (CPU + GPU integrada)
+  RAM         16 GB DDR4  ·  ~13.87 GB visibles (2 GB reservados para iGPU)
+              3200 MHz — XMP/EXPO activado en BIOS
+  GPU         AMD Radeon Integrada (iGPU del 5600G)
+              VRAM: 2048 MB UMA Game — configurado en BIOS
+              Driver: 31.0.21924.61
+
+  Storage     Múltiples volúmenes (HDD + posible SSD)
+  Video       Dual monitor (x2)
+  Impresora   Brother USB  ·  driver 3.0.0.0  ·  escáner 1.1.15.1
+  Red         Ethernet cable — SIN WiFi
+  Bluetooth   Hardware presente pero NO usado — servicios deshabilitados
+  Periféricos Dongle receptor 2.4 GHz para mouse/teclado inalámbrico
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  3. SISTEMA OPERATIVO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  OS           Microsoft Windows 11 Pro
+  Build        10.0.26200  (25H2)
+  Arquitectura 64 bits
+  Locale       es-MX
+
+  ⚠ No preguntar ni mencionar Atlas OS. Tratar como Windows 11 estándar.
+    Servicios que no existen fueron removidos en la instalación base — normal.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  4. SOFTWARE INSTALADO  (verificado 30/03/2026)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  GAMING
+    Steam 2.10.91.91
+    Epic Games Launcher 1.3.173.0  ·  Epic Online Services 4.1.0
+      ⚠ Epic Games NO gestionado por scripts desde v8.24 — removido de todos
+        los bloques de optimización y verificadores.
+    Riot Vanguard (Valorant / LoL) — vgtray.exe en startup
+    Minecraft via Java — usa XblAuthManager para auth con cuenta Microsoft
+    Terraria
+    Juegos frecuentes: Minecraft, Terraria, League of Legends
+
+  PRODUCTIVIDAD
+    Google Chrome 148.0.7730.x  (versión exacta varía con updates)
+    Google Drive File Stream 122.0.1.0  (startup automático)
+    MEGAsync  (startup automático)
+    Internet Download Manager — IDMan en startup
+    ShareX  (startup automático — capturas de pantalla)
+    7-Zip 26.00
+    Brother iPrint&Scan 15.0.30.0  ·  iPSMonitor en startup
+    Remote Mouse Service  (instalado — servicio Automatic/Running)
+
+  CREATIVO / SERVIDOR
+    Editor de video  ·  Diseño / Photoshop
+    Servidor Minecraft local  (hosting para amigos)
+    Servidor Terraria local   (hosting para amigos)
+    ⚠ No deshabilitar servicios de red que rompan los servidores
+
+  DESARROLLO
+    Python 3.13.7 y 3.14.2  (ambos instalados)
+    Java 8 Update 481 (64-bit) — necesario para Minecraft
+
+  AUDIO / VIDEO
+    VLC 3.0.23  ·  Realtek Audio Driver 6.0.9231.1
+
+  RUNTIMES  (completos — no reinstalar)
+    Visual C++  2005 / 2008 / 2010 / 2012 / 2013 / 2022  (x86 y x64)
+    .NET        3.1 / 5.0 / 6.0 / 7.0 / 8.0 / 9.0 / 10.0  (x86 y x64)
+    DirectX 9.0c Extra Files  ·  Java 8 Update 481
+
+  DRIVERS AMD
+    Chipset Software 8.02.18.557
+    AMD Software (Adrenalin) 26.1.1
+    AMD Crash Defender Service — Automatic/Running (parte del driver, no tocar)
+    AMD External Events Utility — Automatic/Running (parte del driver, no tocar)
+    ⚠ Ejecutar Bloque 8 después de CADA actualización de drivers AMD
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  5. STARTUP  (verificado 30/03/2026)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Activos     GoogleDriveFS · MEGAsync · ShareX · Brother iPSMonitor
+              I23A (escáner) · RtkAudUService (audio) · Riot Vanguard · IDMan
+
+  A revisar   OneDriveSetup aparece dos veces — no se usa OneDrive.
+              Desactivar desde Task Manager si molesta.
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  6. ESTADO DE OPTIMIZACIÓN  (base: 30/03/2026 — actualizaciones v8.25)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Plan de energía   Alto rendimiento  (GUID 8c5e7fda...)  ACTIVO
+  RAM al boot       ~7.35 GB usada / 6.52 GB libre  (con Chrome abierto)
+  VRAM iGPU         2048 MB  (UMA Game en BIOS)
+  Sufijo de sesión  _3dcef  (cambia con cada reinstalación de Windows)
+  Total servicios   281  |  Running: 76  |  Stopped: 204  |  Disabled: 131
+
+  DISABLED
+    DiagTrack · dmwappushservice · SysMain · WSearch
+    XblGameSave · XboxGipSvc · XboxNetApiSvc · GameInputSvc · GameInputRedistService
+    vmicheartbeat · vmicguestinterface · vmickvpexchange · vmicrdv
+    vmicshutdown · vmictimesync · vmicvmsession · vmicvss · HvHost
+    BTAGService · bthserv · BthAvctpSvc · BluetoothUserService_3dcef
+    AUEPLauncher · WinRM · RemoteRegistry · MapsBroker · lfsvc
+    WalletService · SharedAccess · SCardSvr · perceptionsimulation
+    WwanSvc · RasAuto · WMPNetworkSvc · wisvc · PhoneSvc · icssvc
+    edgeupdate · edgeupdatem · WinDefend · WdNisSvc
+    CDPSvc · CDPUserSvc_3dcef · cbdhsvc_3dcef · DusmSvc
+    SensorDataService · SensorService · SensrSvc
+    Daemon Update Assistant Service
+    webthreatdefsvc · webthreatdefusersvc_3dcef · whesvc · SSDPSRV
+    WpnService · WpnUserService_3dcef
+    BcastDVRUserService_3dcef
+    WSAIFabricSvc · SstpSvc
+    wscsvc               # Security Center — app externa lo gestiona; excluido de scripts
+
+  MANUAL
+    XblAuthManager · wlidsvc · StiSvc · InventorySvc
+    GoogleUpdaterService* · GoogleUpdaterInternalService*
+    camsvc · PolicyAgent · Wcmsvc · DeviceAssociationService
+
+  APP TERCEROS — WUB los controla, no tocar manualmente
+    wuauserv · BITS · UsoSvc · WaaSMedicSvc · InstallService
+    Estado en INI: Manual — WUB los opera entre Manual y Automatic según modo.
+
+  RUNNING     Spooler · hidserv · PlugPlay · AudioSrv
+  (protegidos) AudioEndpointBuilder · Themes · BrYNSvc
+              USBAppControl · WorkflowAppControl
+              NlaSvc · netprofm
+
+  REGISTRO
+    AllowTelemetry=0  ·  DisableAIDataAnalysis=1  ·  Advertising=0
+    Edge StartupBoost=0  ·  Edge BackgroundMode=0
+    CEIP / Activity Feed / ContentDelivery → todos en 0
+
+  RENDIMIENTO
+    GPU Gaming    GPU Priority=8  ·  Priority=6  ·  Scheduling=High
+    Nagle         TcpAckFrequency=1  ·  TCPNoDelay=1  en todas las interfaces
+    Core Parking  Deshabilitado  (CPMINCORES/MAX=100%)
+
+  TAREAS AMD  (todas Disabled)
+    StartAUEP · StartCN · StartCNBM · StartDVR
+    AMDLinkUpdate · AMDInstallLauncher · AMDRyzenMasterSDKTask
+
+  ⚠ SERVICIOS AUTOMATIC/STOPPED — comportamiento normal (no son errores)
+    PrintDeviceConfigurationService  → Automatic / Stopped — se activa al configurar impresora
+    sppsvc (Software Protection)     → Automatic / Stopped — corre periódicamente para licencias
+    StiSvc                           → puede aparecer StartPending — escáner Brother siendo detectado
+
+  ⚠ SERVICIOS QUE NUNCA SE TOCAN — romper algo crítico si se cambian
+    WpnService / WpnUserService_*  → Disabled y funciona OK en esta PC. No mover.
+    InventorySvc                   → en Disabled las fechas de instalación en Revo aparecen mal
+    XblAuthManager / wlidsvc       → Minecraft falla el login con cuenta Microsoft
+    LanmanWorkstation / SENS       → rompen red y servidores locales
+    Spooler / hidserv / PlugPlay   → impresora, mouse, teclado, USB
+    AudioSrv / AudioEndpointBuilder → audio
+    NlaSvc / netprofm              → Chrome tilda 3-5 segundos al arrancar si están Stopped
+    Appinfo                        → NUNCA Disabled — gestiona la elevación UAC
+    RpcSs / SamSs                  → NUNCA TOCAR — base del sistema y cuentas
+
+  ⚠ SERVICIOS EXCLUIDOS DE SCRIPTS — no rompen nada pero no se gestionan
+    GamingServices · GamingServicesNet · TextInputManagementService
+        → trigger interno de Windows los reactiva, inútil intentar fijarlos
+    EpicGamesUpdater · EpicOnlineServices  → Epic no gestionado desde v8.24
+    DoSvc            → WUB lo gestiona externamente; no existe en esta PC
+    DisplayEnhancementService · NgcCtnrSvc → sin impacto, dejar en estado natural
+    AppIDSvc · SecurityHealthService · TokenBroker · TimeBrokerSvc → limpiados de B13 en v8.25
+    wscsvc           → app externa gestiona Security Center
+    embeddedmode · brave → no aplican a esta PC
+    CoworkVMService  → StartType vacío, rompe Sort-Object (Error #14)
+
+  SERVICIOS QUE NO EXISTEN EN ESTA PC (normal — removidos en instalación base)
+    hpatchmon · WFDSConMgrSvc · WiaRpc
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  7. PREFERENCIAS CONFIRMADAS — NO VOLVER A PREGUNTAR
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  · SIN antivirus — decisión consciente, 6+ años sin infecciones
+      No sugerir reactivar WinDefend salvo pedido explícito
+  · SIN Bluetooth  (hardware presente pero no usado)
+  · SIN WiFi  (solo Ethernet)  — ver Bloque 14 si algún equipo sí usa WiFi
+  · UMA Game 2 GB en BIOS — no cambiar
+  · XMP/EXPO activado — RAM a 3200 MHz real
+  · Animaciones visuales: algunas habilitadas — no forzar deshabilitar todo
+  · Servidores LAN: Minecraft y Terraria — no romper servicios de red
+  · Optimización sobre instalación existente — sin reinstalar Windows
+  · OneDriveSetup en startup: residuo de desinstalación
+      Eliminar desde Task Manager → pestaña Inicio → deshabilitar
+  · Verificadores: colapsados por defecto — prefiere menos scroll
+  · Sufijo de sesión: _3dcef — cambia con cada reinstalación
+      Scripts usan wildcard _* para matchear cualquier sufijo
+  · NO incluir scripts de reversión en los bloques — no los usa
+  · Contexto fusionado en este TXT — no hay archivos separados
+  · NcbService → Manual en B6 — NO verificar como Running en POST
+
+  Para qué servicio va en qué estado y por qué → ver sección 6.
+
+  Estado de colapsables
+  ┌──────────────────────────────────────────────────────────────────────
+  │  PRE-Diagnóstico      → CERRADO por defecto  (sin clase "open")
+  │  Snapshot servicios   → CERRADO por defecto
+  │  Verificadores B1-B14 → CERRADOS por defecto
+  │  POST-Verificación    → NO colapsable
+  └──────────────────────────────────────────────────────────────────────
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  8. CONOCIMIENTO DEL PERFIL INI (servicios_gaming_axel.ini)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Existe un archivo servicios_gaming_axel.ini con los 281 servicios del
+  snapshot del 30/03/2026. Lo aplica Windows Update Blocker (WUB).
+
+  Formato: Servicio=ErrorControl,Default,Safe,Net,Gaming
+    2=Automatic · 3=Manual · 4=Disabled
+    Columna Gaming (5ta) es la activa en esta PC.
+
+  Particularidad del INI — GoogleUpdaterService*:
+    Nombre dinámico con versión de Chrome (ej: GoogleUpdaterService148.0.7730.0)
+    Actualizar el número en el INI cada vez que Chrome se actualice.
+
+  El resto de las reglas de servicios (qué va Manual/Disabled/Automatic y
+  por qué) son las mismas de la sección 6 — el INI las aplica tal cual.
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  9. EL PROYECTO — GUÍA HTML
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Versión actual HTML   v8.26  (win11_axel_v8_26.html)
+
+  Historial resumido
+    v1–v4   Versiones iniciales del usuario
+    v5      Primera gran mejora  (bloques 1–5 y 8, nueva estructura)
+    v6      Bloques 2–5 y 8 con grupos [ordered]@{} y contadores
+    v7      Bloques 6–12 y POST mejorados, verificadores con contadores
+    v8      Verificadores colapsables + PRE colapsable + banner Post-Adrenalin
+    v8.1–v8.4   Correcciones menores, PRE cerrado, snapshot
+    v8.5–v8.6   Nav flotante, botón ↑, colores por categoría
+    v8.8–v8.9   Bloque 13 (CDPSvc, cbdhsvc, DusmSvc) + fix wildcard sufijo
+    v8.11   Corrección masiva B13 basada en resultados reales
+    v8.12   B11: 8 claves registro nuevas (voz, ink, personalización)
+    v8.13   NlaSvc / netprofm → Automatic en B6
+    v8.17   Daemon Update Assistant → B1 Disabled (Error #22)
+    v8.18   GamingServices, TextInput → B1 Disabled
+    v8.19   Xbox → Manual (posible Game Pass futuro), B14 emergencia
+    v8.20   B10/WU eliminado (WUB), B14 eliminado, renumeración a 12 bloques
+    v8.21   Xbox → Disabled, wscsvc → Disabled, WSearch → Disabled
+    v8.23   wscsvc → excluido definitivamente; BcastDVRUserService_* → Disabled
+            Nuevo Bloque 13 (Inicio); contexto fusionado en TXT único
+    v8.24   Epic removido de todos los bloques; WSAIFabricSvc/SstpSvc → Disabled
+            NgcCtnrSvc → estado natural; RpcSs/SamSs → Automatic en B6
+            wscsvc → eliminado definitivamente de todos los scripts
+            B13 limpiado (AppIDSvc/SecurityHealthService/TokenBroker/TimeBrokerSvc)
+    v8.25   Fix trailing comma B1 grupo Sistema_Extras (Error #29/#30)
+            Badges B10/B11/B12 corregidos (Error #31)
+            TOC entrada WU fantasma eliminada (Error #32)
+            AMD banner "Bloque 8" corregido (Error #33)
+            POST "B13 es nuevo" corregido (Error #34)
+    v8.26   Headers .ch de B10/B11/B12 seguían corridos +1 (decían Bloque
+            11/12/13) — corregidos a Bloque 10/11/12. B13 quedó sin duplicar.
+            POST banner decía "v8.24" → corregido a v8.26 (Error #37)
+            POST mensaje final volvía a mencionar "B13 es nuevo" pese a
+            estar marcado como resuelto en v8.25 → eliminado definitivamente
+            Bloque 14 agregado — Wifi/Netbook (rescate independiente).
+            Reactiva WlanSvc, WwanSvc, dot3svc, EapHost, wcncsvc
+            (Automatic+Running) y deja Wcmsvc/NcbService/
+            DeviceAssociationService operativos. No forma parte del
+            flujo normal — solo para equipos con WiFi que hayan
+            perdido la conexión tras correr los bloques 1-13.
+            Versión única en JS: <title>/badge/.ver/footer ya no se editan
+            a mano — const WIN11_VERSION/WIN11_FECHA en el <head> los rellena.
+
+  Estructura
+    PRE-Diagnóstico    → colapsable, CERRADO por defecto
+    Snapshot servicios → colapsable, CERRADO por defecto
+    Fase 1 — Drivers
+    Fase 2 — Runtimes
+    Fase 3 — Apps
+    Fase 4 — Bloques PS (B1–B14), cada uno con verificador colapsable (cerrado)
+      B1  Servicios innecesarios
+      B2  Telemetría Microsoft
+      B3  Xbox / GameInput
+      B4  Hyper-V
+      B5  Bluetooth
+      B6  Proteger críticos
+      B7  SysMain / WSearch
+      B8  Telemetría AMD
+      B9  Edge background
+      B10 Telemetría profunda registro
+      B11 Rendimiento APU
+      B12 Cloud / Background
+      B13 INICIO — servicios que retrasan boot
+      B14 WIFI/NETBOOK — bloque de rescate, solo para equipos con WiFi
+    POST-Verificación  → NO colapsable
+    ⚠ SIN scripts de reversión
+
+  Sistema de colapsables
+    Clases: .vblock > .vtoggle > .vtoggle-hd + .vcontent
+    ⚠ REGLA ABSOLUTA: toggle SIEMPRE <div>, NUNCA <button>  (Error #10)
+    Botón Copiar dentro de vtoggle:
+      <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+
+  Diseño
+    Fuente UI    DM Sans — NUNCA Syne, NUNCA Plus Jakarta Sans
+    Fuente código  JetBrains Mono
+    Paleta
+      --bg:#07070f  --accent:#00d9f5  --purple:#7b61ff
+      --green:#00f083  --yellow:#ffc94d  --red:#ff4060  --orange:#ff8c42
+
+  Nomenclatura   win11_axel_vX_Y.html  /  WIN11_AXEL_CONTEXTO_vX_Y.txt
+    Actualizar en: const WIN11_VERSION/WIN11_FECHA (head del HTML, único lugar)
+      + banner Write-Host del POST (texto literal PS, no lo toca el JS)
+      + este TXT
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  10. ERRORES CONOCIDOS — LEER ANTES DE TOCAR CUALQUIER COSA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  #   Título                                             Estado
+  ─── ──────────────────────────────────────────────── ──────────────
+   1  if() inline en PowerShell                         ACTIVO (evitar)
+   2  Fuente "g" ilegible (Syne / Plus Jakarta)         Resuelto (DM Sans)
+   3  XblAuthManager Disabled rompe Minecraft            ACTIVO (evitar)
+   4  Contenido faltante entre versiones                 Proceso
+   5  WinDefend deshabilitado sin consultar              Preferencia OK
+   6  AUEPMaster sigue corriendo                         Resuelto B8
+   7  Sufijo variable en servicios de usuario            ACTIVO (usar _*)
+   8  SENS en Disabled causa problemas de red            Resuelto
+   9  Servicios de red deshabilitados rompen LAN         ACTIVO (evitar)
+  10  <button> como contenedor de <pre>                  ACTIVO (evitar)
+  11  Botón Copiar cierra el colapsable                  Resuelto (stopPropagation)
+  12  Regex greedy en transformaciones Python            Técnico
+  13  Comentario HTML anidado rompe el layout            ACTIVO (evitar)
+  14  CoworkVMService rompe Sort-Object                  ACTIVO (filtrar)
+  15  Verificador B13 con wildcard sin guión bajo        Resuelto
+  16  Pantalla negra con mouse visible                   Diagnóstico
+  17  WpnService — falso positivo de pantalla negra      Aclarado
+  18  UsoSvc Disabled rompe Windows Update UI            Resuelto (Manual)
+  19  InventorySvc Disabled rompe historial Revo         Resuelto (Manual)
+  20  Google Updaters en Disabled rompe Chrome updates   Resuelto (Manual)
+  21  NlaSvc en Manual tilda Chrome al arrancar          Resuelto (Automatic)
+  22  Daemon Update Assistant Service causa apagones     Resuelto (Disabled B1)
+  23  GamingServices/Net vuelven a Automatic             Resuelto (excluidos)
+  24  DoSvc existe en esta PC (Manual/Stopped)           Aclarado (no existe)
+  25  Appinfo Disabled rompe UAC                         ACTIVO (evitar)
+  26  StiSvc en StartPending al snapshot                 Diagnóstico (normal)
+  27  GoogleUpdater nombre dinámico con versión          ACTIVO (wildcard)
+  28  wscsvc Automatic/Running en snapshot               Resuelto v8.23
+  29  Trailing comma en B3 Xbox_Disabled → ParserError   ACTIVO (evitar siempre)
+  30  Trailing comma en Verificador B3 → ParserError     ACTIVO (evitar siempre)
+  31  Badges .sn muestran numeración +1 en B10/B11/B12   Resuelto v8.25
+  32  TOC entrada fantasma "Windows Update" → #b10       Resuelto v8.25
+  33  AMD banner dice "Bloque 11", debería decir "Bloque 8" Resuelto v8.25
+  34  POST menciona B14 que no existe                    Resuelto v8.25
+  35  wscsvc en B6 manuales en lugar de B1 Disabled      Resuelto v8.25
+  36  NcbService: B6=Manual vs POST=Running — contradicción Resuelto v8.25
+  37  Headers .ch B10/B11/B12 numerados +1 (11/12/13)  Resuelto v8.26
+  38  POST banner mostraba v8.24 en vez de versión actual Resuelto v8.26
+
+  ── ERRORES CRÍTICOS CON DETALLE ─────────────────────────────────────────
+
+  #1 — if() inline en PowerShell
+    ROTO:    Write-Host "txt" -ForegroundColor (if($ok){"Green"}else{"Red"})
+    CORRECTO: $col = if($ok){"Green"}else{"Red"}; Write-Host "texto" -ForegroundColor $col
+
+  #3 — XblAuthManager Disabled rompe Minecraft
+    XblAuthManager y wlidsvc → SIEMPRE Manual, NUNCA Disabled.
+
+  #6 — AUEPMaster sigue corriendo aunque AUEPLauncher esté Disabled
+    Bloque 8 SIEMPRE incluye:
+      Stop-Process -Name "AUEPMaster" -Force -EA SilentlyContinue
+
+  #7 — Sufijo variable en servicios de usuario
+    Usar SIEMPRE guión bajo antes del wildcard:
+      Get-Service | Where-Object { $_.Name -like "BluetoothUserService_*" }
+
+  #10 — <button> como contenedor de <pre> rompe el HTML
+    ROTO:    <button class="vtoggle">...<pre>...</pre></button>
+    CORRECTO: <div class="vtoggle">...<pre>...</pre></div>
+
+  #11 — Botón Copiar dentro de colapsable cierra el panel
+    Obligatorio: event.stopPropagation() + cpv()
+    <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+
+  #14 — CoworkVMService rompe Sort-Object en PowerShell
+    Filtrar siempre:
+      Get-Service | Where-Object { try { $null -ne $_.StartType } catch { $false } }
+
+  #25 — Appinfo Disabled rompe UAC
+    Appinfo → Manual como mínimo. NUNCA Disabled.
+
+  #29/#30 — Trailing comma en array PS → ParserError
+    PowerShell NO admite trailing commas en arrays @(). Último elemento SIN coma.
+    ROTO:    @(..., "GameInputRedistService",)
+    CORRECTO: @(..., "GameInputRedistService")
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  11. ESTRUCTURA DE LOS SCRIPTS POWERSHELL
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  BLOQUES PRINCIPALES
+    1. Check de admin
+    2. Banner con nombre del bloque
+    3. Servicios en [ordered]@{} con comentario en cada uno
+    4. foreach con try/catch tipado · skip si ya en estado correcto · contadores
+    5. Resumen: procesados / aplicados / ya OK / no encontrados / errores
+
+  VERIFICADORES (separados del bloque principal, colapsados por defecto)
+    Verde=correcto | Rojo=revisar | Gris=no existe
+    $col = if($err -eq 0){"Green"}else{"Red"}
+
+  ⚠ REGLA CRÍTICA: NUNCA trailing comma en arrays @() de PowerShell
+    Último elemento del array: SIN coma al final.  (Error #29/#30)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  12. COMANDOS DE REFERENCIA RÁPIDA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Ver servicios clave
+    Get-Service DiagTrack,SysMain,XblAuthManager,WSearch,InventorySvc,RpcSs,SamSs |
+        Select Name,StartType,Status
+
+  Ver todos los servicios (sin bug CoworkVMService)
+    Get-Service | Where-Object { try { $null -ne $_.StartType } catch { $false } } |
+        Sort-Object StartType, Name | Select Name, Status, StartType | Format-Table -AutoSize
+
+  Ver tareas AMD
+    Get-ScheduledTask | Where-Object {$_.TaskName -like "*AMD*" -or $_.TaskName -like "Start*"} |
+        Select TaskName, State
+
+  Ver sufijo de sesión actual
+    Get-Service | Where-Object { $_.Name -match "_[a-z0-9]{5}$" } |
+        Select Name | Sort Name | Select -First 3
+
+  Ver GoogleUpdater actual
+    Get-Service | Where-Object { $_.Name -like "GoogleUpdater*" } | Select Name, StartType
+
+  Pantalla negra — recuperar explorer
+    Ctrl+Shift+Esc → Archivo → Ejecutar nueva tarea → explorer.exe
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  13. HERRAMIENTAS DE EDICIÓN — CUÁNDO USAR CADA UNA
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  str_replace   → cambio quirúrgico (1-3 secciones, texto único en el archivo)
+  Python        → cambio masivo/repetitivo, >3 bloques o >150 líneas nuevas
+  create_file   → archivo nuevo desde cero
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  14. ARCHIVOS DEL PROYECTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  CONSERVAR — los tres van juntos
+    win11_axel_v8_26.html              Guía HTML actual
+    WIN11_AXEL_CONTEXTO_v8_26.txt     Este archivo
+    servicios_gaming_axel.ini          Perfil completo de servicios (281) — aplica con WUB
+
+  BORRAR  (obsoletos)
+    WIN11_AXEL_CONTEXTO_v8_25.txt y anteriores
+    win11_axel_v8_25.html y anteriores
+
+  Guardar en   Google Drive + MEGA + Pendrive
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  15. FLUJO DE TRABAJO — CÓMO CONTINUAR ESTE PROYECTO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+   1. Compartir este TXT + el HTML con cualquier IA
+   2. Leer AMBOS archivos antes de proponer cambios
+   3. Verificar estructura completa (PRE + SNAP + 14 bloques + POST) antes de entregar
+   4. No cambiar DM Sans ni la paleta de colores
+   5. No usar if() inline en parámetros de Write-Host  (Error #1)
+   6. Siempre incluir fallback en cp() y cpv()
+   7. Toggles colapsables: SIEMPRE <div>, NUNCA <button>  (Error #10)
+   8. Copiar dentro de vtoggle: cpv() + event.stopPropagation()  (Error #11)
+   9. Colapsables: PRE, SNAP y verificadores → CERRADOS por defecto (sin clase "open")
+  10. POST-Verificación: NO colapsable
+  11. SIN scripts de reversión
+  12. Nomenclatura: vX_Y — actualizar const WIN11_VERSION/WIN11_FECHA (head)
+      + banner Write-Host del POST + este TXT
+  13. Documentar errores nuevos en sección 10 antes de entregar
+  14. Antes de agregar un servicio a Disabled: verificar sección 6 "NO SE TOCAN"
+  15. Servicios "no existe" en scripts → normal si instalación base los removió
+  16. NUNCA trailing comma en arrays @() de PowerShell (Error #29/#30)
+  17. NUNCA incluir RpcSs / SamSs en ningún script de cambio de estado
+  18. NUNCA incluir EpicGamesUpdater / EpicOnlineServices en ningún bloque
+  19. NUNCA incluir DoSvc en ningún bloque (no existe en esta PC)
+  20. NO verificar NcbService como Running en POST — es Manual/Stopped y está correcto
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  16. REGISTRO DE PARCHES — PEGAR AQUÍ CADA PARCHE RECIBIDO
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+  Instrucciones:
+    · Cada vez que una IA entregue un parche al final de su respuesta, copiarlo acá.
+    · Formato esperado del parche:
+        ━━━ PARCHE v8.26.X — DD/MM/AAAA ━━━━━━━━━━━━━━━━━━━━
+        [#NNN] Descripción del cambio (bloque/sección afectada)
+        ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+    · Al subir versión mayor (v8.27, v9.0, etc.) → consolidar parches en el
+      historial resumido de sección 9 y limpiar esta sección.
+    · La IA lee esta sección para saber qué cambios ya fueron aplicados al TXT
+      y no repetirlos ni contradecirlos.
+
+  ── PARCHES APLICADOS ────────────────────────────────────────────────────
+
+  [base v8.26 — 04/04/2026]
+    Versión inicial de esta sección. Sin parches previos registrados.
+    Los cambios de v8.25 y v8.26 están consolidados en el historial (sección 9).
+
+  ── NUEVOS PARCHES (pegar debajo de esta línea) ──────────────────────────
+
+
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+  FIN DEL DOCUMENTO
+  Para continuar: compartir este TXT + el HTML con cualquier IA.
+  HTML actual: v8.26
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━

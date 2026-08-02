@@ -1,0 +1,3798 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+// ═══ ÚNICA FUENTE DE VERSIÓN — cambiar acá y se propaga solo ═══
+const WIN11_VERSION = "8.26";
+const WIN11_FECHA    = "04/04/2026";
+document.title = "Win11 Optimización — Axel v" + WIN11_VERSION;
+</script>
+<title>Win11 Optimización — Axel v8.26</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@400;500;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #07070f;
+  --bg2:     #0e0e18;
+  --bg3:     #14141e;
+  --bg4:     #1a1a26;
+  --border:  #222232;
+  --border2: #2e2e42;
+  --accent:  #00d9f5;
+  --purple:  #7b61ff;
+  --green:   #00f083;
+  --yellow:  #ffc94d;
+  --red:     #ff4060;
+  --orange:  #ff8c42;
+  --text:    #e8e8f2;
+  --text2:   #72728a;
+  --text3:   #3a3a52;
+  --codebg:  #090912;
+}
+
+*{margin:0;padding:0;box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:'DM Sans',sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+  line-height:1.65;
+}
+
+/* fondo grilla sutil */
+body::before{
+  content:'';position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(0,217,245,.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(0,217,245,.022) 1px,transparent 1px);
+  background-size:44px 44px;
+  pointer-events:none;z-index:0;
+}
+
+/* glow superior */
+body::after{
+  content:'';position:fixed;
+  top:-160px;left:50%;transform:translateX(-50%);
+  width:700px;height:360px;
+  background:radial-gradient(ellipse,rgba(0,217,245,.055) 0%,transparent 68%);
+  pointer-events:none;z-index:0;
+}
+
+.wrap{max-width:960px;margin:0 auto;padding:52px 24px;position:relative;z-index:1}
+
+/* ── HEADER ── */
+header{margin-bottom:60px;border-bottom:1px solid var(--border);padding-bottom:48px}
+
+.badge{
+  font-family:'JetBrains Mono',monospace;
+  display:inline-flex;align-items:center;gap:9px;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);
+  border:1px solid rgba(0,217,245,.28);
+  background:rgba(0,217,245,.045);
+  padding:5px 14px;border-radius:2px;margin-bottom:22px;
+}
+.badge::before{
+  content:'';width:6px;height:6px;
+  background:var(--accent);border-radius:50%;
+  animation:pulse 2s infinite;
+}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.15}}
+
+h1{
+  font-size:clamp(2.2rem,5.5vw,3.8rem);
+  font-weight:800;line-height:1.06;margin-bottom:14px;
+  background:linear-gradient(130deg,var(--text) 0%,var(--accent) 55%,var(--purple) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+
+.subtitle{
+  font-family:'JetBrains Mono',monospace;
+  color:var(--text2);font-size:12.5px;line-height:1.75;max-width:560px;
+}
+
+.pc-chips{margin-top:26px;display:flex;flex-wrap:wrap;gap:8px}
+.chip{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  background:var(--bg3);border:1px solid var(--border);
+  padding:5px 13px;border-radius:2px;color:var(--text2);
+  transition:border-color .18s,color .18s;
+}
+.chip:hover{border-color:var(--accent);color:var(--text)}
+.chip b{color:var(--accent);font-weight:600}
+
+.ver{
+  margin-top:18px;
+  font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text3);
+  display:inline-flex;align-items:center;gap:10px;
+}
+.ver em{color:var(--green);font-style:normal}
+
+/* ── TOC ── */
+.toc{
+  background:var(--bg3);
+  border:1px solid var(--border);border-top:2px solid var(--accent);
+  border-radius:3px;padding:26px;margin-bottom:60px;
+}
+.toc-head{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:3px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.toc-head::after{content:'';flex:1;height:1px;background:var(--border)}
+.toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:5px}
+.toc a{
+  color:var(--text2);text-decoration:none;
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  padding:8px 12px;border:1px solid var(--border);border-radius:2px;
+  display:flex;align-items:center;gap:9px;
+  transition:all .13s;position:relative;
+}
+.toc a:hover{color:var(--text);border-color:var(--accent);background:rgba(0,217,245,.04);transform:translateX(3px)}
+.toc a .n{font-size:10px;min-width:20px;opacity:.55;flex-shrink:0}
+.toc a .toc-desc{display:block;font-size:9px;color:var(--text3);margin-top:2px;letter-spacing:.3px}
+.toc a:hover .toc-desc{color:var(--text2)}
+.toc a.toc-amd{border-color:rgba(255,140,66,.2);color:var(--text2)}
+.toc a.toc-amd:hover{border-color:var(--orange);color:var(--orange)}
+.toc a.toc-amd .n{color:var(--orange)}
+.toc a.toc-perf{border-color:rgba(0,240,131,.15)}
+.toc a.toc-perf:hover{border-color:var(--green);color:var(--green)}
+.toc a.toc-perf .n{color:var(--green)}
+.toc a.toc-tel{border-color:rgba(255,64,96,.15)}
+.toc a.toc-tel:hover{border-color:var(--red);color:var(--red)}
+.toc a.toc-tel .n{color:var(--red);opacity:.7}
+.toc a.toc-xbox{border-color:rgba(123,97,255,.15)}
+.toc a.toc-xbox:hover{border-color:var(--purple);color:var(--purple)}
+.toc a.toc-xbox .n{color:var(--purple);opacity:.7}
+.toc a.toc-post{border-color:rgba(0,240,131,.2);color:var(--green)}
+.toc a.toc-post:hover{border-color:var(--green);background:rgba(0,240,131,.04)}
+.toc a.toc-post .n{color:var(--green)}
+.toc-div{grid-column:1/-1;height:1px;background:var(--border);margin:8px 0}
+.toc-label{
+  grid-column:1/-1;
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:2px;text-transform:uppercase;
+  color:var(--text3);padding:4px 2px 0;
+}
+
+/* ── SEPARADOR ── */
+.sep{border:none;border-top:1px solid var(--border);margin:56px 0}
+
+/* ── FASE HEADER ── */
+.phase{margin-bottom:68px}
+.phase-hd{
+  display:flex;align-items:center;gap:14px;
+  margin-bottom:28px;padding-bottom:18px;
+  border-bottom:1px solid var(--border);position:relative;
+}
+.phase-hd::after{
+  content:'';position:absolute;bottom:-1px;left:0;
+  width:56px;height:2px;background:var(--accent);
+}
+.phase-ico{font-size:24px;flex-shrink:0}
+.phase-n{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--text3);text-transform:uppercase}
+.phase-t{font-size:21px;font-weight:800}
+.phase-s{color:var(--text2);font-size:12.5px;margin-top:2px;font-family:'JetBrains Mono',monospace}
+
+/* ── STEPS ── */
+.steps{display:flex;flex-direction:column;gap:10px}
+.step{
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:3px;padding:16px 20px;
+  display:flex;gap:16px;align-items:flex-start;
+  transition:border-color .18s;
+}
+.step:hover{border-color:var(--border2)}
+.snum{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--bg);background:var(--accent);
+  width:28px;height:28px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;border-radius:2px;
+}
+.snum.y{background:var(--yellow)}
+.snum.g{background:var(--green)}
+.snum.p{background:var(--purple)}
+.sc h4{font-size:14px;font-weight:700;margin-bottom:5px}
+.sc p{color:var(--text2);font-size:13px;line-height:1.65}
+.sc a{color:var(--accent);text-decoration:none}
+.sc a:hover{text-decoration:underline}
+.sc ul{margin-top:7px;padding-left:16px;color:var(--text2);font-size:13px;line-height:2}
+.sc ul li strong{color:var(--text)}
+
+/* ── RUNTIME GRID ── */
+.rtgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:9px;margin-top:14px}
+.rtcard{
+  background:var(--codebg);border:1px solid var(--border);
+  border-radius:3px;padding:13px 15px;transition:all .2s;
+}
+.rtcard:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 28px rgba(0,217,245,.09)}
+.rtcard .rn{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--accent);margin-bottom:3px}
+.rtcard .rd{font-size:12px;color:var(--text2);line-height:1.45}
+.rtcard .rt{
+  display:inline-block;margin-top:7px;
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;
+  padding:2px 6px;border-radius:2px;text-transform:uppercase;
+  background:rgba(0,240,131,.07);color:var(--green);border:1px solid rgba(0,240,131,.18);
+}
+.rtcard .rt.java{background:rgba(123,97,255,.1);color:var(--purple);border-color:rgba(123,97,255,.22)}
+.rtcard .rt.ess{background:rgba(255,64,96,.07);color:var(--red);border-color:rgba(255,64,96,.18)}
+.rtcard .rt.inf{background:rgba(0,217,245,.07);color:var(--accent);border-color:rgba(0,217,245,.18)}
+.rtcard .rt.leg{background:rgba(255,140,66,.07);color:var(--orange);border-color:rgba(255,140,66,.18)}
+.rt-links{display:flex;gap:6px;margin-top:9px;margin-bottom:6px}
+.rt-btn{
+  font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:1px;
+  text-transform:uppercase;text-decoration:none;
+  padding:4px 9px;border-radius:2px;border:1px solid;
+  transition:all .15s;
+  background:rgba(0,217,245,.07);color:var(--accent);border-color:rgba(0,217,245,.28);
+}
+.rt-btn:hover{background:rgba(0,217,245,.15);border-color:var(--accent)}
+.rt-btn-g{
+  background:rgba(114,114,138,.07);color:var(--text2);border-color:var(--border2);
+}
+.rt-btn-g:hover{background:rgba(114,114,138,.15);color:var(--text);border-color:var(--text2)}
+
+/* ── NOTAS ── */
+.note{
+  background:var(--bg3);border:1px solid var(--border);
+  border-left:3px solid var(--purple);
+  padding:13px 17px;border-radius:3px;
+  margin-top:9px;font-size:13px;color:var(--text2);line-height:1.6;
+}
+.note strong{color:var(--text)}
+.note.w{border-left-color:var(--yellow)}
+.note.g{border-left-color:var(--green)}
+.note.r{border-left-color:var(--red)}
+.note.b{border-left-color:var(--accent)}
+
+/* ── TAGS ── */
+.tag{
+  display:inline-block;
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  padding:2px 6px;border-radius:2px;
+  margin-left:7px;vertical-align:middle;
+  letter-spacing:1px;text-transform:uppercase;
+}
+.tok{background:rgba(0,240,131,.09);color:var(--green);border:1px solid rgba(0,240,131,.22)}
+.twn{background:rgba(255,201,77,.09);color:var(--yellow);border:1px solid rgba(255,201,77,.22)}
+.tin{background:rgba(0,217,245,.07);color:var(--accent);border:1px solid rgba(0,217,245,.18)}
+.trd{background:rgba(255,64,96,.09);color:var(--red);border:1px solid rgba(255,64,96,.22)}
+.tor{background:rgba(255,140,66,.09);color:var(--orange);border:1px solid rgba(255,140,66,.22)}
+
+/* ── SECCIONES ── */
+.sec{margin-bottom:50px}
+.sec-hd{display:flex;align-items:center;gap:13px;margin-bottom:13px}
+.sn{
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:700;
+  color:var(--bg);background:var(--accent);
+  width:27px;height:27px;display:flex;align-items:center;justify-content:center;
+  flex-shrink:0;
+}
+.sn.w{background:var(--yellow)}
+.sn.g{background:var(--green);font-size:13px}
+.sn.p{background:var(--purple)}
+.sn.r{background:var(--red);color:#fff}
+.sn.o{background:var(--orange)}
+.st{font-size:16px;font-weight:700}
+.sd{color:var(--text2);font-size:13px;line-height:1.65;margin-bottom:13px;padding-left:40px}
+
+/* ── BLOQUES CÓDIGO ── */
+.cb{
+  background:var(--codebg);border:1px solid var(--border);
+  border-radius:3px;overflow:hidden;margin-bottom:9px;transition:border-color .18s;
+}
+.cb:hover{border-color:var(--border2)}
+.ch{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 15px;background:var(--bg3);border-bottom:1px solid var(--border);
+}
+.ch-l{display:flex;align-items:center;gap:9px}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border2)}
+.dot.a{background:var(--accent);box-shadow:0 0 5px var(--accent)}
+.dot.g{background:var(--green);box-shadow:0 0 5px var(--green)}
+.dot.o{background:var(--orange);box-shadow:0 0 5px var(--orange)}
+.cl{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;
+}
+.cl.v{color:var(--green)}
+.cl.pre{color:var(--orange)}
+.cl.post{color:var(--accent)}
+
+.cpbtn{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  background:transparent;border:1px solid var(--border2);color:var(--text2);
+  padding:4px 11px;cursor:pointer;border-radius:2px;
+  letter-spacing:1px;text-transform:uppercase;transition:all .18s;
+}
+.cpbtn:hover{border-color:var(--accent);color:var(--accent);background:rgba(0,217,245,.05)}
+.cpbtn.done{background:var(--green);border-color:var(--green);color:var(--bg)}
+
+pre{
+  padding:18px 20px;overflow-x:auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;line-height:1.85;color:#b4b4d0;tab-size:4;
+}
+
+/* ── BANNER PRE/POST ── */
+.dbanner{
+  border-radius:4px;padding:18px 22px;margin-bottom:18px;
+  display:flex;align-items:flex-start;gap:14px;border:1px solid;
+}
+.dbanner.pre{background:rgba(255,140,66,.055);border-color:rgba(255,140,66,.28)}
+.dbanner.post{background:rgba(0,240,131,.045);border-color:rgba(0,240,131,.22)}
+.dico{font-size:20px;flex-shrink:0;margin-top:1px}
+.dtit{
+  font-family:'JetBrains Mono',monospace;
+  font-size:10px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;
+}
+.dbanner.pre .dtit{color:var(--orange)}
+.dbanner.post .dtit{color:var(--green)}
+.dtxt{color:var(--text2);font-size:13px;line-height:1.55}
+
+/* ── VERIFICADOR COLAPSABLE ── */
+.vblock{margin-bottom:9px}
+.vtoggle{
+  width:100%;background:var(--codebg);border:1px solid var(--border);
+  border-radius:3px;padding:0;cursor:pointer;
+  transition:border-color .18s;overflow:hidden;
+  user-select:none;
+}
+.vtoggle:hover{border-color:var(--green)}
+.vtoggle-hd{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:9px 15px;background:var(--bg3);border-bottom:1px solid transparent;
+  transition:border-color .18s;
+}
+.vtoggle.open .vtoggle-hd{border-bottom-color:var(--border)}
+.vtoggle-hd .ch-l{display:flex;align-items:center;gap:9px}
+.vtoggle-arrow{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--text3);letter-spacing:1px;
+  display:flex;align-items:center;gap:7px;
+  transition:color .18s;
+}
+.vtoggle:hover .vtoggle-arrow{color:var(--green)}
+.vtoggle-arrow::before{
+  content:'▶';font-size:8px;
+  transition:transform .22s ease;
+  display:inline-block;
+}
+.vtoggle.open .vtoggle-arrow::before{transform:rotate(90deg)}
+.vcontent{
+  max-height:0;overflow:hidden;
+  transition:max-height .3s ease;
+}
+.vtoggle.open .vcontent{max-height:9999px}
+
+.vtoggle-pre{border-color:rgba(255,140,66,.3)}
+.vtoggle-pre:hover{border-color:var(--orange)}
+.vtoggle-pre .vtoggle-hd{border-bottom-color:transparent}
+.vtoggle-pre.open .vtoggle-hd{border-bottom-color:rgba(255,140,66,.2)}
+.vtoggle-arrow-pre{color:var(--orange) !important;opacity:.7}
+.vtoggle-pre:hover .vtoggle-arrow-pre{opacity:1}
+
+/* ── BANNER POST-ADRENALIN ── */
+.amd-quick{
+  grid-column:1/-1;
+  background:rgba(255,140,66,.06);
+  border:1px solid rgba(255,140,66,.35);
+  border-radius:3px;padding:13px 16px;
+  display:flex;align-items:center;gap:12px;
+  margin-top:4px;
+  transition:border-color .18s, background .18s;
+}
+.amd-quick:hover{border-color:rgba(255,140,66,.6);background:rgba(255,140,66,.09)}
+.amd-quick-ico{font-size:16px;flex-shrink:0}
+.amd-quick-txt{flex:1;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--text2);line-height:1.5}
+.amd-quick-txt strong{color:var(--orange);display:block;margin-bottom:2px;font-size:10px;letter-spacing:1.5px;text-transform:uppercase}
+.amd-quick-btn{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  background:rgba(255,140,66,.12);border:1px solid rgba(255,140,66,.4);
+  color:var(--orange);padding:5px 13px;border-radius:2px;
+  text-decoration:none;letter-spacing:1px;text-transform:uppercase;
+  white-space:nowrap;transition:all .18s;flex-shrink:0;
+}
+.amd-quick-btn:hover{background:rgba(255,140,66,.25);border-color:var(--orange);color:var(--orange)}
+
+/* ── FOOTER ── */
+footer{
+  margin-top:80px;padding-top:28px;border-top:1px solid var(--border);
+  text-align:center;color:var(--text3);font-size:11px;
+  font-family:'JetBrains Mono',monospace;line-height:2;
+}
+footer em{color:var(--accent);font-style:normal}
+
+/* ── PANEL FLOTANTE LATERAL ── */
+.nav-float{
+  position:fixed;right:14px;top:50%;transform:translateY(-50%);
+  background:var(--bg3);border:1px solid var(--border);
+  border-radius:4px;padding:8px 6px;z-index:999;
+  display:flex;flex-direction:column;gap:3px;
+  box-shadow:0 8px 32px rgba(0,0,0,.45);
+}
+.nav-float a{
+  display:block;
+  font-family:'JetBrains Mono',monospace;font-size:9px;
+  letter-spacing:1px;text-transform:uppercase;text-decoration:none;
+  color:var(--text2);background:transparent;
+  border:1px solid transparent;
+  padding:5px 8px;border-radius:2px;
+  text-align:center;white-space:nowrap;
+  transition:all .15s;
+}
+.nav-float a:hover{
+  border-color:var(--accent);color:var(--accent);
+  background:rgba(0,217,245,.06);
+}
+.nav-float a.amd{color:var(--orange)}
+.nav-float a.amd:hover{border-color:var(--orange);background:rgba(255,140,66,.06)}
+.nav-float a.post{color:var(--green)}
+.nav-float a.post:hover{border-color:var(--green);background:rgba(0,240,131,.06)}
+.nav-float .nav-sep{
+  height:1px;background:var(--border);margin:3px 0;
+}
+@media(max-width:900px){.nav-float{display:none}}
+
+/* ── BOTÓN VOLVER ARRIBA ── */
+.btn-top{
+  position:fixed;bottom:22px;right:14px;
+  width:36px;height:36px;
+  background:var(--bg3);border:1px solid var(--border2);
+  color:var(--text2);font-size:16px;
+  border-radius:3px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .25s,border-color .18s,color .18s,transform .18s;
+  z-index:999;
+  font-family:'JetBrains Mono',monospace;
+}
+.btn-top.visible{opacity:1;pointer-events:auto}
+.btn-top:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
+
+/* ── COLORES POR CATEGORÍA DE BLOQUE ── */
+/* Telemetría MS — rojo */
+.sec-tel .sec-hd{border-bottom-color:rgba(255,64,96,.35)}
+.sec-tel .sec-hd::after{background:var(--red)}
+.sec-tel .cb{border-color:rgba(255,64,96,.18)}
+.sec-tel .cb:hover{border-color:rgba(255,64,96,.4)}
+.sec-tel .ch{background:rgba(255,64,96,.04)}
+.sec-tel .dot.a{background:var(--red);box-shadow:0 0 5px var(--red)}
+/* Xbox / Gaming — purple */
+.sec-xbox .sec-hd{border-bottom-color:rgba(123,97,255,.35)}
+.sec-xbox .sec-hd::after{background:var(--purple)}
+.sec-xbox .cb{border-color:rgba(123,97,255,.18)}
+.sec-xbox .cb:hover{border-color:rgba(123,97,255,.4)}
+.sec-xbox .ch{background:rgba(123,97,255,.04)}
+.sec-xbox .dot.a{background:var(--purple);box-shadow:0 0 5px var(--purple)}
+/* Hyper-V / Virtualización — gris azulado */
+.sec-virt .sec-hd{border-bottom-color:rgba(114,114,138,.4)}
+.sec-virt .sec-hd::after{background:var(--text2)}
+.sec-virt .cb{border-color:rgba(114,114,138,.2)}
+.sec-virt .cb:hover{border-color:rgba(114,114,138,.45)}
+.sec-virt .ch{background:rgba(114,114,138,.04)}
+.sec-virt .dot.a{background:var(--text2);box-shadow:0 0 5px rgba(114,114,138,.6)}
+/* AMD — naranja */
+.sec-amd .sec-hd{border-bottom-color:rgba(255,140,66,.35)}
+.sec-amd .sec-hd::after{background:var(--orange)}
+.sec-amd .cb{border-color:rgba(255,140,66,.18)}
+.sec-amd .cb:hover{border-color:rgba(255,140,66,.4)}
+.sec-amd .ch{background:rgba(255,140,66,.04)}
+.sec-amd .dot.a{background:var(--orange);box-shadow:0 0 5px var(--orange)}
+/* Rendimiento — verde */
+.sec-perf .sec-hd{border-bottom-color:rgba(0,240,131,.3)}
+.sec-perf .sec-hd::after{background:var(--green)}
+.sec-perf .cb{border-color:rgba(0,240,131,.15)}
+.sec-perf .cb:hover{border-color:rgba(0,240,131,.35)}
+.sec-perf .ch{background:rgba(0,240,131,.03)}
+.sec-perf .dot.a{background:var(--green);box-shadow:0 0 5px var(--green)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:600px){
+  pre{font-size:11px}
+  h1{font-size:2rem}
+  .sd{padding-left:0}
+}
+</style>
+</head>
+<body>
+
+<!-- PANEL FLOTANTE LATERAL -->
+<nav class="nav-float">
+  <a href="#toc">INDEX</a>
+  <div class="nav-sep"></div>
+  <a href="#pre">PRE</a>
+  <a href="#snap">SNAP</a>
+  <div class="nav-sep"></div>
+  <a href="#f1">DRV</a>
+  <a href="#f2">RUN</a>
+  <a href="#f3">APP</a>
+  <div class="nav-sep"></div>
+  <a href="#b8" class="amd">AMD</a>
+  <div class="nav-sep"></div>
+  <a href="#b14">WIFI</a>
+  <div class="nav-sep"></div>
+  <a href="#post" class="post">POST</a>
+</nav>
+
+<!-- BOTÓN VOLVER ARRIBA -->
+<button class="btn-top" id="btnTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Volver arriba">↑</button>
+
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <div class="badge">// Windows 11 Pro — Guía Completa v<span id="v-badge">8.26</span></div>
+  <h1>Instalación &amp;<br>Optimización</h1>
+  <p class="subtitle">Guía completa desde drivers hasta optimización de servicios.<br>Scripts PRE y POST diagnóstico · Verificadores por bloque · Ejecutar en orden.</p>
+  <div class="pc-chips">
+    <div class="chip">PC: <b>DESKTOP-ER525HI</b></div>
+    <div class="chip">CPU: <b>Ryzen 5 5600G</b></div>
+    <div class="chip">RAM: <b>16GB DDR4 3200MHz</b></div>
+    <div class="chip">GPU: <b>Radeon Integrada (UMA 2GB)</b></div>
+    <div class="chip">Impresora: <b>Brother USB</b></div>
+    <div class="chip">Pantallas: <b>x2</b></div>
+  </div>
+  <div class="ver">v<span id="v-ver">8.26</span> — <em><span id="f-ver">04/04/2026</span></em> — Build 10.0.26200</div>
+</header>
+
+<!-- ÍNDICE -->
+<div class="toc" id="toc">
+  <div class="toc-head">// Índice de contenidos</div>
+  <div class="toc-grid">
+
+    <div class="toc-label">// Diagnóstico</div>
+    <a href="#pre"><span class="n">🔍</span><span>PRE-Diagnóstico<span class="toc-desc">Estado inicial · RAM · GPU · servicios</span></span></a>
+    <a href="#snap"><span class="n">📋</span><span>Snapshot servicios<span class="toc-desc">Guardar estado completo en .txt</span></span></a>
+
+    <div class="toc-div"></div>
+    <div class="toc-label">// Instalación</div>
+    <a href="#f1"><span class="n">⚙️</span><span>Drivers<span class="toc-desc">Chipset · GPU · Audio · Impresora</span></span></a>
+    <a href="#f2"><span class="n">🎮</span><span>Runtimes<span class="toc-desc">.NET · DirectX · Java · Visual C++</span></span></a>
+    <a href="#f3"><span class="n">📦</span><span>Aplicaciones<span class="toc-desc">Chrome · Steam · Epic · Discord</span></span></a>
+
+    <div class="toc-div"></div>
+    <div class="toc-label">// Optimización — 14 bloques PowerShell</div>
+    <a href="#b1"><span class="n">🔇</span><span>Servicios innecesarios<span class="toc-desc">85 servicios → Disabled</span></span></a>
+    <a href="#b2" class="toc-tel"><span class="n">📡</span><span>Telemetría Microsoft<span class="toc-desc">DiagTrack · WER · CEIP</span></span></a>
+    <a href="#b3" class="toc-xbox"><span class="n">🎮</span><span>Xbox / GameInput<span class="toc-desc">XblGameSave · GIP · GameInput</span></span></a>
+    <a href="#b4"><span class="n">💻</span><span>Hyper-V<span class="toc-desc">vmicheartbeat · vmicvss · HvHost</span></span></a>
+    <a href="#b5"><span class="n">🔵</span><span>Bluetooth<span class="toc-desc">BTAGService · bthserv · AVCTP</span></span></a>
+    <a href="#b6"><span class="n">🛡️</span><span>Servicios críticos<span class="toc-desc">Proteger audio · impresora · red</span></span></a>
+    <a href="#b7"><span class="n">🧹</span><span>SysMain / WSearch<span class="toc-desc">Liberar RAM · indexación manual</span></span></a>
+    <a href="#b8" class="toc-amd"><span class="n">🔶</span><span>Telemetría AMD<span class="toc-desc">AUEP · StartCN · AMDLink</span></span></a>
+    <a href="#b9" class="toc-tel"><span class="n">🌐</span><span>Edge background<span class="toc-desc">StartupBoost · BackgroundMode</span></span></a>
+    <a href="#b10" class="toc-tel"><span class="n">🕵️</span><span>Registro / Privacidad<span class="toc-desc">Recall · CEIP · publicidad · voz</span></span></a>
+    <a href="#b11" class="toc-perf"><span class="n">⚡</span><span>Rendimiento APU<span class="toc-desc">Core Parking · GPU Priority · Nagle</span></span></a>
+    <a href="#b12" class="toc-tel"><span class="n">☁️</span><span>Cloud / Background<span class="toc-desc">CDP · WPN · BITS</span></span></a>
+    <a href="#b13"><span class="n">🚀</span><span>Inicio — Startup<span class="toc-desc">Boot rápido · Chrome sin tilde · apps</span></span></a>
+	<a href="#b14"><span class="n">📶</span><span>Wifi / Netbook<span class="toc-desc">Revertir servicios de red para uso con WiFi</span></span></a>
+    <div class="toc-div"></div>
+    <a href="#post" class="toc-post"><span class="n">✅</span><span>POST — Verificación final<span class="toc-desc">Chequeo completo post-reinicio</span></span></a>
+
+    <div class="toc-div"></div>
+    <div class="amd-quick">
+      <div class="amd-quick-ico">⚡</div>
+      <div class="amd-quick-txt">
+        <strong>Post-Adrenalin — Acceso rápido</strong>
+        Actualizaste drivers AMD? AMD regenera su telemetría con cada instalación. Ejecutar el Bloque 11 inmediatamente.
+      </div>
+      <a href="#b8" class="amd-quick-btn">→ Ir al Bloque 8</a>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ PRE-DIAGNÓSTICO ═══════════════ -->
+<div class="sec" id="pre">
+  <div class="sec-hd">
+    <div class="sn o">▶</div>
+    <div class="st">PRE-Diagnóstico — Estado inicial <span class="tag tor">ANTES DE TOCAR NADA</span></div>
+  </div>
+  <div class="dbanner pre">
+    <div class="dico">🔍</div>
+    <div>
+      <div class="dtit">Ejecutar antes de cualquier cambio</div>
+      <div class="dtxt">Muestra el estado real del sistema: RAM, GPU, plan de energía, servicios, telemetría y tareas AMD. Al terminar pregunta si querés guardar el resultado como <strong>pre_diagnostico_FECHA.txt</strong> en el escritorio.</div>
+    </div>
+  </div>
+  <div class="vblock">
+    <div class="vtoggle vtoggle-pre" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot o"></div><span class="cl pre">▶ PRE-DIAGNÓSTICO — PowerShell Admin</span></div>
+        <span class="vtoggle-arrow vtoggle-arrow-pre">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div>
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- PRE:SCRIPT -->
+          <pre>Write-Host "`n╔══════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║   PRE-DIAGNÓSTICO — ANTES DE OPTIMIZAR      ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════╝" -ForegroundColor DarkYellow
+Write-Host "  Fecha: $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')`n" -ForegroundColor White
+
+# ── SISTEMA ──────────────────────────────────────────
+Write-Host "┌─ SISTEMA ──────────────────────────────────────" -ForegroundColor Cyan
+$os   = Get-CimInstance Win32_OperatingSystem
+$cpu  = Get-CimInstance Win32_Processor
+$mb   = Get-WmiObject Win32_BaseBoard
+$total = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
+$libre = [math]::Round($os.FreePhysicalMemory / 1MB, 2)
+$usada = [math]::Round($total - $libre, 2)
+$pct   = [math]::Round(($usada / $total) * 100, 0)
+Write-Host "│  PC   : $env:COMPUTERNAME" -ForegroundColor White
+Write-Host "│  OS   : $($os.Caption) — Build $($os.Version)" -ForegroundColor White
+Write-Host "│  CPU  : $($cpu.Name.Trim())" -ForegroundColor White
+Write-Host "│  Mother: $($mb.Manufacturer) $($mb.Product)" -ForegroundColor White
+Write-Host "│  RAM  : ${total} GB total | " -NoNewline -ForegroundColor White
+$rc = if ($pct -gt 75) {"Red"} elseif ($pct -gt 55) {"Yellow"} else {"Green"}
+Write-Host "${usada} GB usada ($pct%)" -ForegroundColor $rc
+Write-Host "│  Libre: ${libre} GB" -ForegroundColor White
+$plan = (powercfg -getactivescheme) -replace "GUID de plan.*?: ",""
+$pc = if ($plan -like "*Alto*" -or $plan -like "*High*") {"Green"} else {"Yellow"}
+Write-Host "│  Plan : $plan" -ForegroundColor $pc
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+
+# ── GPU ──────────────────────────────────────────────
+Write-Host "`n┌─ GPU ──────────────────────────────────────────" -ForegroundColor Magenta
+$gpu = Get-WmiObject Win32_VideoController | Select-Object Name, DriverVersion, @{N="VRAM_MB";E={[math]::Round($_.AdapterRAM/1MB,0)}}
+foreach ($g in $gpu) {
+    Write-Host "│  $($g.Name)" -ForegroundColor White
+    Write-Host "│  VRAM: $($g.VRAM_MB) MB  |  Driver: $($g.DriverVersion)" -ForegroundColor Gray
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Magenta
+
+# ── DISCOS ───────────────────────────────────────────
+Write-Host "`n┌─ DISCOS ───────────────────────────────────────" -ForegroundColor Cyan
+Get-PSDrive -PSProvider FileSystem | Where-Object {$_.Used -ne $null} | ForEach-Object {
+    $tot = [math]::Round(($_.Used + $_.Free) / 1GB, 1)
+    $lib = [math]::Round($_.Free / 1GB, 1)
+    $uso = if ($tot -gt 0) {[math]::Round(($_.Used / ($_.Used + $_.Free)) * 100, 0)} else {0}
+    $dc  = if ($uso -gt 90) {"Red"} elseif ($uso -gt 75) {"Yellow"} else {"Green"}
+    Write-Host ("│  {0}:  {1} GB  |  libre: " -f $_.Name, $tot) -NoNewline -ForegroundColor White
+    Write-Host ("{0} GB ({1}% usado)" -f $lib, $uso) -ForegroundColor $dc
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+
+# ── UPTIME Y BOOT ────────────────────────────────────
+Write-Host "`n┌─ UPTIME ───────────────────────────────────────" -ForegroundColor DarkCyan
+$upSec = (Get-Date) - $os.LastBootUpTime
+$upStr = "{0}d {1}h {2}m" -f [int]$upSec.TotalDays, $upSec.Hours, $upSec.Minutes
+Write-Host "│  Último inicio : $($os.LastBootUpTime.ToString('dd/MM/yyyy HH:mm'))" -ForegroundColor White
+Write-Host "│  Uptime actual : $upStr" -ForegroundColor White
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor DarkCyan
+
+# ── TOP 5 PROCESOS POR RAM ────────────────────────────
+Write-Host "`n┌─ TOP RAM (procesos al arranque) ───────────────" -ForegroundColor Yellow
+Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 8 | ForEach-Object {
+    $mb = [math]::Round($_.WorkingSet64 / 1MB, 0)
+    $col = if ($mb -gt 500) {"Red"} elseif ($mb -gt 200) {"Yellow"} else {"Gray"}
+    Write-Host ("│  {0,-28} {1,6} MB" -f $_.ProcessName, $mb) -ForegroundColor $col
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Yellow
+
+# ── SERVICIOS ────────────────────────────────────────
+Write-Host "`n┌─ SERVICIOS — Estado actual ─────────────────────" -ForegroundColor Yellow
+$svcs = @(
+    "DiagTrack","dmwappushservice","SysMain","WSearch","WinRM","RemoteRegistry",
+    "XblGameSave","XboxGipSvc","XboxNetApiSvc","GameInputSvc",
+    "vmicheartbeat","vmicguestinterface","HvHost",
+    "BTAGService","bthserv","AUEPLauncher",
+    "MapsBroker","lfsvc","WalletService","SharedAccess","SCardSvr",
+    "WwanSvc","RasAuto","edgeupdate","XblAuthManager"
+)
+foreach ($s in $svcs) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        $line  = "│  {0,-28} {1,-12} {2}" -f $s, $svc.StartType, $svc.Status
+        $color = switch ($svc.StartType) {
+            "Disabled"  {"Green"}
+            "Manual"    {"Cyan"}
+            "Automatic" {if ($svc.Status -eq "Running") {"Yellow"} else {"White"}}
+            default     {"Gray"}
+        }
+        Write-Host $line -ForegroundColor $color
+    } else {
+        Write-Host ("│  {0,-28} No existe" -f $s) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Yellow
+
+# ── REGISTRO ─────────────────────────────────────────
+Write-Host "`n┌─ REGISTRO — Telemetría y configuración ────────" -ForegroundColor Red
+$regs = @(
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"; N="AllowTelemetry";       E=0},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI";     N="DisableAIDataAnalysis"; E=1},
+    @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo"; N="Enabled";       E=0},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Edge"; N="StartupBoostEnabled";   E=0},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Edge"; N="BackgroundModeEnabled"; E=0}
+)
+foreach ($r in $regs) {
+    $prop = Get-ItemProperty $r.P -EA SilentlyContinue
+    $val  = if ($prop) {$prop.($r.N)} else {$null}
+    $ok   = ($val -eq $r.E)
+    $col  = if ($ok) {"Green"} else {"Red"}
+    $ico  = if ($ok) {"✔"} else {"✘"}
+    $disp = if ($null -eq $val) {"NO CONFIGURADO"} else {$val}
+    Write-Host ("│  $ico  {0,-30} → {1}" -f $r.N, $disp) -ForegroundColor $col
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Red
+
+# ── TAREAS AMD ───────────────────────────────────────
+Write-Host "`n┌─ TAREAS AMD ───────────────────────────────────" -ForegroundColor DarkYellow
+$amd = @("StartAUEP","StartCN","StartCNBM","StartDVR","AMDLinkUpdate","AMDInstallLauncher","AMDRyzenMasterSDKTask")
+foreach ($t in $amd) {
+    $task = Get-ScheduledTask -TaskName $t -EA SilentlyContinue
+    if ($task) {
+        $col = if ($task.State -eq "Disabled") {"Green"} else {"Red"}
+        Write-Host ("│  {0,-30} → {1}" -f $t, $task.State) -ForegroundColor $col
+    } else {
+        Write-Host ("│  {0,-30} → No existe" -f $t) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor DarkYellow
+
+# ── STARTUP ──────────────────────────────────────────
+Write-Host "`n┌─ PROGRAMAS EN INICIO ──────────────────────────" -ForegroundColor Cyan
+Get-CimInstance Win32_StartupCommand | ForEach-Object {
+    Write-Host ("│  {0,-22} {1}" -f $_.Name, ($_.Command -replace '"','')) -ForegroundColor Gray
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+
+# ── GUARDAR EN .TXT (OPCIONAL) ───────────────────────
+Write-Host "`n  ¿Guardar este diagnóstico en un .txt en el escritorio? (S/N): " -NoNewline -ForegroundColor DarkYellow
+$resp = (Read-Host).Trim().ToUpper()
+if ($resp -eq "S") {
+    $fecha   = Get-Date -Format "yyyy-MM-dd_HH-mm"
+    $archivo = "$env:USERPROFILE\Desktop\pre_diagnostico_$fecha.txt"
+
+    $os2  = Get-CimInstance Win32_OperatingSystem
+    $cpu2 = Get-CimInstance Win32_Processor
+    $mb2  = Get-WmiObject Win32_BaseBoard
+    $gpu2 = Get-WmiObject Win32_VideoController | Select-Object -First 1
+    $totalR = [math]::Round($os2.TotalVisibleMemorySize / 1MB, 2)
+    $libreR = [math]::Round($os2.FreePhysicalMemory / 1MB, 2)
+    $usadaR = [math]::Round($totalR - $libreR, 2)
+    $pctR   = [math]::Round(($usadaR / $totalR) * 100, 0)
+    $planR  = (powercfg -getactivescheme) -replace "GUID de plan.*?: ",""
+
+    $lineas = @()
+    $lineas += "╔══════════════════════════════════════════════╗"
+    $lineas += "║   PRE-DIAGNÓSTICO — ANTES DE OPTIMIZAR       ║"
+    $lineas += "╚══════════════════════════════════════════════╝"
+    $lineas += "Fecha    : $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')"
+    $lineas += "PC       : $env:COMPUTERNAME"
+    $lineas += "OS       : $($os2.Caption) — Build $($os2.Version)"
+    $lineas += "CPU      : $($cpu2.Name.Trim())"
+    $lineas += "Mother   : $($mb2.Manufacturer) $($mb2.Product)"
+    $lineas += "GPU      : $($gpu2.Name) — $([math]::Round($gpu2.AdapterRAM/1MB,0)) MB — Driver $($gpu2.DriverVersion)"
+    $lineas += "RAM      : $totalR GB total | $usadaR GB usada ($pctR%) | $libreR GB libre"
+    $lineas += "Plan     : $planR"
+    $lineas += ""
+    $lineas += "┌─ SERVICIOS CLAVE ──────────────────────────────"
+    $svcsGuardar = @(
+        "DiagTrack","dmwappushservice","SysMain","WSearch","WinRM","RemoteRegistry",
+        "XblGameSave","XboxGipSvc","XboxNetApiSvc","GameInputSvc",
+        "vmicheartbeat","vmicguestinterface","HvHost",
+        "BTAGService","bthserv","AUEPLauncher",
+        "MapsBroker","lfsvc","WalletService","SharedAccess","SCardSvr",
+        "WwanSvc","RasAuto","edgeupdate","XblAuthManager"
+    )
+    foreach ($s in $svcsGuardar) {
+        $svc = Get-Service $s -EA SilentlyContinue
+        if ($svc) {
+            $lineas += ("{0,-28} {1,-12} {2}" -f $s, $svc.StartType, $svc.Status)
+        } else {
+            $lineas += ("{0,-28} No existe" -f $s)
+        }
+    }
+    $lineas += "└────────────────────────────────────────────────"
+    $lineas += ""
+    $lineas += "┌─ REGISTRO — Telemetría ────────────────────────"
+    $regsG = @(
+        @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"; N="AllowTelemetry";        L="AllowTelemetry"},
+        @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI";     N="DisableAIDataAnalysis";  L="Recall/AI Disabled"},
+        @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo"; N="Enabled";        L="Publicidad personalizada"},
+        @{P="HKLM:\SOFTWARE\Policies\Microsoft\Edge"; N="StartupBoostEnabled";   L="Edge StartupBoost"}
+    )
+    foreach ($r in $regsG) {
+        $prop = Get-ItemProperty $r.P -EA SilentlyContinue
+        $val  = if ($prop) { $prop.($r.N) } else { "NO CONFIGURADO" }
+        $lineas += ("{0,-30} → {1}" -f $r.L, $val)
+    }
+    $lineas += "└────────────────────────────────────────────────"
+    $lineas += ""
+    $lineas += "┌─ TAREAS AMD ───────────────────────────────────"
+    foreach ($t in @("StartAUEP","StartCN","StartCNBM","StartDVR","AMDLinkUpdate","AMDInstallLauncher","AMDRyzenMasterSDKTask")) {
+        $task = Get-ScheduledTask -TaskName $t -EA SilentlyContinue
+        $lineas += ("{0,-35} → {1}" -f $t, $(if ($task) {$task.State} else {"No existe"}))
+    }
+    $lineas += "└────────────────────────────────────────────────"
+    $lineas += ""
+    $lineas += "┌─ PROGRAMAS EN INICIO ──────────────────────────"
+    Get-CimInstance Win32_StartupCommand | ForEach-Object {
+        $lineas += ("{0,-22} {1}" -f $_.Name, ($_.Command -replace '"',''))
+    }
+    $lineas += "└────────────────────────────────────────────────"
+
+    $lineas | Out-File -FilePath $archivo -Encoding UTF8
+    Write-Host "`n  ✔ Guardado: pre_diagnostico_$fecha.txt" -ForegroundColor Green
+    Write-Host "  Ubicación: $archivo`n" -ForegroundColor DarkGray
+} else {
+    Write-Host "`n  OK — sin guardar. Continuar con los bloques.`n" -ForegroundColor DarkGray
+}</pre>
+<!-- /PRE:SCRIPT -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SNAPSHOT DE SERVICIOS ═══════════════ -->
+<div class="sec" id="snap">
+  <div class="sec-hd">
+    <div class="sn o">📄</div>
+    <div class="st">Snapshot de servicios — Guardar estado actual <span class="tag tor">ANTES / DESPUÉS</span></div>
+  </div>
+  <div class="dbanner pre">
+    <div class="dico">💾</div>
+    <div>
+      <div class="dtit">Genera un .txt en el escritorio con todos los servicios</div>
+      <div class="dtxt">Ejecutar antes de optimizar y después de reiniciar para comparar. Útil para verificar qué cambió y compartir con otros.</div>
+    </div>
+  </div>
+  <div class="vblock">
+    <div class="vtoggle vtoggle-pre" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot o"></div><span class="cl pre">📄 SNAPSHOT — Genera servicios_FECHA.txt en el escritorio</span></div>
+        <span class="vtoggle-arrow vtoggle-arrow-pre">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div>
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- SNAP:SCRIPT -->
+          <pre># Detecta la PC automáticamente — funciona en cualquier equipo
+$fecha   = Get-Date -Format "yyyy-MM-dd_HH-mm"
+$archivo = "$env:USERPROFILE\Desktop\servicios_$fecha.txt"
+
+$os  = Get-CimInstance Win32_OperatingSystem
+$cpu = Get-CimInstance Win32_Processor
+$mb  = Get-WmiObject Win32_BaseBoard
+$gpu = Get-WmiObject Win32_VideoController | Select-Object -First 1
+$ram = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
+
+$svcs     = Get-Service | Where-Object { try { $null -ne $_.StartType } catch { $false } } | Sort-Object StartType, Name
+$disabled = ($svcs | Where-Object {$_.StartType -eq "Disabled"}).Count
+$running  = ($svcs | Where-Object {$_.Status   -eq "Running"}).Count
+$manual   = ($svcs | Where-Object {$_.StartType -eq "Manual"}).Count
+$total    = $svcs.Count
+
+$lineas = @()
+$lineas += "╔══════════════════════════════════════════════╗"
+$lineas += "║   SNAPSHOT DE SERVICIOS — Windows 11         ║"
+$lineas += "╚══════════════════════════════════════════════╝"
+$lineas += "Fecha    : $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')"
+$lineas += "PC       : $env:COMPUTERNAME"
+$lineas += "OS       : $($os.Caption) — Build $($os.Version)"
+$lineas += "CPU      : $($cpu.Name.Trim())"
+$lineas += "Mother   : $($mb.Manufacturer) $($mb.Product)"
+$lineas += "GPU      : $($gpu.Name) — $([math]::Round($gpu.AdapterRAM/1MB,0)) MB"
+$lineas += "RAM      : $ram GB visibles"
+$lineas += "Plan     : $((powercfg -getactivescheme) -replace 'GUID de plan.*?: ','')"
+$lineas += ""
+$lineas += "┌─ RESUMEN DE ESTADO ────────────────────────────"
+$lineas += ("│  Total de servicios en sistema : {0}" -f $total)
+$lineas += ("│  Servicios DESACTIVADOS        : {0}" -f $disabled)
+$lineas += ("│  Servicios EN EJECUCIÓN        : {0}" -f $running)
+$lineas += ("│  Servicios en MANUAL           : {0}" -f $manual)
+$lineas += "└────────────────────────────────────────────────"
+$lineas += ""
+$lineas += "[!] LISTADO COMPLETO (Nombre | Estado | Inicio)"
+$lineas += "--------------------------------------------------"
+
+foreach ($s in $svcs) {
+    $lineas += ("{0,-40} | {1,-10} | {2}" -f $s.Name, $s.Status, $s.StartType)
+}
+
+# Top procesos por RAM al momento del snapshot
+$lineas += ""
+$lineas += "═══════════════ TOP RAM (procesos activos) ═══════════════"
+Get-Process | Sort-Object WorkingSet64 -Descending | Select-Object -First 10 | ForEach-Object {
+    $mb = [math]::Round($_.WorkingSet64 / 1MB, 0)
+    $lineas += ("{0,-30} {1,6} MB" -f $_.ProcessName, $mb)
+}
+
+# Discos
+$lineas += ""
+$lineas += "═══════════════ DISCOS ═══════════════"
+Get-PSDrive -PSProvider FileSystem | Where-Object {$_.Used -ne $null} | ForEach-Object {
+    $tot = [math]::Round(($_.Used + $_.Free) / 1GB, 1)
+    $lib = [math]::Round($_.Free / 1GB, 1)
+    $uso = if ($tot -gt 0) {[math]::Round(($_.Used / ($_.Used + $_.Free)) * 100, 0)} else {0}
+    $lineas += ("{0}:  {1} GB total  |  {2} GB libre  ({3}% usado)" -f $_.Name, $tot, $lib, $uso)
+}
+
+$lineas += ""
+$lineas += "═══════════════ TAREAS AMD ═══════════════"
+$tareasAMD = @("StartAUEP","StartCN","StartCNBM","StartDVR","AMDLinkUpdate","AMDInstallLauncher","AMDRyzenMasterSDKTask")
+foreach ($t in $tareasAMD) {
+    $task = Get-ScheduledTask -TaskName $t -EA SilentlyContinue
+    if ($task) {
+        $lineas += ("{0,-35} → {1}" -f $t, $task.State)
+    } else {
+        $lineas += ("{0,-35} → No existe" -f $t)
+    }
+}
+
+$lineas += ""
+$lineas += "═══════════════ REGISTRO TELEMETRÍA ═══════════════"
+$regs = @(
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"; N="AllowTelemetry";       L="AllowTelemetry"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI";     N="DisableAIDataAnalysis"; L="Recall/AI Disabled"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo"; N="Enabled";       L="Publicidad personalizada"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Edge"; N="StartupBoostEnabled";   L="Edge StartupBoost"}
+)
+foreach ($r in $regs) {
+    $prop = Get-ItemProperty $r.P -EA SilentlyContinue
+    $val  = if ($prop) { $prop.($r.N) } else { "NO CONFIGURADO" }
+    $lineas += ("{0,-30} → {1}" -f $r.L, $val)
+}
+
+$lineas | Out-File -FilePath $archivo -Encoding UTF8
+Write-Host "`n  ✔ Guardado en el escritorio: servicios_$fecha.txt" -ForegroundColor Green
+Write-Host "  Abrilo con el Bloc de notas para comparar antes/después.`n" -ForegroundColor Cyan</pre>
+<!-- /SNAP:SCRIPT -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note b" style="margin-top:8px">
+    <strong>Cómo usarlo:</strong> Ejecutar <strong>antes</strong> de aplicar los bloques → guarda el estado inicial.
+    Ejecutar <strong>después de reiniciar</strong> → guarda el estado final. Comparar los dos archivos para ver exactamente qué cambió.
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ═══════════════ FASE 1 ═══════════════ -->
+<div class="phase" id="f1">
+  <div class="phase-hd">
+    <div class="phase-ico">⚙️</div>
+    <div>
+      <div class="phase-n">Fase 01</div>
+      <div class="phase-t">Drivers esenciales</div>
+      <div class="phase-s">Instalar en este orden exacto antes de cualquier otra cosa</div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="snum">1</div>
+      <div class="sc">
+        <h4>Chipset AMD</h4>
+        <p>Lo primero. Le dice a Windows cómo hablar con el procesador, la RAM y el resto del hardware.</p>
+        <ul>
+          <li>Bajar de <a href="https://www.amd.com/es/support/download/drivers.html" target="_blank">amd.com → Drivers &amp; Support</a></li>
+          <li>Buscar: <strong>Ryzen 5 5600G</strong> → Chipset</li>
+          <li>Instalar y <strong>reiniciar</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <div class="snum y">2</div>
+      <div class="sc">
+        <h4>Drivers AMD Adrenalin (GPU)</h4>
+        <p>Instalar en modo <strong>Personalizado</strong> — nunca Express.</p>
+        <ul>
+          <li>Bajar de <a href="https://www.amd.com/es/support/download/drivers.html" target="_blank">amd.com → Radeon Graphics</a></li>
+          <li>Marcar solo: <strong>Display Driver</strong> y <strong>AMD Audio Driver</strong></li>
+          <li>Desmarcar: AMD Link, AMD User Experience, ReLive, Ryzen Master SDK</li>
+          <li>Instalar y <strong>reiniciar</strong> → ejecutar Bloque 11 (Telemetría AMD) inmediatamente</li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <div class="snum">3</div>
+      <div class="sc">
+        <h4>Audio Realtek</h4>
+        <p>Windows generalmente lo instala solo. Si no hay audio, verificar en Administrador de dispositivos si hay <strong>!</strong> amarillo en Audio.</p>
+        <ul>
+          <li>Driver oficial de la placa: <a href="https://www.asrock.com/mb/AMD/B450M-HDV%20R4.0/index.asp#Download" target="_blank">ASRock B450M-HDV R4.0 — Drivers</a></li>
+          <li>O buscar: <a href="https://www.google.com/search?q=ASRock+B450M-HDV+R4.0+Realtek+audio+driver+download" target="_blank">ASRock B450M-HDV R4.0 audio en Google</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <div class="snum g">4</div>
+      <div class="sc">
+        <h4>Impresora Brother</h4>
+        <p>Conectar por USB antes de instalar el driver.</p>
+        <ul>
+          <li>Bajar de <a href="https://www.google.com/search?q=Brother+DCP-T530DW+driver+latinoamerica+descargar" target="_blank">Buscar driver DCP-T530DW en Google</a></li>
+          <li>Instalar paquete completo (driver + escáner)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <div class="snum p">5</div>
+      <div class="sc">
+        <h4>Verificar dispositivos restantes</h4>
+        <p>Win+X → Administrador de dispositivos. Buscar cualquier <strong>!</strong> amarillo y resolver.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ═══════════════ FASE 2 ═══════════════ -->
+<div class="phase" id="f2">
+  <div class="phase-hd">
+    <div class="phase-ico">🎮</div>
+    <div>
+      <div class="phase-n">Fase 02</div>
+      <div class="phase-t">Runtimes para gaming</div>
+      <div class="phase-s">Librerías que los juegos necesitan para funcionar correctamente</div>
+    </div>
+  </div>
+
+  <div class="note w"><strong>Empezá por AIO Runtimes</strong> — cubre Visual C++, .NET y DirectX básico en un solo paso. Después instalá los individuales que falten.</div>
+  <div class="note b" style="margin-top:8px"><strong>Cómo agregar un runtime nuevo al HTML:</strong> Copiá cualquier bloque <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px">&lt;!-- RUNTIME: ... --&gt;</code> de abajo, pegalo antes del cierre de la grilla, y cambiá nombre, descripción, links y badge. Si el link oficial falla, el botón Google busca automáticamente.</div>
+
+    <!-- GRILLA DE RUNTIMES
+       Para AGREGAR una card: copiá un div.rtcard completo y pegalo antes del cierre del div.rtgrid
+       Para BORRAR una card: eliminá el div.rtcard completo
+       Para cambiar el LINK: editá el href del boton Descargar
+       Badges: rt ess=rojo Esencial | rt=gris Opcional | rt inf=cyan | rt java=violeta | rt leg=naranja
+  -->
+  
+  <div class="rtgrid">
+
+    <!-- RUNTIME: All-in-One Runtimes -->
+    <div class="rtcard">
+      <div class="rn">All-in-One Runtimes</div>
+      <div class="rd">Visual C++, .NET, DirectX y librerías esenciales en un solo instalador. Empezar por acá.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.allinoneruntimes.org/" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=All+in+One+Runtimes" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Instalar primero</span>
+    </div>
+
+    <!-- RUNTIME: DirectX Web Setup -->
+    <div class="rtcard">
+      <div class="rn">DirectX — Web Setup</div>
+      <div class="rd">Componentes legacy de DirectX 9/10. Necesario para juegos viejos que fallan con "d3dx" faltante.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.microsoft.com/es-es/download/details.aspx?id=8109" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=DirectX+End-User+Runtime+Web+Installer+Microsoft" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Esencial</span>
+    </div>
+
+    <!-- RUNTIME: .NET Framework 3.5 -->
+    <div class="rtcard">
+      <div class="rn">.NET Framework 3.5</div>
+      <div class="rd">Requerido por juegos y apps que usan .NET 2.0/3.0/3.5. Windows 11 no lo incluye por defecto.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.microsoft.com/en-us/download/details.aspx?id=25150" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=Microsoft+.NET+Framework+3.5+offline+installer" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Esencial</span>
+    </div>
+
+    <!-- RUNTIME: .NET Framework 4.8.1 -->
+    <div class="rtcard">
+      <div class="rn">.NET Framework 4.8.1</div>
+      <div class="rd">Muchos juegos modernos y apps de Windows lo requieren. Verificar si ya está instalado antes de descargar.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://dotnet.microsoft.com/en-us/download/dotnet-framework/net481" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=.NET+Framework+4.8.1+offline+installer+Microsoft" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Esencial</span>
+    </div>
+	
+	<!-- RUNTIME: .NET Framework 10.0 -->
+    <div class="rtcard">
+      <div class="rn">.NET Framework 10.0</div>
+      <div class="rd">.NET 10 es la denominación correcta para la versión moderna, multiplataforma y de alto rendimiento.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://dotnet.microsoft.com/en-us/download/dotnet/10.0" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=.NET+Framework+10.0+offline+installer+Microsoft" target="_blank">Google</a>
+      </div>
+      <span class="rt ess">Opcional</span>
+    </div>
+
+    <!-- RUNTIME: Visual C++ Redistributable AIO -->
+    <div class="rtcard">
+      <div class="rn">Visual C++ Redist AIO</div>
+      <div class="rd">Todas las versiones de Visual C++ en un instalador. Usar si un juego pide una versión específica.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://github.com/abbodi1406/vcredist/releases" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=VisualCppRedist+AIO" target="_blank">Google</a>
+      </div>
+      <span class="rt">Opcional</span>
+    </div>
+
+    <!-- RUNTIME: XNA Framework 4.0 -->
+    <div class="rtcard">
+      <div class="rn">XNA Framework 4.0</div>
+      <div class="rd">Requerido por juegos indie de Steam como Terraria (versiones viejas), algunos ports de Xbox. Si un juego falla al iniciar, probá esto.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.microsoft.com/es-co/download/details.aspx?id=17718" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=XNA+Framework+4.0+Redistributable+Microsoft" target="_blank">Google</a>
+      </div>
+      <span class="rt">Opcional</span>
+    </div>
+
+    <!-- RUNTIME: OpenAL -->
+    <div class="rtcard">
+      <div class="rn">OpenAL</div>
+      <div class="rd">Librería de audio 3D para juegos. Necesario si un juego tira error de "OpenAL32.dll" faltante.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.openal.org/downloads/" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=OpenAL+installer+openal.org" target="_blank">Google</a>
+      </div>
+      <span class="rt leg">Legacy</span>
+    </div>
+
+    <!-- RUNTIME: Java Temurin -->
+    <div class="rtcard">
+      <div class="rn">Java — Temurin (OpenJDK)</div>
+      <div class="rd">Necesario para Minecraft con Prism Launcher. Elegir versión 21 LTS para versiones modernas de Minecraft.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://adoptium.net/es/temurin/releases/?version=21" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=Eclipse+Temurin+Java+21+LTS+download" target="_blank">Google</a>
+      </div>
+      <span class="rt java">Java</span>
+    </div>
+
+    <!-- RUNTIME: PhysX Legacy -->
+    <div class="rtcard">
+      <div class="rn">PhysX Legacy</div>
+      <div class="rd">Motor de físicas para juegos viejos de Nvidia. Solo instalar si un juego específico lo pide.</div>
+      <div class="rt-links">
+        <a class="rt-btn" href="https://www.nvidia.com/en-us/drivers/physx/physx-9-13-0604-legacy-driver/" target="_blank">↓ Descargar</a>
+        <a class="rt-btn rt-btn-g" href="https://www.google.com/search?q=NVIDIA+PhysX+Legacy+installer" target="_blank">Google</a>
+      </div>
+      <span class="rt leg">Legacy</span>
+    </div>
+
+  </div><!-- fin rtgrid -->
+
+  <div class="note" style="margin-top:14px">
+    <strong>Orden recomendado:</strong> 1) AIO Runtimes → 2) DirectX Web → 3) .NET 3.5 → 4) .NET 4.8 → 5) Java Temurin (si jugás Minecraft)<br>
+    <strong>Solo si un juego falla:</strong> Visual C++ AIO · XNA 4.0 · OpenAL · PhysX Legacy
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ═══════════════ FASE 3 ═══════════════ -->
+<div class="phase" id="f3">
+  <div class="phase-hd">
+    <div class="phase-ico">📦</div>
+    <div>
+      <div class="phase-n">Fase 03</div>
+      <div class="phase-t">Aplicaciones base</div>
+      <div class="phase-s">Instalar antes de ejecutar los bloques de optimización</div>
+    </div>
+  </div>
+  <div class="steps">
+    <div class="step">
+      <div class="snum">1</div>
+      <div class="sc">
+        <h4>Navegador — Google Chrome <span class="tag tin">Base</span></h4>
+        <p><a href="https://www.google.com/chrome/" target="_blank">google.com/chrome</a> — Navegador principal para descargar el resto.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="snum">2</div>
+      <div class="sc">
+        <h4>Almacenamiento — Google Drive + MEGA <span class="tag tin">Nube</span></h4>
+        <ul>
+          <li><a href="https://www.google.com/drive/download/" target="_blank">Google Drive</a> — sincronización de archivos</li>
+          <li><a href="https://mega.io/desktop" target="_blank">MEGA Desktop</a> — almacenamiento en la nube</li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <div class="snum">3</div>
+      <div class="sc">
+        <h4>Comunicación — Discord <span class="tag tok">Gaming</span></h4>
+        <p><a href="https://discord.com/download" target="_blank">discord.com/download</a></p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="snum">4</div>
+      <div class="sc">
+        <h4>Gaming — Steam + Epic + Minecraft <span class="tag tok">Juegos</span></h4>
+        <ul>
+          <li><a href="https://store.steampowered.com/about/" target="_blank">Steam</a></li>
+          <li><strong>Prism Launcher</strong> — <a href="https://prismlauncher.org/download/windows/" target="_blank">Descargar</a> — launcher avanzado de Minecraft <span class="tag tok">Recomendado</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="step">
+      <div class="snum">5</div>
+      <div class="sc">
+        <h4>Herramientas <span class="tag twn">Utilidad</span></h4>
+        <ul>
+          <li><strong>AnyDesk</strong> — <a href="https://anydesk.com/es/downloads" target="_blank">Descargar</a> (acceso remoto)</li>
+          <li><strong>7-Zip</strong> — <a href="https://www.7-zip.org/" target="_blank">Descargar</a> (comprimidos)</li>
+          <li><strong>VLC</strong> — <a href="https://www.videolan.org/vlc/" target="_blank">Descargar</a> (multimedia)</li>
+          <li><strong>O&amp;O ShutUp10++</strong> — <a href="https://www.oo-software.com/es/shutup10" target="_blank">Descargar</a> (privacidad)</li>
+          <li><strong>Autoruns64</strong> — <a href="https://learn.microsoft.com/es-es/sysinternals/downloads/autoruns" target="_blank">Descargar</a> — ver todo lo que inicia con Windows <span class="tag tin">Portable</span></li>
+          <li><strong>Firewall App Blocker</strong> — <a href="https://www.sordum.org/8125/firewall-app-blocker-fab-v1-9/" target="_blank">Descargar</a> <span class="tag tin">Portable</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ═══════════════ FASE 4 ═══════════════ -->
+<div class="phase" id="opt">
+  <div class="phase-hd">
+    <div class="phase-ico">🔧</div>
+    <div>
+      <div class="phase-n">Fase 04</div>
+      <div class="phase-t">Optimización PowerShell</div>
+      <div class="phase-s">PowerShell como Administrador · ejecutar en orden · verificar después de cada bloque</div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 1 -->
+<div class="sec" id="b1">
+  <div class="sec-hd">
+    <div class="sn w">1</div>
+    <div class="st">Servicios innecesarios <span class="tag twn">85 servicios</span></div>
+  </div>
+  <p class="sd">Script basado en el estado real de esta PC. Deshabilita 85 servicios confirmados como innecesarios, agrupados por categoría. Bluetooth, Hyper-V, Xbox y Telemetría AMD tienen sus propios bloques.</p>
+  <div class="note w"><strong>Importante:</strong> Este script omite intencionalmente: Spooler, AudioSrv, hidserv, PlugPlay y servicios de red críticos. El Bloque 6 se encarga de protegerlos explícitamente.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 1 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B1:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 1 — Servicios innecesarios (~90 svcs)    ║" -ForegroundColor DarkYellow
+Write-Host "║  Basado en configuración real de esta PC         ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$grupos = [ordered]@{
+
+    # ── TELEMETRÍA Y DIAGNÓSTICO MICROSOFT ──────────────────────────────
+    # Envían datos a Microsoft, no aportan nada al usuario final
+    "Telemetria_MS" = @(
+        "DiagTrack",          # Connected User Experiences and Telemetry
+        "dmwappushservice",   # WAP Push Message Routing Service
+        "DPS",                # Diagnostic Policy Service
+        "diagsvc",            # Diagnostic Execution Service
+        "WdiServiceHost",     # Diagnostic Service Host
+        "WdiSystemHost",      # Diagnostic System Host
+        "hpatchmon",          # HP patch monitor (telemetría OEM)
+        "wuqisvc",            # Windows Update Quality Insider Service
+        "TroubleshootingSvc", # Recommended Troubleshooting Service
+        "wercplsupport",      # Problem Reports Control Panel Support
+        "wisvc"               # Windows Insider Service
+    )
+
+    # ── ACCESO REMOTO Y ADMINISTRACIÓN REMOTA ───────────────────────────
+    # Sin uso en red doméstica. Vectores de acceso innecesarios.
+    "Acceso_Remoto" = @(
+        "RemoteRegistry",     # Edición remota del registro
+        "WinRM",              # Windows Remote Management
+        "RasAuto",            # Remote Access Auto Connection Manager
+        "RasMan",             # Remote Access Connection Manager
+        "RemoteAccess",       # Routing and Remote Access
+        "UmRdpService",       # Remote Desktop Services UserMode Port Redirector
+        "TermService",        # Remote Desktop Services (RDP)
+        "SessionEnv"          # Remote Desktop Configuration
+    )
+
+    # ── MAPAS, UBICACIÓN Y SERVICIOS GEOGRÁFICOS ────────────────────────
+    "Mapas_Ubicacion" = @(
+        "MapsBroker",         # Downloaded Maps Manager
+        "lfsvc",              # Geolocation Service
+        "autotimesvc",        # Cellular Time
+        "tzautoupdate"        # Auto Time Zone Updater
+    )
+
+    # ── TELÉFONO, FAX Y MENSAJERÍA ──────────────────────────────────────
+    "Telefono_Fax" = @(
+        "PhoneSvc",           # Phone Service
+        "TapiSrv",            # Telephony
+        "SmsRouter",          # Microsoft Windows SMS Router Service
+        "WpcMonSvc"           # Parental Controls
+    )
+
+    # ── HOTSPOT, REDES ESPECIALES Y COMPARTIDO ──────────────────────────
+    "Redes_Innecesarias" = @(
+        "icssvc",             # Internet Connection Sharing
+        "SharedAccess",       # Internet Connection Sharing (ICS)
+        "NcdAutoSetup",       # Network Connected Devices Auto-Setup
+        "lmhosts",            # TCP/IP NetBIOS Helper
+        "NetTcpPortSharing",  # Net.Tcp Port Sharing
+        "dot3svc",            # Wired AutoConfig (802.1X)
+        "EapHost",            # Extensible Authentication Protocol
+        "wcncsvc",            # Windows Connect Now Config Registrar
+        "WwanSvc",            # WWAN AutoConfig (red celular)
+        "WlanSvc"             # WLAN AutoConfig (WiFi — solo si usás cable)
+    )
+
+    # ── TARJETA INTELIGENTE Y BIOMETRÍA ─────────────────────────────────
+    "Smartcard_Bio" = @(
+        "SCardSvr",           # Smart Card
+        "ScDeviceEnum",       # Smart Card Device Enumeration Service
+        "SCPolicySvc",        # Smart Card Removal Policy
+        "WbioSrvc",           # Windows Biometric Service
+        "NaturalAuthentication" # Natural Authentication
+    )
+
+    # ── SINCRONIZACIÓN, CARTERA Y SERVICIOS CLOUD INNECESARIOS ──────────
+    "Sync_Cloud" = @(
+        "WalletService",      # WalletService
+        "workfolderssvc",     # Work Folders
+        "fhsvc",              # File History Service
+        "CscService",         # Offline Files
+        "PeerDistSvc",        # BranchCache
+        "OneSyncSvc",         # Sync Host (sufijo variable, se intenta igual)
+        "AppReadiness",       # App Readiness
+        "RetailDemo"          # Retail Demo Service
+    )
+
+    # ── MULTIMEDIA INNECESARIA ──────────────────────────────────────────
+    "Multimedia_Legacy" = @(
+        "WMPNetworkSvc",      # Windows Media Player Network Sharing
+        "SEMgrSvc",           # Payments and NFC/SE Manager
+        "WFDSConMgrSvc"       # Wi-Fi Direct Services Connection Manager
+    )
+
+    # ── SERVICIOS DE SISTEMA SIN USO DOMÉSTICO ──────────────────────────
+    "Sistema_Sin_Uso" = @(
+        "WebClient",          # WebClient (WebDAV)
+        "MSiSCSI",            # Microsoft iSCSI Initiator
+        "MsKeyboardFilter",   # Microsoft Keyboard Filter
+        "KtmRm",              # KtmRm for Distributed Transaction Coordinator
+        "MSDTC",              # Distributed Transaction Coordinator
+        "RpcLocator",         # Remote Procedure Call Locator
+        "SNMPTrap",           # SNMP Trap
+        "McmSvc",             # Microsoft Content Management Service
+        "perceptionsimulation", # Windows Perception Simulation Service
+        "RmSvc",              # Radio Management Service
+        "AppVClient",         # Microsoft App-V Client
+        "UevAgentService",    # User Experience Virtualization
+        "AssignedAccessManagerSvc", # AssignedAccessManager Service
+        "DialogBlockingService",    # DialogBlockingService
+        "PcaSvc",             # Program Compatibility Assistant
+        "IpxlatCfgSvc",       # IP Translation Configuration Service
+        "Netlogon",           # Netlogon (solo necesario en dominio corporativo)
+        "LanmanServer",       # Server (compartir archivos en red — doméstico sin uso)
+        "shpamsvc",           # Shared PC Account Manager
+        "TrkWks",             # Distributed Link Tracking Client
+        "WMPNetworkSvc",      # (ya listado arriba, no falla si se repite)
+        "WdNisSvc",           # Windows Defender Network Inspection (si WinDefend está off)
+        "SensorDataService",  # Sensor Data Service — no hay sensores físicos en esta PC
+        "SensorService",      # Sensor Service — ídem
+        "SensrSvc"            # Sensor Monitoring Service — ídem
+    )
+
+    # ── WINDOWS SUBSYSTEM / VPN / HELLO ─────────────────────────────────────
+    "Sistema_Extras" = @(
+        "WSAIFabricSvc",   # Windows Subsystem for Android AI — no se usa
+        "SstpSvc"          # Secure Socket Tunneling Protocol (VPN) — sin VPN activa
+    )
+
+
+    # ── DEFENSA WEB Y MONITOREO INNECESARIO ──────────────────────────────
+    # webthreatdefusersvc: escanea tráfico web aunque WinDefend esté off — inútil
+    # whesvc: recolector de errores de hardware, no necesario en background
+    "Defensa_Monitor" = @(
+        "webthreatdefusersvc",  # Web Threat Defense User Service — sin WinDefend no aporta nada
+        "whesvc",               # Windows Hardware Error — recolector de errores, no crítico
+        "SSDPSRV"               # SSDP Discovery — UPnP broadcasts innecesarios en Ethernet fijo
+    )
+
+    # ── ACTUALIZADORES DE TERCEROS EN BACKGROUND ─────────────────────────
+    # Se actualizan solos al abrir la app — no necesitan correr siempre
+    "Updaters_Terceros" = @(
+        "edgeupdate",         # Microsoft Edge Update
+        "edgeupdatem",        # Microsoft Edge Update (médium)
+        "Daemon Update Assistant Service" # Daemon Tools updater — causa apagones de escritorio (Event ID 7034)
+        # GoogleUpdaterService se maneja por nombre dinámico — ver sección debajo
+    )
+}
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+foreach ($grupo in $grupos.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $grupos[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Disabled") {
+                Write-Host ("  │  — {0,-36} ya Disabled" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Disabled -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Disabled" -f $s) -ForegroundColor Green
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+# BcastDVRUserService tiene sufijo variable — no se usa grabación de juegos → Disabled
+Write-Host "`n  ┌─ BcastDVR_UserService (sufijo variable) ─────────" -ForegroundColor Cyan
+Get-Service | Where-Object { $_.Name -like "BcastDVRUserService_*" } | ForEach-Object {
+    $total++
+    if ($_.StartType -eq "Disabled") {
+        Write-Host ("  │  — {0,-36} ya Disabled" -f $_.Name) -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-Service -Name $_.Name -StartupType Disabled -EA SilentlyContinue
+        Stop-Service -Name $_.Name -Force -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-36} → Disabled" -f $_.Name) -ForegroundColor Green
+        $ok++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# Google Updater tiene nombre dinámico con versión — Manual para no romper Chrome
+Write-Host "`n  ┌─ Updaters_Google (nombre dinámico) ─────────────" -ForegroundColor Cyan
+Get-Service | Where-Object { $_.Name -like "GoogleUpdater*" } | ForEach-Object {
+    $total++
+    if ($_.StartType -eq "Manual") {
+        Write-Host ("  │  — {0,-36} ya Manual" -f $_.Name) -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-Service -Name $_.Name -StartupType Manual -EA SilentlyContinue
+        Stop-Service -Name $_.Name -Force -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-36} → Manual" -f $_.Name) -ForegroundColor Cyan
+        $ok++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 1                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados  : {0,-34}║" -f $total) -ForegroundColor White
+Write-Host ("║  Deshabilitados ahora : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 1 completo. Continuar con Bloque 2.`n" -ForegroundColor Cyan</pre>
+<!-- /B1:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 1</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B1:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 1 ────────────────────────" -ForegroundColor Cyan
+$check = @(
+    "DiagTrack","dmwappushservice","DPS","diagsvc","WdiServiceHost","WdiSystemHost",
+    "hpatchmon","wuqisvc","TroubleshootingSvc","wercplsupport","wisvc",
+    "RemoteRegistry","WinRM","RasAuto","RasMan","RemoteAccess",
+    "MapsBroker","lfsvc","autotimesvc","tzautoupdate",
+    "PhoneSvc","TapiSrv","SmsRouter",
+    "icssvc","SharedAccess","NcdAutoSetup","lmhosts","NetTcpPortSharing",
+    "dot3svc","EapHost","wcncsvc","WwanSvc",
+    "SCardSvr","ScDeviceEnum","SCPolicySvc","WbioSrvc","NaturalAuthentication",
+    "WalletService","workfolderssvc","fhsvc","CscService","PeerDistSvc","RetailDemo",
+    "WMPNetworkSvc","SEMgrSvc",
+    "WebClient","MSiSCSI","MsKeyboardFilter","KtmRm","MSDTC","RpcLocator",
+    "SNMPTrap","McmSvc","perceptionsimulation","RmSvc","UevAgentService",
+    "AssignedAccessManagerSvc","PcaSvc","IpxlatCfgSvc","LanmanServer","TrkWks",
+    "edgeupdate","edgeupdatem",
+    "Daemon Update Assistant Service",
+    "SensorDataService","SensorService","SensrSvc",
+    "webthreatdefusersvc","whesvc","SSDPSRV"
+)
+$ok = 0; $err = 0
+foreach ($s in $check) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+Get-Service | Where-Object { $_.Name -like "GoogleUpdater*" } | ForEach-Object {
+    if ($_.StartType -eq "Manual") {
+        Write-Host ("│  ✔  {0,-36} Manual" -f $_.Name) -ForegroundColor Cyan; $ok++
+    } else {
+        Write-Host ("│  ✘  {0,-36} $($_.StartType) ← REVISAR" -f $_.Name) -ForegroundColor Red; $err++
+    }
+}
+Get-Service | Where-Object { $_.Name -like "BcastDVRUserService_*" } | ForEach-Object {
+    if ($_.StartType -eq "Disabled") {
+        Write-Host ("│  ✔  {0,-36} Disabled" -f $_.Name) -ForegroundColor Green; $ok++
+    } else {
+        Write-Host ("│  ✘  {0,-36} $($_.StartType) ← REVISAR" -f $_.Name) -ForegroundColor Red; $err++
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B1:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note b"><strong>WlanSvc (WiFi):</strong> incluido en el script pero si usás WiFi en lugar de cable, omitirlo manualmente o el sistema pierde conexión inalámbrica. Si usás cable Ethernet, dejarlo deshabilitado es correcto.</div>
+</div>
+
+<!-- BLOQUE 2 -->
+<div class="sec sec-tel" id="b2">
+  <div class="sec-hd">
+    <div class="sn w">2</div>
+    <div class="st">Telemetría Microsoft <span class="tag trd">Privacidad</span></div>
+  </div>
+  <p class="sd">Deshabilita todos los canales de telemetría, diagnóstico y reporte de datos de Microsoft. Agrupados por función para identificar exactamente qué hace cada uno.</p>
+  <div class="note r"><strong>Nota:</strong> Varios de estos servicios se solapan con el Bloque 1 intencionalmente — si ya estaban Disabled, el script lo detecta y los saltea automáticamente.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 2 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B2:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 2 — Telemetría Microsoft                 ║" -ForegroundColor DarkYellow
+Write-Host "║  Canales de datos hacia Microsoft → OFF          ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$grupos = [ordered]@{
+
+    # ── TELEMETRÍA PRINCIPAL ─────────────────────────────────────────────
+    # Los dos servicios más agresivos de recolección de datos de Microsoft
+    "Telemetria_Principal" = @(
+        "DiagTrack",          # Connected User Experiences and Telemetry — envía datos de uso continuamente
+        "dmwappushservice"    # WAP Push Message Routing — canal de mensajes de diagnóstico remoto
+    )
+
+    # ── REPORTE DE ERRORES ───────────────────────────────────────────────
+    # Envían volcados de memoria y reportes de crash a Microsoft
+    "Reporte_Errores" = @(
+        "WerSvc",             # Windows Error Reporting Service — envía crash dumps a MS
+        "wercplsupport",      # Problem Reports Control Panel Support — UI de reportes de errores
+        "wisvc"               # Windows Insider Service — telemetría del programa Insider
+    )
+
+    # ── DIAGNÓSTICO Y TROUBLESHOOTING ───────────────────────────────────
+    # Herramientas de diagnóstico automático que recopilan datos del sistema
+    "Diagnostico_Auto" = @(
+        "DPS",                # Diagnostic Policy Service — motor central de diagnóstico automático
+        "diagsvc",            # Diagnostic Execution Service — ejecuta los scripts de diagnóstico
+        "WdiServiceHost",     # Diagnostic Service Host — host para servicios de diagnóstico
+        "WdiSystemHost",      # Diagnostic System Host — host privilegiado para diagnósticos del kernel
+        "TroubleshootingSvc"  # Recommended Troubleshooting Service — envía diagnósticos a MS y aplica fixes automáticos
+    )
+
+    # ── TELEMETRÍA OEM / CALIDAD ─────────────────────────────────────────
+    # Servicios de calidad y monitoreo instalados por fabricantes o Windows Update
+    "Telemetria_OEM" = @(
+        "hpatchmon",          # HP Patch Monitor — telemetría de patches OEM (puede aparecer en PCs no HP)
+        "wuqisvc"             # Windows Update Quality Insider Service — reportes de calidad de actualizaciones
+    )
+}
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+foreach ($grupo in $grupos.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $grupos[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Disabled") {
+                Write-Host ("  │  — {0,-36} ya Disabled" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Disabled -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Disabled" -f $s) -ForegroundColor Green
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 2                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Deshabilitados ahora : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 2 completo. Continuar con Bloque 3.`n" -ForegroundColor Cyan</pre>
+<!-- /B2:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 2</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B2:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 2 ────────────────────────" -ForegroundColor Cyan
+$check = @(
+    "DiagTrack","dmwappushservice",
+    "WerSvc","wercplsupport","wisvc",
+    "DPS","diagsvc","WdiServiceHost","WdiSystemHost","TroubleshootingSvc",
+    "hpatchmon","wuqisvc"
+)
+$ok = 0; $err = 0
+foreach ($s in $check) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B2:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 3 -->
+<div class="sec sec-xbox" id="b3">
+  <div class="sec-hd">
+    <div class="sn p">3</div>
+    <div class="st">Xbox / GameInput <span class="tag tin">Gaming</span></div>
+  </div>
+  <p class="sd">Deshabilita todos los servicios Xbox/GameInput innecesarios. <strong>XblAuthManager queda en Manual</strong> — Minecraft lo necesita para login con cuenta Microsoft.</p>
+  <div class="note b"><strong>Xbox → Disabled:</strong> Deshabilita servicios Xbox/GameInput que no se usan. XblAuthManager y wlidsvc siempre Manual — Minecraft los necesita para el login con cuenta Microsoft.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 3 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B3:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 3 — Xbox / GameInput                     ║" -ForegroundColor DarkYellow
+Write-Host "║  Servicios Xbox innecesarios → Disabled          ║" -ForegroundColor DarkYellow
+Write-Host "║  XblAuthManager → Manual (Minecraft OK)          ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$grupos = [ordered]@{
+
+    # ── XBOX + GAMING — todos Disabled ──────────────────────────────────
+    "Xbox_Disabled" = @(
+        "XblGameSave",           # Xbox Live Game Save — sincroniza saves con la nube Xbox
+        "XboxNetApiSvc",         # Xbox Live Networking Service — API de red Xbox Live
+        "XboxGipSvc",            # Xbox Accessory Management — accesorios Xbox
+        "GameInputSvc",          # GameInput Service — sistema de input para controllers
+        "GameInputRedistService" # GameInput Redistributable — instalador del servicio
+    )
+}
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+foreach ($grupo in $grupos.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $grupos[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Disabled") {
+                Write-Host ("  │  — {0,-36} ya Disabled" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Disabled -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Disabled" -f $s) -ForegroundColor Green
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+# ── XBOX AUTH — SIEMPRE MANUAL (Minecraft) ───────────────────────────────
+Write-Host "`n  ┌─ Xbox_Auth_Manual (NO deshabilitar) ────────────" -ForegroundColor Yellow
+$manuales = @(
+    @{N="XblAuthManager"; C="Minecraft necesita este servicio para login con cuenta MS"},
+    @{N="wlidsvc";         C="Microsoft Account Sign-in Assistant — login cuentas MS"}
+)
+foreach ($m in $manuales) {
+    try {
+        $svc = Get-Service -Name $m.N -EA Stop
+        if ($svc.StartType -eq "Manual") {
+            Write-Host ("  │  — {0,-28} ya Manual — $($m.C)" -f $m.N) -ForegroundColor DarkGray
+            $yaOk++
+        } else {
+            Set-Service -Name $m.N -StartupType Manual -EA Stop
+            Stop-Service -Name $m.N -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-28} → Manual" -f $m.N) -ForegroundColor Cyan
+            $ok++
+        }
+        $total++
+    } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+        Write-Host ("  │  ⚠ {0,-28} no existe" -f $m.N) -ForegroundColor DarkGray
+        $noExiste++; $total++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 3                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Deshabilitados ahora : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 3 completo. Continuar con Bloque 4.`n" -ForegroundColor Cyan</pre>
+<!-- /B3:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 3</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B3:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 3 ────────────────────────" -ForegroundColor Cyan
+$disabled = @("XblGameSave","XboxNetApiSvc","XboxGipSvc","GameInputSvc",
+              "GameInputRedistService")
+$ok = 0; $err = 0
+foreach ($s in $disabled) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+foreach ($s in @("XblAuthManager","wlidsvc")) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Manual") {
+            Write-Host ("│  ✔  {0,-36} Manual" -f $s) -ForegroundColor Cyan; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B3:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 4 -->
+<div class="sec sec-virt" id="b4">
+  <div class="sec-hd">
+    <div class="sn w">4</div>
+    <div class="st">Hyper-V <span class="tag twn">Virtualización</span></div>
+  </div>
+  <p class="sd">Deshabilita todos los servicios de virtualización Hyper-V. Sin máquinas virtuales, solo consumen RAM y ciclos de CPU en background.</p>
+  <div class="note w"><strong>Si en el futuro usás VMs:</strong> Reactivar con <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px">Set-Service vmicheartbeat -StartupType Manual</code> y los demás vmic* también.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 4 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B4:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 4 — Hyper-V                              ║" -ForegroundColor DarkYellow
+Write-Host "║  Servicios de virtualización → Disabled          ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$grupos = [ordered]@{
+
+    # ── HYPER-V INTEGRATION SERVICES (vmic*) ────────────────────────────
+    # Servicios de integración entre el host y las VMs
+    # Sin VMs corriendo, están parados pero siguen cargando sus drivers
+    "HyperV_Integration" = @(
+        "vmicguestinterface",  # Hyper-V Guest Service Interface — canal de comunicación host↔VM
+        "vmicheartbeat",       # Hyper-V Heartbeat Service — monitoreo de vida de las VMs
+        "vmickvpexchange",     # Hyper-V Data Exchange Service — intercambio de datos host↔VM
+        "vmicrdv",             # Hyper-V Remote Desktop Virtualization — RDP dentro de VMs
+        "vmicshutdown",        # Hyper-V Guest Shutdown Service — apagado controlado de VMs
+        "vmictimesync",        # Hyper-V Time Synchronization Service — sincroniza el reloj de las VMs
+        "vmicvmsession",       # Hyper-V PowerShell Direct Service — PowerShell directo a VMs
+        "vmicvss"              # Hyper-V Volume Shadow Copy Requestor — snapshots de VMs
+    )
+
+    # ── HYPER-V HOST ─────────────────────────────────────────────────────
+    # Servicio base del hipervisor en el host
+    "HyperV_Host" = @(
+        "HvHost"               # HV Host Service — proveedor de rendimiento del hipervisor para el host
+    )
+}
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+foreach ($grupo in $grupos.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $grupos[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Disabled") {
+                Write-Host ("  │  — {0,-36} ya Disabled" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Disabled -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Disabled" -f $s) -ForegroundColor Green
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 4                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Deshabilitados ahora : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 4 completo. Continuar con Bloque 5.`n" -ForegroundColor Cyan</pre>
+<!-- /B4:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 4</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B4:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 4 ────────────────────────" -ForegroundColor Cyan
+$check = @(
+    "vmicguestinterface","vmicheartbeat","vmickvpexchange","vmicrdv",
+    "vmicshutdown","vmictimesync","vmicvmsession","vmicvss","HvHost"
+)
+$ok = 0; $err = 0
+foreach ($s in $check) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B4:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 5 -->
+<div class="sec" id="b5">
+  <div class="sec-hd">
+    <div class="sn">5</div>
+    <div class="st">Bluetooth <span class="tag tin">No usado</span></div>
+  </div>
+  <p class="sd">Deshabilita todos los servicios de Bluetooth. Para reactivar en el futuro: <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:12px">Set-Service BTAGService -StartupType Automatic</code></p>
+  <div class="note"><strong>Sufijos variables:</strong> Los servicios tipo <code style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:11px">BluetoothUserService_XXXXX</code> tienen un sufijo único por instalación. El script los busca por patrón automáticamente.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 5 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B5:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 5 — Bluetooth                            ║" -ForegroundColor DarkYellow
+Write-Host "║  Sin dispositivos BT → todo Disabled             ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$grupos = [ordered]@{
+
+    # ── BLUETOOTH AUDIO Y TELEFONÍA ──────────────────────────────────────
+    # Perfiles de audio Bluetooth (A2DP, HFP, HSP)
+    "BT_Audio_Telefonia" = @(
+        "BTAGService",        # Bluetooth Audio Gateway Service — perfil de auriculares BT (HFP/HSP)
+        "BthAvctpSvc"         # AVCTP Service — protocolo de control de audio/video BT (A2DP controls)
+    )
+
+    # ── BLUETOOTH CORE ───────────────────────────────────────────────────
+    # Servicio base del stack Bluetooth de Windows
+    "BT_Core" = @(
+        "bthserv"             # Bluetooth Support Service — descubrimiento y gestión de dispositivos BT
+    )
+}
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+foreach ($grupo in $grupos.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $grupos[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Disabled") {
+                Write-Host ("  │  — {0,-36} ya Disabled" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Disabled -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Disabled" -f $s) -ForegroundColor Green
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+# BluetoothUserService tiene sufijo variable — buscar por patrón
+Write-Host "`n  ┌─ BT_UserService (sufijo variable) ──────────────" -ForegroundColor Cyan
+Get-Service | Where-Object { $_.Name -like "BluetoothUserService*" } | ForEach-Object {
+    $total++
+    if ($_.StartType -eq "Disabled") {
+        Write-Host ("  │  — {0,-36} ya Disabled" -f $_.Name) -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-Service -Name $_.Name -StartupType Disabled -EA SilentlyContinue
+        Stop-Service -Name $_.Name -Force -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-36} → Disabled" -f $_.Name) -ForegroundColor Green
+        $ok++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 5                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Deshabilitados ahora : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 5 completo. Continuar con Bloque 6.`n" -ForegroundColor Cyan</pre>
+<!-- /B5:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 5</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B5:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 5 ────────────────────────" -ForegroundColor Cyan
+$check = @("BTAGService","BthAvctpSvc","bthserv")
+$ok = 0; $err = 0
+foreach ($s in $check) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+# Verificar BluetoothUserService con sufijo variable
+Get-Service | Where-Object { $_.Name -like "BluetoothUserService*" } | ForEach-Object {
+    if ($_.StartType -eq "Disabled") {
+        Write-Host ("│  ✔  {0,-36} Disabled" -f $_.Name) -ForegroundColor Green; $ok++
+    } else {
+        Write-Host ("│  ✘  {0,-36} $($_.StartType) ← REVISAR" -f $_.Name) -ForegroundColor Red; $err++
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B5:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 6 -->
+<div class="sec" id="b6">
+  <div class="sec-hd">
+    <div class="sn g">6</div>
+    <div class="st">Proteger servicios críticos <span class="tag tok">Siempre ejecutar</span></div>
+  </div>
+  <p class="sd">Garantiza que impresora, USB, audio, temas y servicios de red estén activos. Ejecutar siempre después de los bloques anteriores — evita que algún bloque previo haya tocado algo que no debía.</p>
+  <div class="note g"><strong>Este bloque activa servicios, no los deshabilita.</strong> Si alguno ya estaba Running, lo deja igual. El resumen muestra cuántos se activaron vs cuántos ya estaban bien.</div>
+  <div class="note b"><strong>NlaSvc y netprofm → Automatic:</strong> Chrome y apps de red los necesitan al arrancar. NcbService → Automatic (red estable). <strong>En B6 como Manual:</strong> camsvc, PolicyAgent, Wcmsvc, DeviceAssociationService. <strong>SSDPSRV, webthreatdefusersvc, whesvc → B1 Disabled.</strong></div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 6 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B6:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 6 — Proteger servicios críticos          ║" -ForegroundColor DarkYellow
+Write-Host "║  Críticos → Automatic+Running  |  Resto → Manual ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $errores = 0
+
+# ── SERVICIOS CRÍTICOS → DEBEN ESTAR RUNNING (Automatic) ────────────────
+Write-Host "`n  ┌─ Servicios_Criticos_Running ─────────────────────" -ForegroundColor Cyan
+$criticos = [ordered]@{
+    "Spooler"                         = "Cola de impresión — impresora Brother"
+    "PrintNotify"                     = "Notificaciones de impresora"
+    "PrintDeviceConfigurationService" = "Configuración de dispositivos de impresión"
+    "PrintScanBrokerService"          = "Broker de impresión/escaneo"
+    "hidserv"                         = "HID — teclado, mouse, dongle 2.4GHz"
+    "PlugPlay"                        = "Plug and Play — dos monitores y USB"
+    "AudioSrv"                        = "Audio de Windows"
+    "AudioEndpointBuilder"            = "Compilador de extremo de audio"
+    "Themes"                          = "Temas visuales de Windows"
+    "BrYNSvc"                         = "Servicio Brother"
+    "USBAppControl"                   = "Brother USB Application Controller"
+    "WorkflowAppControl"              = "Brother Workflow Application Controller"
+    "NlaSvc"                          = "Network Location Awareness — Chrome y apps de red lo necesitan al arrancar"
+    "netprofm"                        = "Network List Service — perfil de red activo, depende de NlaSvc"
+    "RpcSs"                           = "Remote Procedure Call — base del sistema, NUNCA deshabilitar"
+    "SamSs"                           = "Security Accounts Manager — gestión de permisos y cuentas"
+}
+foreach ($s in $criticos.Keys) {
+    $total++
+    try {
+        $svc = Get-Service -Name $s -EA Stop
+        if ($svc.Status -eq "Running" -and $svc.StartType -eq "Automatic") {
+            Write-Host ("  │  — {0,-40} ya Running/Auto" -f $s) -ForegroundColor DarkGray
+            $yaOk++; continue
+        }
+        Set-Service -Name $s -StartupType Automatic -EA Stop
+        Start-Service -Name $s -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-40} → Automatic+Running" -f $s) -ForegroundColor Green
+        $ok++
+    } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+        Write-Host ("  │  ⚠ {0,-40} no existe" -f $s) -ForegroundColor DarkGray
+    } catch {
+        Write-Host ("  │  ✘ {0,-40} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+        $errores++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── SERVICIOS NO CRÍTICOS → DEBEN ESTAR MANUAL (no correr solos) ────────
+Write-Host "`n  ┌─ Servicios_No_Criticos_Manual ──────────────────" -ForegroundColor Yellow
+$manuales = @(
+    "ADPSvc",                    # ADP Service — no aplica en esta PC
+    "ALG",                       # Application Layer Gateway — solo para apps legacy con NAT
+    "AppMgmt",                   # Application Management — política de software (dominio)
+    "Appinfo",                   # Application Information — eleva permisos UAC bajo demanda
+    "ApxSvc",                    # AppX Deployment Service (extra) — Store apps
+    "AxInstSV",                  # ActiveX Installer — instala controles ActiveX legacy
+    "BDESVC",                    # BitLocker Drive Encryption — sin cifrado activo
+    "COMSysApp",                 # COM+ System Application — apps COM+ bajo demanda
+    "DevQueryBroker",            # Device Query Broker — consultas de dispositivos
+    "DmEnrollmentSvc",           # Device Management Enrollment — MDM corporativo
+    "DsSvc",                     # Data Sharing Service — comparte datos entre apps
+    "DsmSvc",                    # Device Setup Manager — configura drivers bajo demanda
+    "EFS",                       # Encrypting File System — sin archivos cifrados con EFS
+    "FDResPub",                  # Function Discovery Resource Publication — red local
+    "FontCache3.0.0.0",          # Windows Presentation Foundation Font Cache
+    "FrameServer",               # Windows Camera Frame Server — cámara web bajo demanda
+    "FrameServerMonitor",        # Camera Frame Server Monitor — monitor de cámara
+    "GoogleChromeElevationService", # Chrome Elevation Service — actualizaciones Chrome
+    "GraphicsPerfSvc",           # Graphics Performance Monitor — métricas de GPU
+    "IKEEXT",                    # IKE and AuthIP IPsec Keying — VPN/IPsec bajo demanda
+    "LicenseManager",            # Windows License Manager — licencias de Store apps
+    "LocalKdc",                  # Local Key Distribution Center — Kerberos local
+    "LxpSvc",                    # Language Experience Service — idiomas adicionales
+    "McpManagementService",      # MCP Management — servicios de comunicación
+    "NcaSvc",                    # Network Connectivity Assistant — diagnóstico de red
+    "Netman",                    # Network Connections — panel de conexiones de red
+    "PerfHost",                  # Performance Counter DLL Host — contadores de rendimiento
+    "QWAVE",                     # Quality Windows Audio Video Experience — QoS multimedia
+    "SDRSVC",                    # Windows Backup — backup manual bajo demanda
+    "cloudidsvc",                # Microsoft Cloud Identity — identidad en la nube MS
+    "dcsvc",                     # Declared Configuration Service — configuración declarativa
+    "defragsvc",                 # Optimize Drives — desfragmentación programada
+    "fdPHost",                   # Function Discovery Provider Host — descubrimiento de red
+    "lltdsvc",                   # Link-Layer Topology Discovery — mapeo de red local
+    "midisrv",                   # Windows MIDI Service — dispositivos MIDI
+    "pla",                       # Performance Logs and Alerts — registro de rendimiento
+    "refsdedupsvc",              # ReFS Deduplication Service — deduplicación ReFS
+    "seclogon",                  # Secondary Logon — ejecutar como otro usuario
+    "smphost",                   # Microsoft Storage Spaces SMP — espacios de almacenamiento
+    "camsvc",                    # Camera Service — sin webcam en esta PC
+    "PolicyAgent",               # IPSec Policy Agent — sin VPN activa
+    "Wcmsvc",                    # Windows Connection Manager — Ethernet fijo, sin WiFi
+    "NcbService",                # Network Connection Broker — Ethernet estable
+    "DeviceAssociationService"   # Device Association Service — sin BT/WiFi activo
+)
+foreach ($s in $manuales) {
+    $total++
+    try {
+        $svc = Get-Service -Name $s -EA Stop
+        if ($svc.StartType -eq "Manual") {
+            Write-Host ("  │  — {0,-40} ya Manual" -f $s) -ForegroundColor DarkGray
+            $yaOk++; continue
+        }
+        Set-Service -Name $s -StartupType Manual -EA Stop
+        Write-Host ("  │  ✔ {0,-40} → Manual" -f $s) -ForegroundColor Cyan
+        $ok++
+    } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+        Write-Host ("  │  ⚠ {0,-40} no existe" -f $s) -ForegroundColor DarkGray
+    } catch {
+        Write-Host ("  │  ✘ {0,-40} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+        $errores++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 6                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados      : {0,-33}║" -f $total) -ForegroundColor White
+Write-Host ("║  Aplicados ahora : {0,-33}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK   : {0,-33}║" -f $yaOk) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores         : {0,-33}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 6 completo. Continuar con Bloque 7.`n" -ForegroundColor Cyan</pre>
+<!-- /B6:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 6</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B6:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 6 ────────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+
+# Críticos — deben estar Running
+$criticos = @("Spooler","hidserv","PlugPlay","AudioSrv","AudioEndpointBuilder","Themes","BrYNSvc","NlaSvc","netprofm")
+foreach ($s in $criticos) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.Status -eq "Running") {
+            Write-Host ("│  ✔  {0,-36} Running" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.Status) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else { Write-Host ("│  —  {0,-36} No existe" -f $s) -ForegroundColor DarkGray }
+}
+
+# No críticos — deben estar Manual
+$manuales = @("ADPSvc","ALG","AppMgmt","Appinfo","IKEEXT","Netman","seclogon","SDRSVC","smphost","QWAVE","pla","midisrv","fdPHost","FDResPub","EFS","defragsvc","DsSvc","cloudidsvc","LicenseManager","NcaSvc","camsvc","PolicyAgent","Wcmsvc","NcbService","DeviceAssociationService")
+foreach ($s in $manuales) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Manual") {
+            Write-Host ("│  ✔  {0,-36} Manual" -f $s) -ForegroundColor Cyan; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else { Write-Host ("│  —  {0,-36} No existe" -f $s) -ForegroundColor DarkGray }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if($err -eq 0){"Green"}else{"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B6:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 7 -->
+<div class="sec" id="b7">
+  <div class="sec-hd">
+    <div class="sn">7</div>
+    <div class="st">SysMain y WSearch</div>
+  </div>
+  <p class="sd">SysMain (Superfetch) consume RAM precargando apps en background — con APU que comparte RAM con la GPU, cada MB cuenta. WSearch → Disabled en esta PC — no se usa la búsqueda de Windows.</p>
+  <div class="note b"><strong>SysMain → Disabled:</strong> En PCs con SSD + poca RAM, Superfetch hace más daño que bien. Con la Radeon integrada usando UMA de la misma RAM, liberar esa presión impacta directamente en los juegos.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 7 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B7:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 7 — SysMain y WSearch                    ║" -ForegroundColor DarkYellow
+Write-Host "║  SysMain → Disabled  |  WSearch → Disabled       ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $errores = 0
+
+# ── SYSMAIN (SUPERFETCH) ─────────────────────────────────────────────────
+Write-Host "`n  ┌─ SysMain (Superfetch) ──────────────────────────" -ForegroundColor Cyan
+$total++
+try {
+    $svc = Get-Service "SysMain" -EA Stop
+    if ($svc.StartType -eq "Disabled") {
+        Write-Host "  │  — SysMain                          ya Disabled" -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-Service "SysMain" -StartupType Disabled -EA Stop
+        Stop-Service "SysMain" -Force -EA SilentlyContinue
+        Write-Host "  │  ✔ SysMain                          → Disabled" -ForegroundColor Green
+        $ok++
+    }
+} catch { Write-Host "  │  ✘ SysMain → ERROR: $($_.Exception.Message)" -ForegroundColor Red; $errores++ }
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── WSEARCH (INDEXACIÓN) ─────────────────────────────────────────────────
+Write-Host "`n  ┌─ WSearch (Indexación) ──────────────────────────" -ForegroundColor Cyan
+$total++
+try {
+    $svc = Get-Service "WSearch" -EA Stop
+    if ($svc.StartType -eq "Disabled") {
+        Write-Host "  │  — WSearch                          ya Disabled" -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-Service "WSearch" -StartupType Disabled -EA Stop
+        Stop-Service "WSearch" -Force -EA SilentlyContinue
+        Write-Host "  │  ✔ WSearch                          → Disabled" -ForegroundColor Green
+        $ok++
+    }
+} catch { Write-Host "  │  ✘ WSearch → ERROR: $($_.Exception.Message)" -ForegroundColor Red; $errores++ }
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 7                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados       : {0,-29}║" -f $total) -ForegroundColor White
+Write-Host ("║  Aplicados ahora  : {0,-29}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK    : {0,-29}║" -f $yaOk) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores          : {0,-29}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 7 completo. Continuar con Bloque 8.`n" -ForegroundColor Cyan</pre>
+<!-- /B7:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 7</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B7:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 7 ────────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+$sm = Get-Service "SysMain" -EA SilentlyContinue
+if ($sm) {
+    if ($sm.StartType -eq "Disabled") {
+        Write-Host "│  ✔  SysMain                          → Disabled" -ForegroundColor Green; $ok++
+    } else {
+        Write-Host "│  ✘  SysMain                          → $($sm.StartType) ← REVISAR" -ForegroundColor Red; $err++
+    }
+}
+$ws = Get-Service "WSearch" -EA SilentlyContinue
+if ($ws) {
+    if ($ws.StartType -eq "Disabled") {
+        Write-Host "│  ✔  WSearch                          → Disabled" -ForegroundColor Green; $ok++
+    } else {
+        Write-Host "│  ✘  WSearch                          → $($ws.StartType) ← REVISAR" -ForegroundColor Red; $err++
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B7:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 8 -->
+<div class="sec sec-amd" id="b8">
+  <div class="sec-hd">
+    <div class="sn w">8</div>
+    <div class="st">Telemetría AMD <span class="tag twn">Post drivers</span></div>
+  </div>
+  <p class="sd">AMD instala telemetría automáticamente con cada driver. Ejecutar después de cada instalación o actualización de Adrenalin.</p>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 8 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B8:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 8 — Telemetría AMD                       ║" -ForegroundColor DarkYellow
+Write-Host "║  Servicio + tareas programadas → Disabled        ║" -ForegroundColor DarkYellow
+Write-Host "║  Ejecutar después de CADA instalación Adrenalin  ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+# ── SERVICIO AUEP ────────────────────────────────────────────────────────
+Write-Host "`n  ┌─ Servicio_AUEP ──────────────────────────────────" -ForegroundColor Cyan
+$svcName = "AUEPLauncher"
+$total++
+try {
+    $svc = Get-Service -Name $svcName -EA Stop
+    if ($svc.StartType -eq "Disabled") {
+        Write-Host ("  │  — {0,-36} ya Disabled" -f $svcName) -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-Service -Name $svcName -StartupType Disabled -EA Stop
+        Stop-Service -Name $svcName -Force -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-36} → Disabled" -f $svcName) -ForegroundColor Green
+        $ok++
+    }
+} catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+    Write-Host ("  │  ⚠ {0,-36} no existe" -f $svcName) -ForegroundColor DarkGray
+    $noExiste++
+} catch {
+    Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $svcName) -ForegroundColor Red
+    $errores++
+}
+# Matar el proceso si está corriendo
+Stop-Process -Name "AUEPMaster" -Force -EA SilentlyContinue
+Write-Host "  │  ✔ AUEPMaster (proceso) → terminado si existía" -ForegroundColor DarkGray
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── TAREAS PROGRAMADAS AMD — TELEMETRÍA ─────────────────────────────────
+$gruposTareas = [ordered]@{
+
+    # Tareas de telemetría y experiencia del usuario (CEIP-style de AMD)
+    "AMD_Telemetria_CEIP" = @(
+        @{N="StartAUEP";  C="AMD User Experience Program — telemetría de uso del driver"},
+        @{N="StartCN";    C="AMD Crash Notification — reportes de crash a AMD"},
+        @{N="StartCNBM";  C="AMD Crash Notification Background Monitor — monitoreo continuo de crashes"},
+        @{N="StartDVR";   C="AMD Desktop Video Recorder — grabación automática para reportes"}
+    )
+
+    # Tareas de actualizaciones automáticas de software AMD
+    "AMD_Actualizaciones" = @(
+        @{N="AMDLinkUpdate";       C="AMD Link Update — actualiza la app AMD Link en background"},
+        @{N="AMDInstallLauncher";  C="AMD Install Launcher — lanzador automático de instalaciones AMD"},
+        @{N="AMDRyzenMasterSDKTask"; C="AMD Ryzen Master SDK — tareas del SDK de Ryzen Master"}
+    )
+}
+
+foreach ($grupo in $gruposTareas.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($t in $gruposTareas[$grupo]) {
+        $total++
+        try {
+            $task = Get-ScheduledTask -TaskName $t.N -EA Stop
+            if ($task.State -eq "Disabled") {
+                Write-Host ("  │  — {0,-28} ya Disabled" -f $t.N) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Disable-ScheduledTask -TaskName $t.N -EA Stop | Out-Null
+            Write-Host ("  │  ✔ {0,-28} → Disabled  # $($t.C)" -f $t.N) -ForegroundColor Green
+            $ok++
+        } catch {
+            Write-Host ("  │  ⚠ {0,-28} no existe (normal si no está instalado)" -f $t.N) -ForegroundColor DarkGray
+            $noExiste++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 8                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Deshabilitados ahora : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 8 completo — Telemetría AMD deshabilitada.`n" -ForegroundColor Cyan</pre>
+<!-- /B8:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 8</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B8:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 8 ────────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+# Servicio
+$svc = Get-Service "AUEPLauncher" -EA SilentlyContinue
+if ($svc) {
+    if ($svc.StartType -eq "Disabled") {
+        Write-Host "│  ✔  AUEPLauncher (servicio)          → Disabled" -ForegroundColor Green; $ok++
+    } else {
+        Write-Host "│  ✘  AUEPLauncher (servicio)          → $($svc.StartType) ← REVISAR" -ForegroundColor Red; $err++
+    }
+} else {
+    Write-Host "│  —  AUEPLauncher                     → No existe (normal)" -ForegroundColor DarkGray
+}
+# Tareas
+$names = @("StartAUEP","StartCN","StartCNBM","StartDVR","AMDLinkUpdate","AMDInstallLauncher","AMDRyzenMasterSDKTask")
+foreach ($n in $names) {
+    $task = Get-ScheduledTask -TaskName $n -EA SilentlyContinue
+    if ($task) {
+        if ($task.State -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $n) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($task.State) ← REVISAR" -f $n) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $n) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B8:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="note w"><strong>Recordar:</strong> AMD regenera estas tareas con cada actualización. Siempre instalar en modo Personalizado y re-ejecutar este bloque.</div>
+</div>
+
+<!-- BLOQUE 9 -->
+<div class="sec sec-tel" id="b9">
+  <div class="sec-hd">
+    <div class="sn">9</div>
+    <div class="st">Edge en segundo plano</div>
+  </div>
+  <p class="sd">Frena Edge para que no corra procesos invisibles al iniciar. No lo desinstala — si lo abrís funciona normal.</p>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 9 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B9:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 9 — Edge en segundo plano                ║" -ForegroundColor DarkYellow
+Write-Host "║  Registro + Servicios → Edge silenciado          ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+# ── REGISTRO — POLÍTICAS DE EDGE ────────────────────────────────────────
+Write-Host "`n  ┌─ Edge_Registro (Políticas) ──────────────────────" -ForegroundColor Cyan
+$edgeReg = "HKLM:\SOFTWARE\Policies\Microsoft\Edge"
+If (!(Test-Path $edgeReg)) { New-Item -Path $edgeReg -Force | Out-Null }
+
+$claves = [ordered]@{
+    "StartupBoostEnabled"      = @{V=0; C="Startup Boost — precarga Edge en segundo plano al iniciar Windows"}
+    "BackgroundModeEnabled"    = @{V=0; C="Background Mode — mantiene Edge corriendo incluso al cerrar todas las ventanas"}
+    "EdgeEnhanceImagesEnabled" = @{V=0; C="Enhance Images — mejora imágenes con ML, consume CPU en background"}
+}
+foreach ($key in $claves.Keys) {
+    $total++
+    $current = (Get-ItemProperty $edgeReg -EA SilentlyContinue).$key
+    if ($current -eq $claves[$key].V) {
+        Write-Host ("  │  — {0,-30} ya configurado ({1})" -f $key, $claves[$key].V) -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-ItemProperty -Path $edgeReg -Name $key -Value $claves[$key].V -Type DWord
+        Write-Host ("  │  ✔ {0,-30} → {1}  # $($claves[$key].C)" -f $key, $claves[$key].V) -ForegroundColor Green
+        $ok++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── SERVICIOS DE ACTUALIZACIÓN DE EDGE ──────────────────────────────────
+Write-Host "`n  ┌─ Edge_Servicios (Actualizadores) ───────────────" -ForegroundColor Cyan
+$edgeSvcs = [ordered]@{
+    "edgeupdate"  = "Microsoft Edge Update — actualiza Edge en background automáticamente"
+    "edgeupdatem" = "Microsoft Edge Update (Medium) — variante del actualizador con prioridad media"
+}
+foreach ($s in $edgeSvcs.Keys) {
+    $total++
+    try {
+        $svc = Get-Service -Name $s -EA Stop
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("  │  — {0,-30} ya Disabled" -f $s) -ForegroundColor DarkGray
+            $yaOk++; continue
+        }
+        Set-Service -Name $s -StartupType Disabled -EA Stop
+        Stop-Service -Name $s -Force -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-30} → Disabled  # $($edgeSvcs[$s])" -f $s) -ForegroundColor Green
+        $ok++
+    } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+        Write-Host ("  │  ⚠ {0,-30} no existe (normal)" -f $s) -ForegroundColor DarkGray
+        $noExiste++
+    } catch {
+        Write-Host ("  │  ✘ {0,-30} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+        $errores++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 9                                ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Aplicados ahora      : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 9 completo. Continuar con Bloque 10.`n" -ForegroundColor Cyan</pre>
+<!-- /B9:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 9</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B9:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 9 ────────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+$ep = Get-ItemProperty "HKLM:\SOFTWARE\Policies\Microsoft\Edge" -EA SilentlyContinue
+# Registro
+$regChecks = @(
+    @{N="StartupBoostEnabled";   E=0; L="Edge StartupBoost"},
+    @{N="BackgroundModeEnabled"; E=0; L="Edge BackgroundMode"}
+)
+foreach ($c in $regChecks) {
+    $val = if ($ep) { $ep.($c.N) } else { $null }
+    $disp = if ($null -eq $val) {"NO CONFIGURADO"} else {$val}
+    if ($val -eq $c.E) {
+        Write-Host ("│  ✔  {0,-36} → {1}" -f $c.L, $disp) -ForegroundColor Green; $ok++
+    } else {
+        Write-Host ("│  ✘  {0,-36} → {1} ← REVISAR" -f $c.L, $disp) -ForegroundColor Red; $err++
+    }
+}
+# Servicios
+foreach ($s in @("edgeupdate","edgeupdatem")) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B9:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 10 -->
+<div class="sec sec-tel" id="b10">
+  <div class="sec-hd">
+    <div class="sn w">10</div>
+    <div class="st">Telemetría profunda — Registro <span class="tag trd">Privacidad</span></div>
+  </div>
+  <p class="sd">Cierra los canales de telemetría en el registro: CEIP, Activity History, Windows Recall/AI, publicidad personalizada, sugerencias del sistema, voz/escritura/teclado y feedback. Agrupados por función.</p>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 10 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B10:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 10 — Telemetría profunda (Registro)      ║" -ForegroundColor DarkYellow
+Write-Host "║  CEIP · AI/Recall · Publicidad · Sugerencias     ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $errores = 0
+
+function Set-RegKey($path, $name, $value, $type, $label) {
+    $script:total++
+    If (!(Test-Path $path)) { New-Item -Path $path -Force | Out-Null }
+    $current = (Get-ItemProperty $path -EA SilentlyContinue).$name
+    if ($current -eq $value) {
+        Write-Host ("  │  — {0,-38} ya OK ({1})" -f $name, $value) -ForegroundColor DarkGray
+        $script:yaOk++
+    } else {
+        try {
+            Set-ItemProperty -Path $path -Name $name -Value $value -Type $type -EA Stop
+            Write-Host ("  │  ✔ {0,-38} → {1}  # {2}" -f $name, $value, $label) -ForegroundColor Green
+            $script:ok++
+        } catch {
+            Write-Host ("  │  ✘ {0,-38} ERROR: {1}" -f $name, $_.Exception.Message) -ForegroundColor Red
+            $script:errores++
+        }
+    }
+}
+
+# ── TELEMETRÍA CORE — DataCollection ────────────────────────────────────
+Write-Host "`n  ┌─ Telemetria_Core (DataCollection) ──────────────" -ForegroundColor Cyan
+$dcPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection"
+Set-RegKey $dcPath "AllowTelemetry"              0 "DWord" "Nivel de telemetría → 0 = Security (mínimo posible)"
+Set-RegKey $dcPath "LimitDiagnosticLogCollection" 1 "DWord" "Limita la recolección de logs de diagnóstico"
+Set-RegKey $dcPath "DisableOneSettingsDownloads"  1 "DWord" "Bloquea la descarga de configuraciones remotas de telemetría"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── CEIP — Customer Experience Improvement Program ───────────────────────
+Write-Host "`n  ┌─ CEIP (SQMClient) ───────────────────────────────" -ForegroundColor Cyan
+Set-RegKey "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows" "CEIPEnable" 0 "DWord" "Deshabilita el programa de mejora de experiencia del cliente"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── ACTIVITY HISTORY — Historial de actividad ───────────────────────────
+Write-Host "`n  ┌─ Activity_History (Timeline) ───────────────────" -ForegroundColor Cyan
+$sysPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"
+Set-RegKey $sysPath "EnableActivityFeed"    0 "DWord" "Deshabilita el feed de actividad del sistema"
+Set-RegKey $sysPath "PublishUserActivities" 0 "DWord" "Impide que las apps publiquen actividades en la Timeline"
+Set-RegKey $sysPath "UploadUserActivities"  0 "DWord" "Bloquea la sincronización de actividades con la nube MS"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── WINDOWS AI / RECALL ──────────────────────────────────────────────────
+Write-Host "`n  ┌─ WindowsAI_Recall ───────────────────────────────" -ForegroundColor Cyan
+$aiPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI"
+Set-RegKey $aiPath "DisableAIDataAnalysis"  1 "DWord" "Deshabilita el análisis de datos por IA (Recall)"
+Set-RegKey $aiPath "TurnOffSavingSnapshots" 1 "DWord" "Desactiva la captura de pantallas automática de Recall"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── PUBLICIDAD PERSONALIZADA ─────────────────────────────────────────────
+Write-Host "`n  ┌─ Publicidad_Personalizada ───────────────────────" -ForegroundColor Cyan
+Set-RegKey "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled" 0 "DWord" "ID de publicidad personalizada → deshabilitado"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── CONTENT DELIVERY — Sugerencias y tips ────────────────────────────────
+Write-Host "`n  ┌─ ContentDelivery (Sugerencias_Sistema) ─────────" -ForegroundColor Cyan
+$cdPath = "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"
+Set-RegKey $cdPath "SoftLandingEnabled"              0 "DWord" "Tips y sugerencias en la pantalla de bloqueo"
+Set-RegKey $cdPath "SubscribedContent-338389Enabled" 0 "DWord" "Sugerencias ocasionales en el menú inicio"
+Set-RegKey $cdPath "SubscribedContent-338393Enabled" 0 "DWord" "Contenido sugerido en la pantalla de bloqueo"
+Set-RegKey $cdPath "SubscribedContent-353694Enabled" 0 "DWord" "Sugerencias de apps en Configuración"
+Set-RegKey $cdPath "SystemPaneSuggestionsEnabled"    0 "DWord" "Sugerencias de apps en el panel de sistema"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── VOZ Y RECONOCIMIENTO ONLINE ───────────────────────────────────────────
+Write-Host "`n  ┌─ Voz_Reconocimiento_Online ──────────────────────" -ForegroundColor Cyan
+Set-RegKey "HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy" "HasAccepted" 0 "DWord" "Reconocimiento de voz online → deshabilitado"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── ESCRITURA E INK — Recolección de datos de teclado ────────────────────
+Write-Host "`n  ┌─ Escritura_Ink (InputPersonalization) ──────────" -ForegroundColor Cyan
+$inkPath = "HKCU:\SOFTWARE\Microsoft\InputPersonalization"
+Set-RegKey $inkPath "RestrictImplicitInkCollection"  1 "DWord" "Bloquea recolección implícita de datos de escritura a mano"
+Set-RegKey $inkPath "RestrictImplicitTextCollection" 1 "DWord" "Bloquea recolección implícita de datos de teclado"
+Set-RegKey "HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore" "HarvestContacts" 0 "DWord" "Bloquea recolección de contactos para sugerencias de escritura"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── PERSONALIZACIÓN Y POLÍTICA DE PRIVACIDAD ─────────────────────────────
+Write-Host "`n  ┌─ Personalizacion_Privacidad ─────────────────────" -ForegroundColor Cyan
+Set-RegKey "HKCU:\SOFTWARE\Microsoft\Personalization\Settings" "AcceptedPrivacyPolicy" 0 "DWord" "Política de privacidad de personalización → rechazada"
+Set-RegKey "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy" "TailoredExperiencesWithDiagnosticDataEnabled" 0 "DWord" "Experiencias personalizadas basadas en datos de diagnóstico → OFF"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── HISTORIAL Y FEEDBACK ──────────────────────────────────────────────────
+Write-Host "`n  ┌─ Historial_Feedback ─────────────────────────────" -ForegroundColor Cyan
+Set-RegKey "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced" "Start_TrackProgs" 0 "DWord" "Historial de programas usados en el menú inicio → OFF"
+Set-RegKey "HKCU:\SOFTWARE\Microsoft\Siuf\Rules" "NumberOfSIUFInPeriod" 0 "DWord" "Encuestas de feedback de Windows → frecuencia = 0"
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 10                               ║") -ForegroundColor Cyan
+Write-Host ("║  CEIP · AI/Recall · Publicidad · Sugerencias     ║") -ForegroundColor Cyan
+Write-Host ("║  Voz · Escritura · Personalización · Feedback    ║") -ForegroundColor Cyan
+Write-Host ("║  Claves procesadas    : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Configuradas ahora   : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 10 completo. Continuar con Bloque 11.`n" -ForegroundColor Cyan</pre>
+<!-- /B10:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 10</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B10:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 10 ───────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+$checks = @(
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection";          N="AllowTelemetry";              E=0; L="AllowTelemetry"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection";          N="LimitDiagnosticLogCollection"; E=1; L="LimitDiagnosticLog"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows";               N="CEIPEnable";                  E=0; L="CEIP"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System";                  N="EnableActivityFeed";          E=0; L="Activity Feed"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System";                  N="PublishUserActivities";       E=0; L="Publish Activities"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\System";                  N="UploadUserActivities";        E=0; L="Upload Activities"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI";               N="DisableAIDataAnalysis";       E=1; L="Recall / AI Data"},
+    @{P="HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI";               N="TurnOffSavingSnapshots";      E=1; L="Recall Snapshots"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo";   N="Enabled";                     E=0; L="Publicidad personalizada"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; N="SoftLandingEnabled";           E=0; L="Tips pantalla bloqueo"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager"; N="SystemPaneSuggestionsEnabled";  E=0; L="Sugerencias sistema"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Speech_OneCore\Settings\OnlineSpeechPrivacy";  N="HasAccepted";                   E=0; L="Voz online"},
+    @{P="HKCU:\SOFTWARE\Microsoft\InputPersonalization";                          N="RestrictImplicitInkCollection"; E=1; L="Ink collection"},
+    @{P="HKCU:\SOFTWARE\Microsoft\InputPersonalization";                          N="RestrictImplicitTextCollection";E=1; L="Text collection"},
+    @{P="HKCU:\SOFTWARE\Microsoft\InputPersonalization\TrainedDataStore";         N="HarvestContacts";               E=0; L="Harvest contacts"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Personalization\Settings";                      N="AcceptedPrivacyPolicy";         E=0; L="Privacy policy"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Privacy";               N="TailoredExperiencesWithDiagnosticDataEnabled"; E=0; L="Tailored experiences"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Advanced";     N="Start_TrackProgs";              E=0; L="Historial inicio"},
+    @{P="HKCU:\SOFTWARE\Microsoft\Siuf\Rules";                                    N="NumberOfSIUFInPeriod";          E=0; L="Feedback surveys"}
+)
+foreach ($c in $checks) {
+    $prop = Get-ItemProperty $c.P -EA SilentlyContinue
+    $val  = if ($prop) { $prop.($c.N) } else { $null }
+    $disp = if ($null -eq $val) { "NO CONFIGURADO" } else { $val }
+    if ($val -eq $c.E) {
+        Write-Host ("│  ✔  {0,-36} → {1}" -f $c.L, $disp) -ForegroundColor Green; $ok++
+    } else {
+        Write-Host ("│  ✘  {0,-36} → {1} ← REVISAR" -f $c.L, $disp) -ForegroundColor Red; $err++
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B10:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 11 -->
+<div class="sec sec-perf" id="b11">
+  <div class="sec-hd">
+    <div class="sn p">11</div>
+    <div class="st">Rendimiento APU <span class="tag tin">Gaming</span></div>
+  </div>
+  <p class="sd">Plan alto rendimiento, Core Parking deshabilitado, prioridad GPU para juegos, Nagle deshabilitado. Específico para Ryzen 5 5600G con gráfico integrado.</p>
+  <div class="note b"><strong>Al finalizar</strong> el script abre automáticamente los Efectos Visuales — elegir <strong>"Ajustar para obtener el mejor rendimiento"</strong> para liberar más RAM y CPU de la interfaz gráfica.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 11 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B11:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 11 — Rendimiento APU                     ║" -ForegroundColor DarkYellow
+Write-Host "║  Plan · Core Parking · GPU Priority · Nagle      ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $errores = 0
+
+# ── PLAN DE ENERGÍA ──────────────────────────────────────────────────────
+Write-Host "`n  ┌─ Plan_Energia ───────────────────────────────────" -ForegroundColor Cyan
+$total++
+try {
+    $planActual = powercfg -getactivescheme
+    if ($planActual -like "*8c5e7fda*" -or $planActual -like "*Alto*" -or $planActual -like "*High*") {
+        Write-Host "  │  — Plan de energía                  ya Alto rendimiento" -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        powercfg -setactive 8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c
+        Write-Host "  │  ✔ Plan de energía                  → Alto rendimiento (High Performance)" -ForegroundColor Green
+        $ok++
+    }
+} catch { Write-Host "  │  ✘ Plan energía → ERROR: $($_.Exception.Message)" -ForegroundColor Red; $errores++ }
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── CORE PARKING ─────────────────────────────────────────────────────────
+Write-Host "`n  ┌─ Core_Parking ───────────────────────────────────" -ForegroundColor Cyan
+$total++
+try {
+    # CPMINCORES/CPMAXCORES al 100% = todos los núcleos activos siempre
+    powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMINCORES 100
+    powercfg -setacvalueindex SCHEME_CURRENT SUB_PROCESSOR CPMAXCORES 100
+    Write-Host "  │  ✔ Core Parking                      → Disabled (CPMINCORES/MAX = 100%)" -ForegroundColor Green
+    Write-Host "  │    Todos los núcleos del 5600G activos permanentemente" -ForegroundColor DarkGray
+    $ok++
+} catch { Write-Host "  │  ✘ Core Parking → ERROR: $($_.Exception.Message)" -ForegroundColor Red; $errores++ }
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── GPU PRIORITY — MULTIMEDIA SYSTEM PROFILE ────────────────────────────
+Write-Host "`n  ┌─ GPU_Priority (SystemProfile Tasks) ────────────" -ForegroundColor Cyan
+$gpuPath = "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games"
+$gpuClaves = [ordered]@{
+    "GPU Priority"        = @{V=8;      T="DWord";  C="Prioridad de acceso a la GPU para juegos — máximo = 8"}
+    "Priority"            = @{V=6;      T="DWord";  C="Prioridad de CPU para el perfil de juego — alto = 6"}
+    "Scheduling Category" = @{V="High"; T="String"; C="Categoría de scheduling — High = tratamiento prioritario del scheduler"}
+}
+If (!(Test-Path $gpuPath)) { New-Item -Path $gpuPath -Force | Out-Null }
+foreach ($key in $gpuClaves.Keys) {
+    $total++
+    $current = (Get-ItemProperty $gpuPath -EA SilentlyContinue).$key
+    if ($current -eq $gpuClaves[$key].V) {
+        Write-Host ("  │  — {0,-22} ya configurado ({1})" -f $key, $gpuClaves[$key].V) -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-ItemProperty -Path $gpuPath -Name $key -Value $gpuClaves[$key].V -Type $gpuClaves[$key].T
+        Write-Host ("  │  ✔ {0,-22} → {1}  # $($gpuClaves[$key].C)" -f $key, $gpuClaves[$key].V) -ForegroundColor Green
+        $ok++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── NAGLE ALGORITHM ──────────────────────────────────────────────────────
+Write-Host "`n  ┌─ Nagle_Algorithm (TCP) ─────────────────────────" -ForegroundColor Cyan
+$total++
+try {
+    $tcpReg = "HKLM:\SYSTEM\CurrentControlSet\Services\Tcpip\Parameters\Interfaces"
+    $interfaces = Get-ChildItem $tcpReg
+    $count = 0
+    foreach ($iface in $interfaces) {
+        Set-ItemProperty -Path $iface.PSPath -Name "TcpAckFrequency" -Value 1 -Type DWord -EA SilentlyContinue
+        Set-ItemProperty -Path $iface.PSPath -Name "TCPNoDelay"      -Value 1 -Type DWord -EA SilentlyContinue
+        $count++
+    }
+    Write-Host ("  │  ✔ Nagle Algorithm                   → Disabled en {0} interfaces TCP" -f $count) -ForegroundColor Green
+    Write-Host "  │    TcpAckFrequency=1 + TCPNoDelay=1 — reduce latencia de red en juegos" -ForegroundColor DarkGray
+    $ok++
+} catch { Write-Host "  │  ✘ Nagle → ERROR: $($_.Exception.Message)" -ForegroundColor Red; $errores++ }
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 11                               ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Aplicados ahora      : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Abriendo Efectos Visuales — elegir 'Mejor rendimiento'" -ForegroundColor Yellow
+Start-Process SystemPropertiesPerformance
+Write-Host "`n  ► Bloque 11 completo. ¡Optimización finalizada — reiniciar!`n" -ForegroundColor Green</pre>
+<!-- /B11:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 11</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B11:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 11 ───────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+# Plan de energía
+$plan = powercfg -getactivescheme
+if ($plan -like "*Alto*" -or $plan -like "*High*" -or $plan -like "*8c5e7fda*") {
+    Write-Host "│  ✔  Plan energía                     → Alto rendimiento" -ForegroundColor Green; $ok++
+} else {
+    Write-Host "│  ✘  Plan energía                     → $plan ← REVISAR" -ForegroundColor Red; $err++
+}
+# GPU Priority
+$gp = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -EA SilentlyContinue
+if ($gp."GPU Priority" -eq 8) {
+    Write-Host "│  ✔  GPU Priority                     → 8 (High)" -ForegroundColor Green; $ok++
+} else {
+    $gpval = if ($gp) { $gp."GPU Priority" } else { "NO CONFIGURADO" }
+    Write-Host "│  ✘  GPU Priority                     → $gpval ← REVISAR" -ForegroundColor Red; $err++
+}
+if ($gp."Scheduling Category" -eq "High") {
+    Write-Host "│  ✔  Scheduling Category              → High" -ForegroundColor Green; $ok++
+} else {
+    $scval = if ($gp) { $gp."Scheduling Category" } else { "NO CONFIGURADO" }
+    Write-Host "│  ✘  Scheduling Category              → $scval ← REVISAR" -ForegroundColor Red; $err++
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B11:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BLOQUE 12 -->
+<div class="sec sec-tel" id="b12">
+  <div class="sec-hd">
+    <div class="sn w">12</div>
+    <div class="st">Servicios cloud y background innecesarios <span class="tag trd">Privacidad · RAM</span></div>
+  </div>
+  <p class="sd">Servicios de sincronización en la nube, portapapeles compartido y monitoreo de datos que corren en background sin aportar nada. Grupo A → Disabled · Grupo B → Manual.</p>
+  <div class="note b"><strong>StiSvc e InventorySvc → Manual:</strong> StiSvc para detección de escáner/cámara USB. InventorySvc en Manual permite que Revo/Winget lean fechas de instalación correctamente.<br><strong>BITS, UsoSvc, wuauserv, WaaSMedicSvc, InstallService → manejados por app de terceros.</strong> No tocar.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 12 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B12:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 12 — Cloud y background innecesarios     ║" -ForegroundColor DarkYellow
+Write-Host "║  Grupo A → Disabled  |  Grupo B → Manual         ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+# ── GRUPO A — DISABLED ───────────────────────────────────────────────────
+$gruposA = [ordered]@{
+
+    # Plataforma de dispositivos conectados — sincroniza con la nube MS
+    # Timeline, handoff entre dispositivos, continuidad con celular
+    # CDPSvc en Disabled evita que el Visor de Eventos se llene de errores
+    "Connected_Devices_Platform" = @(
+        "CDPSvc"             # Connected Devices Platform Service
+    )
+
+    # Portapapeles en la nube — sincroniza el clipboard entre dispositivos MS
+    "Clipboard_Cloud" = @(
+        "cbdhsvc"            # Clipboard User Service — historial y sincronización del portapapeles
+    )
+
+    # Monitoreo de uso de datos por app — pura telemetría de consumo
+    "Data_Usage" = @(
+        "DusmSvc"            # Data Usage Subscription Manager — registra MB consumidos por app
+    )
+
+}
+
+Write-Host "`n  ═══ GRUPO A — Disabled ═══════════════════════════" -ForegroundColor Red
+foreach ($grupo in $gruposA.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $gruposA[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Disabled") {
+                Write-Host ("  │  — {0,-36} ya Disabled" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Disabled -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Disabled" -f $s) -ForegroundColor Green
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+# CDPUserSvc tiene sufijo variable — buscar por patrón con guión bajo
+Write-Host "`n  ┌─ Sufijos_Variables (CDPUserSvc_*) ──────────────" -ForegroundColor Cyan
+Get-Service | Where-Object { $_.Name -like "CDPUserSvc_*" } | ForEach-Object {
+    $total++
+    if ($_.StartType -eq "Disabled") {
+        Write-Host ("  │  — {0,-36} ya Disabled" -f $_.Name) -ForegroundColor DarkGray
+        $yaOk++
+    } else {
+        Set-Service -Name $_.Name -StartupType Disabled -EA SilentlyContinue
+        Stop-Service -Name $_.Name -Force -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-36} → Disabled" -f $_.Name) -ForegroundColor Green
+        $ok++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+# ── GRUPO B — MANUAL ─────────────────────────────────────────────────────
+$gruposB = [ordered]@{
+
+    # Still Image — detección de cámaras y scanners USB
+    # El escáner Brother usa BrYNSvc directamente, no StiSvc
+    "Still_Image" = @(
+        "StiSvc"             # Windows Image Acquisition (WIA) — still image devices
+    )
+
+    # Inventario de apps — en Manual Revo/Winget leen fechas de instalación OK
+    # En Disabled las fechas de instalación aparecen incorrectas
+    "Inventory_Apps" = @(
+        "InventorySvc"       # Inventory and Compatibility Appraisal Service
+    )
+}
+
+Write-Host "`n  ═══ GRUPO B — Manual ══════════════════════════════" -ForegroundColor Cyan
+foreach ($grupo in $gruposB.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $gruposB[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Manual") {
+                Write-Host ("  │  — {0,-36} ya Manual" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Manual -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Manual" -f $s) -ForegroundColor Cyan
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 12                               ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Aplicados ahora      : {0,-25}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 12 completo. Continuar con POST.`n" -ForegroundColor Cyan</pre>
+<!-- /B12:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 12</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B12:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 12 ───────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+# Deben estar Disabled
+$dis = @("CDPSvc","cbdhsvc","DusmSvc")
+foreach ($s in $dis) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Disabled") {
+            Write-Host ("│  ✔  {0,-36} Disabled" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else { Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray }
+}
+# Sufijo variable CDPUserSvc_*
+Get-Service | Where-Object { $_.Name -like "CDPUserSvc_*" } | ForEach-Object {
+    if ($_.StartType -eq "Disabled") {
+        Write-Host ("│  ✔  {0,-36} Disabled" -f $_.Name) -ForegroundColor Green; $ok++
+    } else {
+        Write-Host ("│  ✘  {0,-36} $($_.StartType) ← REVISAR" -f $_.Name) -ForegroundColor Red; $err++
+    }
+}
+# Deben estar Manual
+$man = @("StiSvc","InventorySvc")
+foreach ($s in $man) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Manual") {
+            Write-Host ("│  ✔  {0,-36} Manual" -f $s) -ForegroundColor Cyan; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else { Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B12:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- ═══════════════ BLOQUE 13 — INICIO / STARTUP ═══════════════ -->
+<div class="sec sec-perf" id="b13">
+  <div class="sec-hd">
+    <div class="sn p">13</div>
+    <div class="st">Inicio — Servicios que retrasan el boot <span class="tag tin">Boot rápido</span></div>
+  </div>
+  <p class="sd">Servicios que están en Automatic sin necesidad y retrasan el arranque o hacen que Chrome y otras apps tilden al iniciar. Todo a Manual — se activan solos cuando algo los necesita.</p>
+  <div class="note b"><strong>AppIDSvc y SecurityHealthService → Manual:</strong> Estaban Automatic/Running sin motivo. En Manual no impactan el boot y se activan bajo demanda. No los toques si corrés software que dependa de SmartScreen o integridad de apps.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 13 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B13:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 13 — Inicio / Startup                    ║" -ForegroundColor DarkYellow
+Write-Host "║  Servicios que retrasan el boot → Manual         ║" -ForegroundColor DarkYellow
+Write-Host "║  Se activan solos cuando algo los necesita       ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+$grupos = [ordered]@{
+
+    # ── SERVICIOS DE RED NO CRÍTICOS ─────────────────────────────────────────
+    # No se necesitan al boot — se activan solos cuando hay una conexión VPN, WiFi, etc.
+    "Red_NoCritica" = @(
+        "NcaSvc",               # Network Connectivity Assistant — diagnóstico de red
+        "Netman"                # Network Connections — panel de conexiones de red
+    )
+
+    # ── INSTALACIÓN Y LICENCIAS ──────────────────────────────────────────────
+    # Se activan solos cuando se instala algo o se verifica una licencia
+    "Instalacion_Licencias" = @(
+        "msiserver",            # Windows Installer — se activa al instalar apps, no antes
+        "LicenseManager"        # License Manager — verificación de licencias de apps
+    )
+
+    # ── DISPOSITIVOS Y ASOCIACIÓN ────────────────────────────────────────────
+    # En Ethernet fijo y sin BT/WiFi, no necesitan correr al boot
+    "Dispositivos_Asociacion" = @(
+        "DeviceAssociationService", # Device Association — emparejamiento de dispositivos
+        "NgcSvc"                    # Microsoft Passport — login sin contraseña
+    )
+
+    # ── APLICACIONES / TIENDA ────────────────────────────────────────────────
+    # La Store y las apps UWP los activan solos cuando se abren
+    "Apps_UWP" = @(
+        "ClipSVC",              # Client License Service — licencias de apps de la Store
+        "StorSvc"               # Storage Service — gestión de almacenamiento UWP
+    )
+}
+
+foreach ($grupo in $grupos.Keys) {
+    Write-Host "`n  ┌─ $grupo " -ForegroundColor Cyan -NoNewline
+    Write-Host ("─" * [Math]::Max(2, 46 - $grupo.Length)) -ForegroundColor DarkGray
+    foreach ($s in $grupos[$grupo]) {
+        $total++
+        try {
+            $svc = Get-Service -Name $s -EA Stop
+            if ($svc.StartType -eq "Manual") {
+                Write-Host ("  │  — {0,-36} ya Manual" -f $s) -ForegroundColor DarkGray
+                $yaOk++; continue
+            }
+            Set-Service -Name $s -StartupType Manual -EA Stop
+            Stop-Service -Name $s -Force -EA SilentlyContinue
+            Write-Host ("  │  ✔ {0,-36} → Manual" -f $s) -ForegroundColor Cyan
+            $ok++
+        } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+            Write-Host ("  │  ⚠ {0,-36} no existe" -f $s) -ForegroundColor DarkGray
+            $noExiste++
+        } catch {
+            Write-Host ("  │  ✘ {0,-36} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+            $errores++
+        }
+    }
+    Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 13                               ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados           : {0,-25}║" -f $total) -ForegroundColor White
+Write-Host ("║  Puestos en Manual    : {0,-25}║" -f $ok) -ForegroundColor Cyan
+Write-Host ("║  Ya estaban OK        : {0,-25}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados       : {0,-25}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores              : {0,-25}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► Bloque 13 completo. Continuar con POST.`n" -ForegroundColor Cyan</pre>
+<!-- /B13:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 13</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B13:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 13 ───────────────────────" -ForegroundColor Cyan
+$check = @(
+    "NcaSvc","Netman",
+    "msiserver","LicenseManager",
+    "DeviceAssociationService","NgcSvc",
+    "ClipSVC","StorSvc"
+)
+$ok = 0; $err = 0
+foreach ($s in $check) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Manual") {
+            Write-Host ("│  ✔  {0,-36} Manual" -f $s) -ForegroundColor Cyan; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B13:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ BLOQUE 14 — WIFI / NETBOOK ═══════════════ -->
+<div class="sec" id="b14">
+  <div class="sec-hd">
+    <div class="sn">📶</div>
+    <div class="st">Wifi / Netbook — Revertir servicios de red <span class="tag tin">Solo si usás WiFi</span></div>
+  </div>
+  <p class="sd">Esta guía está pensada para una PC de escritorio con Ethernet fijo. Si corriste los bloques en una notebook/netbook con WiFi y perdió la conexión inalámbrica, este bloque reactiva los servicios necesarios.</p>
+  <div class="note w"><strong>Ejecutar SOLO en equipos con WiFi.</strong> No es parte del flujo normal de esta guía — es un bloque de rescate independiente.</div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot a"></div><span class="cl">Bloque 14 — PowerShell Admin</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- B14:SCRIPT -->
+    <pre>if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+    Write-Host " ✘ Ejecutar como Administrador" -ForegroundColor Red; exit
+}
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor DarkYellow
+Write-Host "║  BLOQUE 14 — Wifi / Netbook                      ║" -ForegroundColor DarkYellow
+Write-Host "║  Reactiva servicios de red para uso con WiFi     ║" -ForegroundColor DarkYellow
+Write-Host "╚══════════════════════════════════════════════════╝`n" -ForegroundColor DarkYellow
+
+$total = 0; $ok = 0; $yaOk = 0; $noExiste = 0; $errores = 0
+
+$auto = [ordered]@{
+    "WlanSvc"  = "WLAN AutoConfig — motor principal de conexiones WiFi"
+    "WwanSvc"  = "WWAN AutoConfig — red celular / módem USB"
+    "dot3svc"  = "Wired AutoConfig (802.1X) — redes con autenticación empresarial"
+    "EapHost"  = "Extensible Authentication Protocol — requerido por WPA2-Enterprise"
+    "wcncsvc"  = "Windows Connect Now — configuración simplificada de router"
+}
+
+Write-Host "`n  ┌─ Servicios_WiFi_Automatic ───────────────────────" -ForegroundColor Cyan
+foreach ($s in $auto.Keys) {
+    $total++
+    try {
+        $svc = Get-Service -Name $s -EA Stop
+        if ($svc.StartType -eq "Automatic" -and $svc.Status -eq "Running") {
+            Write-Host ("  │  — {0,-28} ya Automatic/Running" -f $s) -ForegroundColor DarkGray
+            $yaOk++; continue
+        }
+        Set-Service -Name $s -StartupType Automatic -EA Stop
+        Start-Service -Name $s -EA SilentlyContinue
+        Write-Host ("  │  ✔ {0,-28} → Automatic+Running  # $($auto[$s])" -f $s) -ForegroundColor Green
+        $ok++
+    } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+        Write-Host ("  │  ⚠ {0,-28} no existe" -f $s) -ForegroundColor DarkGray
+        $noExiste++
+    } catch {
+        Write-Host ("  │  ✘ {0,-28} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+        $errores++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n  ┌─ Servicios_WiFi_Manual (bajo demanda) ──────────" -ForegroundColor Cyan
+$manual = @("Wcmsvc","NcbService","DeviceAssociationService")
+foreach ($s in $manual) {
+    $total++
+    try {
+        $svc = Get-Service -Name $s -EA Stop
+        if ($svc.StartType -eq "Manual" -or $svc.StartType -eq "Automatic") {
+            Write-Host ("  │  — {0,-28} ya OK ($($svc.StartType))" -f $s) -ForegroundColor DarkGray
+            $yaOk++; continue
+        }
+        Set-Service -Name $s -StartupType Manual -EA Stop
+        Write-Host ("  │  ✔ {0,-28} → Manual" -f $s) -ForegroundColor Cyan
+        $ok++
+    } catch [Microsoft.PowerShell.Commands.ServiceCommandException] {
+        Write-Host ("  │  ⚠ {0,-28} no existe" -f $s) -ForegroundColor DarkGray
+        $noExiste++
+    } catch {
+        Write-Host ("  │  ✘ {0,-28} ERROR: $($_.Exception.Message)" -f $s) -ForegroundColor Red
+        $errores++
+    }
+}
+Write-Host "  └────────────────────────────────────────────────" -ForegroundColor DarkGray
+
+Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host ("║  RESUMEN BLOQUE 14                               ║") -ForegroundColor Cyan
+Write-Host ("║  Procesados       : {0,-29}║" -f $total) -ForegroundColor White
+Write-Host ("║  Reactivados ahora: {0,-29}║" -f $ok) -ForegroundColor Green
+Write-Host ("║  Ya estaban OK    : {0,-29}║" -f $yaOk) -ForegroundColor DarkGray
+Write-Host ("║  No encontrados   : {0,-29}║" -f $noExiste) -ForegroundColor DarkGray
+if ($errores -gt 0) {
+Write-Host ("║  Errores          : {0,-29}║" -f $errores) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  ► WiFi restaurado. Verificar conexión en Configuración → Red.`n" -ForegroundColor Green</pre>
+<!-- /B14:SCRIPT -->
+  </div>
+  <div class="vblock">
+    <div class="vtoggle" onclick="toggleV(this)">
+      <div class="vtoggle-hd">
+        <div class="ch-l"><div class="dot g"></div><span class="cl v">✓ Verificador — Bloque 14</span></div>
+        <span class="vtoggle-arrow">mostrar</span>
+      </div>
+      <div class="vcontent">
+        <div style="padding:0 0 0 0">
+          <div class="ch" style="padding:7px 15px;background:var(--bg3);border-bottom:1px solid var(--border);display:flex;justify-content:flex-end">
+            <button class="cpbtn" onclick="event.stopPropagation();cpv(this)">Copiar</button>
+          </div>
+<!-- B14:VER -->
+          <pre>Write-Host "`n┌─ VERIFICACION BLOQUE 14 ───────────────────────" -ForegroundColor Cyan
+$ok = 0; $err = 0
+foreach ($s in @("WlanSvc","WwanSvc","dot3svc","EapHost","wcncsvc")) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -eq "Automatic" -and $svc.Status -eq "Running") {
+            Write-Host ("│  ✔  {0,-36} Automatic/Running" -f $s) -ForegroundColor Green; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} $($svc.StartType)/$($svc.Status) ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+foreach ($s in @("Wcmsvc","NcbService","DeviceAssociationService")) {
+    $svc = Get-Service $s -EA SilentlyContinue
+    if ($svc) {
+        if ($svc.StartType -ne "Disabled") {
+            Write-Host ("│  ✔  {0,-36} $($svc.StartType)" -f $s) -ForegroundColor Cyan; $ok++
+        } else {
+            Write-Host ("│  ✘  {0,-36} Disabled ← REVISAR" -f $s) -ForegroundColor Red; $err++
+        }
+    } else {
+        Write-Host ("│  —  {0,-36} No existe (normal)" -f $s) -ForegroundColor DarkGray
+    }
+}
+Write-Host "└────────────────────────────────────────────────" -ForegroundColor Cyan
+$col = if ($err -eq 0) {"Green"} else {"Red"}
+Write-Host ("`n  ✔ Correctos: $ok  ✘ A revisar: $err`n") -ForegroundColor $col</pre>
+<!-- /B14:VER -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="sep">
+
+<!-- ═══════════════ POST-VERIFICACIÓN FINAL ═══════════════ -->
+<div class="sec" id="post">
+  <div class="sec-hd">
+    <div class="sn g">✓</div>
+    <div class="st">POST-Verificación final completa <span class="tag tok">Después de reiniciar</span></div>
+  </div>
+  <div class="dbanner post">
+    <div class="dico">✅</div>
+    <div>
+      <div class="dtit">Ejecutar después del reinicio final</div>
+      <div class="dtxt">Estado completo de todos los cambios en una sola pasada. Verde = correcto · Rojo = revisar. Comparar con el output del PRE-diagnóstico para ver la diferencia.</div>
+    </div>
+  </div>
+  <div class="cb">
+    <div class="ch">
+      <div class="ch-l"><div class="dot g"></div><span class="cl post">✓ POST-VERIFICACIÓN FINAL — Todos los bloques</span></div>
+      <button class="cpbtn" onclick="cp(this)">Copiar</button>
+    </div>
+<!-- POST:SCRIPT -->
+    <pre>Write-Host "`n╔══════════════════════════════════════════════════╗" -ForegroundColor Green
+Write-Host "║   POST-VERIFICACIÓN FINAL — Windows 11           ║" -ForegroundColor Green
+Write-Host "║   DESKTOP-ER525HI / Ryzen 5 5600G / v8.26        ║" -ForegroundColor Green
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Green
+Write-Host "  $(Get-Date -Format 'dd/MM/yyyy HH:mm:ss')`n" -ForegroundColor DarkGray
+
+$ok = 0; $err = 0
+
+function Chk-Svc($name, $expected) {
+    $svc = Get-Service $name -EA SilentlyContinue
+    if ($svc) {
+        $pass = ($svc.StartType -eq $expected)
+        if ($pass) { $script:ok++;  Write-Host ("  ✔  {0,-32} {1}" -f $name, $svc.StartType) -ForegroundColor Green }
+        else        { $script:err++; Write-Host ("  ✘  {0,-32} {1} ← REVISAR" -f $name, $svc.StartType) -ForegroundColor Red }
+    } else { Write-Host ("  ·  {0,-32} no existe" -f $name) -ForegroundColor DarkGray }
+}
+function Chk-SvcRun($name) {
+    $svc = Get-Service $name -EA SilentlyContinue
+    if ($svc) {
+        $pass = ($svc.Status -eq "Running")
+        if ($pass) { $script:ok++;  Write-Host ("  ✔  {0,-32} Running" -f $name) -ForegroundColor Green }
+        else        { $script:err++; Write-Host ("  ✘  {0,-32} {1} ← REVISAR" -f $name, $svc.Status) -ForegroundColor Red }
+    }
+}
+function Chk-Reg($path, $name, $expected, $label) {
+    $prop = Get-ItemProperty $path -EA SilentlyContinue
+    $val  = if ($prop) {$prop.$name} else {$null}
+    $pass = ($val -eq $expected)
+    $disp = if ($null -eq $val) {"NO CONFIGURADO"} else {$val}
+    if ($pass) { $script:ok++;  Write-Host ("  ✔  {0,-34} → {1}" -f $label, $disp) -ForegroundColor Green }
+    else        { $script:err++; Write-Host ("  ✘  {0,-34} → {1} ← REVISAR" -f $label, $disp) -ForegroundColor Red }
+}
+function Sec($title, $color) {
+    Write-Host "`n━━━ $title " -NoNewline -ForegroundColor $color
+    Write-Host ("━" * [Math]::Max(2, 44 - $title.Length)) -ForegroundColor DarkGray
+}
+
+# ── SISTEMA ──────────────────────────────────────────────────────────────
+Sec "SISTEMA" "Cyan"
+$os    = Get-CimInstance Win32_OperatingSystem
+$cpu   = Get-CimInstance Win32_Processor
+$total = [math]::Round($os.TotalVisibleMemorySize / 1MB, 2)
+$libre = [math]::Round($os.FreePhysicalMemory / 1MB, 2)
+$usada = [math]::Round($total - $libre, 2)
+$pct   = [math]::Round(($usada / $total) * 100, 0)
+$upSec = (Get-Date) - $os.LastBootUpTime
+$upStr = "{0}d {1}h {2}m" -f [int]$upSec.TotalDays, $upSec.Hours, $upSec.Minutes
+$mb    = Get-WmiObject Win32_BaseBoard
+$gpu   = Get-WmiObject Win32_VideoController | Select-Object -First 1
+$plan  = powercfg -getactivescheme
+$ramCol   = if ($pct -gt 70) {"Red"} elseif ($pct -gt 50) {"Yellow"} else {"Green"}
+$planOK   = ($plan -like "*Alto*" -or $plan -like "*High*")
+$planCol  = if($planOK){"Green"}else{"Yellow"}
+Write-Host ("  PC     : $env:COMPUTERNAME  ·  $($mb.Manufacturer) $($mb.Product)") -ForegroundColor White
+Write-Host ("  OS     : $($os.Caption) — Build $($os.Version)") -ForegroundColor White
+Write-Host ("  CPU    : $($cpu.Name.Trim())") -ForegroundColor White
+Write-Host ("  Uptime : $upStr") -ForegroundColor DarkGray
+Write-Host ("  RAM    : $total GB total  |  ") -NoNewline -ForegroundColor White
+Write-Host ("$usada GB usada ($pct%)  |  $libre GB libre") -ForegroundColor $ramCol
+Write-Host ("  GPU    : $($gpu.Name)  |  $([math]::Round($gpu.AdapterRAM/1MB,0)) MB  |  Driver $($gpu.DriverVersion)") -ForegroundColor White
+Write-Host ("  Plan   : $plan") -ForegroundColor $planCol
+
+# ── DISCOS ───────────────────────────────────────────────────────────────
+Sec "DISCOS" "Cyan"
+Get-PSDrive -PSProvider FileSystem | Where-Object {$_.Used -ne $null} | ForEach-Object {
+    $tot = [math]::Round(($_.Used + $_.Free) / 1GB, 1)
+    $lib = [math]::Round($_.Free / 1GB, 1)
+    $uso = if ($tot -gt 0) {[math]::Round(($_.Used / ($_.Used + $_.Free)) * 100, 0)} else {0}
+    $dc  = if ($uso -gt 90) {"Red"} elseif ($uso -gt 75) {"Yellow"} else {"Green"}
+    Write-Host ("  {0}:  {1} GB total  |  " -f $_.Name, $tot) -NoNewline -ForegroundColor White
+    Write-Host ("{0} GB libre  ({1}% usado)" -f $lib, $uso) -ForegroundColor $dc
+}
+
+# ── SERVICIOS DISABLED ───────────────────────────────────────────────────
+Sec "DEBEN ESTAR DISABLED" "Yellow"
+@(
+  "DiagTrack","dmwappushservice","SysMain",
+  "WSearch",  "XblGameSave","XboxNetApiSvc","XboxGipSvc","GameInputSvc",
+  "GameInputRedistService","vmicheartbeat","vmicguestinterface","vmickvpexchange","vmicrdv","vmicshutdown",
+  "vmictimesync","vmicvmsession","vmicvss","HvHost",
+  "BTAGService","bthserv","AUEPLauncher","WinRM","RemoteRegistry",
+  "MapsBroker","lfsvc","WalletService","SharedAccess","SCardSvr",
+  "perceptionsimulation","WwanSvc","RasAuto","WMPNetworkSvc",
+  "wisvc","PhoneSvc","icssvc","edgeupdate","edgeupdatem",
+  "CDPSvc","cbdhsvc","DusmSvc",
+  "Daemon Update Assistant Service",
+  "SensorDataService","SensorService","SensrSvc",
+  "webthreatdefusersvc","whesvc","SSDPSRV"
+) | ForEach-Object { Chk-Svc $_ "Disabled" }
+
+# ── SERVICIOS MANUAL ─────────────────────────────────────────────────────
+Sec "DEBEN ESTAR MANUAL" "Cyan"
+@(
+  "XblAuthManager","wlidsvc",
+  "StiSvc","InventorySvc",
+  "camsvc",
+  "PolicyAgent","Wcmsvc","NcbService","DeviceAssociationService"
+) | ForEach-Object { Chk-Svc $_ "Manual" }
+
+# ── SERVICIOS RUNNING (críticos) ─────────────────────────────────────────
+Sec "DEBEN ESTAR RUNNING" "Green"
+@("Spooler","hidserv","PlugPlay","AudioSrv","AudioEndpointBuilder","Themes","NlaSvc","netprofm") | ForEach-Object { Chk-SvcRun $_ }
+
+# ── RENDIMIENTO ──────────────────────────────────────────────────────────
+Sec "RENDIMIENTO" "Magenta"
+$gp = Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" -EA SilentlyContinue
+$gpuPrio = if ($gp) {$gp."GPU Priority"} else {$null}
+$gpuSched = if ($gp) {$gp."Scheduling Category"} else {$null}
+if ($gpuPrio -eq 8)    { $ok++;  Write-Host "  ✔  GPU Priority                    → 8 (High)" -ForegroundColor Green }
+else                   { $err++; Write-Host "  ✘  GPU Priority                    → $gpuPrio ← REVISAR" -ForegroundColor Red }
+if ($gpuSched -eq "High") { $ok++;  Write-Host "  ✔  Scheduling Category             → High" -ForegroundColor Green }
+else                   { $err++; Write-Host "  ✘  Scheduling Category             → $gpuSched ← REVISAR" -ForegroundColor Red }
+$planActivo = powercfg -getactivescheme
+if ($planActivo -like "*8c5e7fda*" -or $planActivo -like "*Alto*" -or $planActivo -like "*High*") {
+    $ok++; Write-Host "  ✔  Plan energía                    → Alto rendimiento" -ForegroundColor Green
+} else { $err++; Write-Host "  ✘  Plan energía                    ← REVISAR" -ForegroundColor Red }
+
+# ── REGISTRO / PRIVACIDAD ────────────────────────────────────────────────
+Sec "REGISTRO / PRIVACIDAD" "Red"
+Chk-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DataCollection" "AllowTelemetry"        0 "AllowTelemetry"
+Chk-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsAI"     "DisableAIDataAnalysis"  1 "Recall / AI"
+Chk-Reg "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\AdvertisingInfo" "Enabled"        0 "Publicidad"
+Chk-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"        "EnableActivityFeed"     0 "Activity Feed"
+Chk-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Windows\System"        "UploadUserActivities"   0 "Upload Activities"
+Chk-Reg "HKLM:\SOFTWARE\Policies\Microsoft\SQMClient\Windows"     "CEIPEnable"             0 "CEIP"
+Chk-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Edge" "StartupBoostEnabled"    0 "Edge StartupBoost"
+Chk-Reg "HKLM:\SOFTWARE\Policies\Microsoft\Edge" "BackgroundModeEnabled"  0 "Edge BackgroundMode"
+Chk-Reg "HKCU:\SOFTWARE\Microsoft\InputPersonalization" "RestrictImplicitInkCollection"    1 "Ink Collection"
+Chk-Reg "HKCU:\SOFTWARE\Microsoft\InputPersonalization" "RestrictImplicitTextCollection"   1 "Text Collection"
+
+# ── TAREAS AMD ───────────────────────────────────────────────────────────
+Sec "TAREAS AMD" "DarkYellow"
+@("StartAUEP","StartCN","StartCNBM","StartDVR","AMDLinkUpdate","AMDInstallLauncher","AMDRyzenMasterSDKTask") | ForEach-Object {
+    $task = Get-ScheduledTask -TaskName $_ -EA SilentlyContinue
+    if ($task) {
+        $pass = ($task.State -eq "Disabled")
+        if ($pass) { $script:ok++;  Write-Host ("  ✔  {0,-36} Disabled" -f $_) -ForegroundColor Green }
+        else        { $script:err++; Write-Host ("  ✘  {0,-36} $($task.State) ← REVISAR" -f $_) -ForegroundColor Red }
+    } else { Write-Host ("  ·  {0,-36} no existe" -f $_) -ForegroundColor DarkGray }
+}
+
+# ── STARTUP — procesos al inicio ─────────────────────────────────────────
+Sec "STARTUP" "Cyan"
+$startups = Get-CimInstance Win32_StartupCommand | Sort-Object Name
+foreach ($s in $startups) {
+    Write-Host ("  ·  {0,-28} {1}" -f $s.Name, ($s.Command -replace '"','').Substring(0,[Math]::Min(60,($s.Command -replace '"','').Length))) -ForegroundColor DarkGray
+}
+
+# ── RESUMEN FINAL ────────────────────────────────────────────────────────
+$total_chk = $ok + $err
+$pct_ok = if ($total_chk -gt 0) {[math]::Round(($ok / $total_chk) * 100, 1)} else {0}
+$resCol = if ($pct_ok -ge 95) {"Green"} elseif ($pct_ok -ge 80) {"Yellow"} else {"Red"}
+
+Write-Host "`n"
+Write-Host "╔══════════════════════════════════════════════════╗" -ForegroundColor Cyan
+Write-Host "║              RESUMEN FINAL                       ║" -ForegroundColor Cyan
+Write-Host "╠══════════════════════════════════════════════════╣" -ForegroundColor Cyan
+Write-Host ("║  Checks totales  : {0,-31}║" -f $total_chk) -ForegroundColor White
+Write-Host ("║  ✔ Correctos     : {0,-31}║" -f $ok) -ForegroundColor Green
+$errCol = if($err -eq 0){"Green"}else{"Red"}
+Write-Host ("║  ✘ Con problemas : {0,-31}║" -f $err) -ForegroundColor $errCol
+Write-Host ("║  Score           : {0,-30}%║" -f $pct_ok) -ForegroundColor $resCol
+Write-Host "╠══════════════════════════════════════════════════╣" -ForegroundColor Cyan
+if ($err -eq 0) {
+    Write-Host "║  ✔ TODO PERFECTO — Optimización completa         ║" -ForegroundColor Green
+} elseif ($err -le 3) {
+    Write-Host ("║  ⚠ Casi perfecto — revisar {0} item(s)           ║" -f $err) -ForegroundColor Yellow
+} else {
+    Write-Host ("║  ✘ {0} problemas — ejecutar bloques correspondientes║" -f $err) -ForegroundColor Red
+}
+Write-Host "╚══════════════════════════════════════════════════╝" -ForegroundColor Cyan
+Write-Host "`n  Reiniciar si se aplicaron cambios.`n" -ForegroundColor DarkGray</pre>
+<!-- /POST:SCRIPT -->
+  </div>
+</div>
+
+<footer>
+  <p>DESKTOP-ER525HI — Ryzen 5 5600G — <em>v<span id="v-footer">8.26</span> — <span id="f-footer">04/04/2026</span></em></p>
+  <p style="font-size:10px;margin-top:6px">Guardar en Google Drive, MEGA o pendrive · Abrir en cualquier navegador</p>
+</footer>
+
+</div>
+<script>
+// Propaga WIN11_VERSION / WIN11_FECHA (definidas en <head>) a todos los spans
+document.getElementById('v-badge').textContent  = WIN11_VERSION;
+document.getElementById('v-ver').textContent    = WIN11_VERSION;
+document.getElementById('f-ver').textContent    = WIN11_FECHA;
+document.getElementById('v-footer').textContent = WIN11_VERSION;
+document.getElementById('f-footer').textContent = WIN11_FECHA;
+
+function cp(btn) {
+  const pre = btn.closest('.cb').querySelector('pre');
+  const text = pre.innerText;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => done(btn)).catch(() => fallback(text, btn));
+  } else { fallback(text, btn); }
+}
+function cpv(btn) {
+  const pre = btn.closest('.vtoggle').querySelector('pre');
+  const text = pre.innerText;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text).then(() => done(btn)).catch(() => fallback(text, btn));
+  } else { fallback(text, btn); }
+}
+function fallback(text, btn) {
+  const ta = document.createElement('textarea');
+  ta.value = text; ta.style.position = 'fixed'; ta.style.opacity = '0';
+  document.body.appendChild(ta); ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  done(btn);
+}
+function done(btn) {
+  btn.textContent = '✓ Copiado';
+  btn.classList.add('done');
+  setTimeout(() => { btn.textContent = 'Copiar'; btn.classList.remove('done'); }, 2000);
+}
+function toggleV(btn) {
+  btn.classList.toggle('open');
+  const arrow = btn.querySelector('.vtoggle-arrow');
+  arrow.textContent = btn.classList.contains('open') ? 'ocultar' : 'mostrar';
+}
+
+// ── BOTÓN VOLVER ARRIBA ──
+const btnTop = document.getElementById('btnTop');
+window.addEventListener('scroll', () => {
+  btnTop.classList.toggle('visible', window.scrollY > 400);
+});
+</script>
+</body>
+</html>
